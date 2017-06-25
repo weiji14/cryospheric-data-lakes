@@ -18,11 +18,16 @@
 - Ideally, you have also configured yourself to be in the [dockers](https://docs.docker.com/engine/installation/linux/linux-postinstall/#manage-docker-as-a-non-root-user) group, otherwise use `sudo docker` instead of `docker`.
 
 ##### Build Example:
-Below example is for building the python3 image, assuming that your current working directory is in /code/docker:
+Below are the code you can use to build the python3/atom-beta docker images, assuming that your terminal's current working directory is in ../code/docker:
+
+`cd ~/path/to/antarctic-lakes-phd/code/docker`
 
 `docker build -f python3/Dockerfile -t icepy3 .`
 
-Example output:
+`docker build -f atom-hydrogen-beta/Dockerfile -t ahb .`
+
+
+Example output for building the python3 image,:
 
     Sending build context to Docker daemon   5.12kB
     Step 1/5 : FROM debian:buster-slim
@@ -61,6 +66,8 @@ Example output:
 
 ##### Post-build steps:
 
+###### Python3
+
 Try running a python command from your terminal using the docker image you just built
 
     $ docker run --rm icepy3 python3 -c "print('Hello World')"
@@ -71,6 +78,24 @@ Try running a python command from your terminal using the docker image you just 
 
     3.5.3+ (default, Jun  7 2017, 23:23:48)
     [GCC 6.3.0 20170516]
+
+##### Atom
+
+To open up the atom-beta editor environment, assuming that your terminal's current working directory is in ../code/docker
+
+    $ docker run -d -v /tmp/.X11-unix/:/tmp/.X11-unix/
+                    -v /dev/shm:/dev/shm
+                    -v `dirname "$PWD"`:/home/atom/code
+                    -e DISPLAY
+                    ahb atom-beta -f
+
+If you have your own atom editor and want to use your own configurations from your /home/user/.atom folder, do:
+
+    $ docker run -d -v /tmp/.X11-unix/:/tmp/.X11-unix/
+                    -v /dev/shm:/dev/shm
+                    -v ${HOME}/.atom:/home/atom/.atom
+                    -e DISPLAY
+                    ahb atom-beta -f
 
 
 ##### Something's messed up and you want to clean up stuff:
@@ -86,5 +111,9 @@ To remove the specified docker image from your machine
 Remove all docker images from your machine (**careful!!**)
 
 `docker rmi $(docker images -q)`
+
+To force remove all docker images (**be very very careful!!**)
+
+`docker rmi -f $(docker images -q)`
 
 P.S. If you're a bit lazy in doing the build yourself, you could try to pull it from docker hub directly
