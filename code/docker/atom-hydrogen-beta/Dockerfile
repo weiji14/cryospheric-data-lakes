@@ -21,11 +21,16 @@ RUN apt-get -qq update && apt-get install -y --no-install-recommends \
     wget \
     ca-certificates \
 
-    # Install X11 and ALSA dependencies so we can view (and hear?) atom
+    # Install X11 and ALSA dependencies so we can view (and hear?) the atom GUI
     libx11-xcb1 \
     libxss1 \
     libasound2 \
     libxkbfile1 \
+
+    # Install jupyter build required dependencies
+    build-essential \
+    python3-dev \
+    python3-pip \
 
     # Get beta atom-amd64.deb release from https://atom.io/beta
     && wget --no-verbose https://atom.io/download/deb?channel=beta -O atom-amd64.deb \
@@ -34,9 +39,16 @@ RUN apt-get -qq update && apt-get install -y --no-install-recommends \
     && dpkg -i atom-amd64.deb \
     && rm -f atom-amd64.deb \
 
-    # Remove wget as not needed anymore
+    # Install jupyter via pip3
+    && pip3 install setuptools wheel \
+    && pip3 install jupyter \
+    #&& pip3 install notebook
+
+    # Remove wget and dev/build stuff as not needed anymore
     && apt-get remove -y \
     wget \
+    build-essential \
+    python3-dev \
 
     # More purging
     && apt-get autoremove -y \
@@ -50,5 +62,16 @@ USER atom
 RUN mkdir -p /home/atom/.atom
 RUN chmod 775 /home/atom/.atom
 RUN chown -R `whoami` /home/atom/.atom
+
+# Using apm-beta to install hydrogen to /home/atom/.atom
+RUN apm-beta install hydrogen
+
+# Initiate Jupyter config and start Jupyter notebook service
+RUN jupyter notebook --generate-config --no-browser
+
+# Fix 'No module named ipykernel_launcher' https://github.com/nteract/hydrogen/issues/730
+RUN python3 -m ipykernel install --user
+
+RUN jupyter kernelspec list --json
 
 #ENTRYPOINT ["/usr/bin/atom-beta","-f"]
