@@ -1,6 +1,6 @@
 # Dockerfiles
 
-### Notes
+## Notes
 - Using [Debian](http://www.debian.org/) 10 Buster slim as our default docker base image
 - See buster-slim tag at https://hub.docker.com/r/_/debian/
 - Rationale:
@@ -10,14 +10,14 @@
   - Why the contradiction in wanting smaller size but not Alpine? Now that my friend, I'll get to once I get deeper into the heavy development stages  :simple_smile:
 
 
-### How to build docker image from Dockerfiles!
+## How to build docker image from Dockerfiles!
 
-##### Pre-requisites:
+### Pre-requisites:
 - Refer to the [official docs](https://docs.docker.com/engine/reference/builder/)
 - You have [docker](https://www.docker.com/) installed!!
 - Ideally, you have also configured yourself to be in the [dockers](https://docs.docker.com/engine/installation/linux/linux-postinstall/#manage-docker-as-a-non-root-user) group, otherwise use `sudo docker` instead of `docker`.
 
-##### Build Example:
+### Build Example:
 Below are the code you can use to build the python3/atom-beta docker images, assuming that your terminal's current working directory is in ../code/docker:
 
 `cd ~/path/to/antarctic-lakes-phd/code/docker`
@@ -64,9 +64,9 @@ Example output for building the python3 image,:
     Successfully tagged icepy3:latest
 
 
-##### Post-build steps:
+### Post-build steps:
 
-###### Python3
+#### Python3
 
 Try running a python command from your terminal using the docker image you just built
 
@@ -79,7 +79,7 @@ Try running a python command from your terminal using the docker image you just 
     3.5.3+ (default, Jun  7 2017, 23:23:48)
     [GCC 6.3.0 20170516]
 
-##### Atom
+#### Atom
 
 To open up the atom-beta editor environment, assuming that your terminal's current working directory is in ../code/docker
 
@@ -97,8 +97,23 @@ If you have your own atom editor and want to use your own configurations from yo
                     -e DISPLAY
                     ahb atom-beta -f
 
+##### ***Note: work in progress below***
 
-##### Something's messed up and you want to clean up stuff:
+For Windows users wanting to try out this docker atom build, you can do so using Xming (see [here](https://github.com/moby/moby/issues/8710#issuecomment-135109677)). I recommend installing it using [choco](https://chocolatey.org/) from an elevated command shell.
+
+    > choco install xming
+    > "C:\Program Files (x86)\Xming\Xming.exe" :0 -multiwindow -clipboard -ac
+
+Then you can do:
+
+    > docker run -e DISPLAY=10.0.75.1:0 ahb atom-beta -f
+
+Useful troubleshooting links:
+
+https://medium.com/@cswiggz/quick-start-to-tensorflow-in-docker-with-a-gui-39414245251f
+
+
+### Something's messed up and you want to clean up stuff:
 
 Check what docker images you have now by running
 
