@@ -1,5 +1,17 @@
 # Dockerfiles
 
+## Docker image list
+
+#### Main
+- [x] [atom-beta](https://atom.io/)
+- [x] [python3](https://www.python.org)
+- [ ] [Generic Mapping Tools (GMT)](http://gmt.soest.hawaii.edu/)
+
+#### Maybes
+- [ ] [Broadview Radar Altimetry Toolbox (BRAT)](https://github.com/BRAT-DEV/main)
+- [ ] [CryoSat User Tool (CUT)](https://earth.esa.int/web/guest/-/cryosat-user-tool-7386)
+- [ ] [CryoSat Matlab routines](https://earth.esa.int/web/guest/-/cryosat-matlab-routines)
+
 ## Notes
 - Using [Debian](http://www.debian.org/) 10 Buster slim as our default docker base image
 - See buster-slim tag at https://hub.docker.com/r/_/debian/
@@ -8,7 +20,6 @@
   - Why Buster and not Alpine? Partly because I'm more familiar with apt-get (ok, not a good reason), but also because Alpine's fast paced development might be a bit too unstable. Then again, I do like to go a bit bleeding edge, but need to stop myself here.
   - Why Buster-slim and not Buster? Well, because of size issues of course!
   - Why the contradiction in wanting smaller size but not Alpine? Now that my friend, I'll get to once I get deeper into the heavy development stages  :simple_smile:
-
 
 ## How to build docker image from Dockerfiles!
 
