@@ -3,17 +3,22 @@
 import ftplib
 import getpass
 import os
+import subprocess
 
 print(os.getcwd())
+dataDir = os.path.join(os.getcwd(), 'data')
 ftpSites = {'ESA EO' : "science-pds.cryosat.esa.int"}
 #ftpSites.extend{"NSIDC Earthdata" : "https://n5eil01u.ecs.nsidc.org/GLAS/GLA12.034/"}  #TODO add icesat and other satellites as well?
 
 for orgAccount, siteURL in ftpSites.items():
     #
     if 'cryosat' in siteURL:
+        satName = 'cryosat'
         path = os.path.join("SIR_GDR", "2017", "01")
-        if not os.path.exists(os.path.join(os.getcwd(), path)):
-            os.makedirs(os.path.join(os.getcwd(), path))
+
+    #Make directory if not already exist
+    if not os.path.exists(os.path.join(dataDir, satName, path)):
+        os.makedirs(os.path.join(dataDir, satName, path))
 
     #Connect to ftp site using your own login information
     ftp = ftplib.FTP(siteURL)                           #Connect to top level of the FTP server
@@ -29,4 +34,5 @@ for orgAccount, siteURL in ftpSites.items():
 
     #Loop to download files recursively
     for filename in filenames[:2]:
-        ftp.retrbinary('RETR {0}'.format(filename), open(os.path.join(os.getcwd(), path, filename), 'wb').write)
+        subprocess.Popen(['wget', '-N', r"ftp://{0}".format(siteURL)])
+        ftp.retrbinary('RETR {0}'.format(filename), open(os.path.join(dataDir, satName, path, filename), 'wb').write)

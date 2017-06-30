@@ -29,13 +29,13 @@
 - Ideally, you have also configured yourself to be in the [dockers](https://docs.docker.com/engine/installation/linux/linux-postinstall/#manage-docker-as-a-non-root-user) group, otherwise use `sudo docker` instead of `docker`.
 
 ### Build Example:
-Below are the code you can use to build the python3/atom-beta docker images, assuming that your terminal's current working directory is in ../code/docker:
+Below are the code you can use to build the python3/atom-beta docker images, assuming that your terminal's current working directory is in ../code:
 
-`cd ~/path/to/antarctic-lakes-phd/code/docker`
+`cd ~/path/to/antarctic-lakes-phd/code`
 
-`docker build -f python3/Dockerfile -t icepy3 .`
+`docker build -f docker/python3/Dockerfile -t icepy3 .`
 
-`docker build -f atom-hydrogen-beta/Dockerfile -t ahb .`
+`docker build -f docker/atom-hydrogen-beta/Dockerfile -t ahb .`
 
 
 Example output for building the python3 image,:
@@ -77,7 +77,7 @@ Example output for building the python3 image,:
 
 ### Post-build steps:
 
-#### Python3
+#### [Python3](https://www.python.org)
 
 Try running a python command from your terminal using the docker image you just built
 
@@ -90,23 +90,37 @@ Try running a python command from your terminal using the docker image you just 
     3.5.3+ (default, Jun  7 2017, 23:23:48)
     [GCC 6.3.0 20170516]
 
-#### Atom
+#### [Atom](https://atom.io/)
 
-To open up the atom-beta editor environment, assuming that your terminal's current working directory is in ../code/docker
+To open up the atom-beta editor environment, assuming that your terminal's current working directory is in ../code
 
-    $ docker run -d -v /tmp/.X11-unix/:/tmp/.X11-unix/
-                    -v /dev/shm:/dev/shm
-                    -v `dirname "$PWD"`:/home/atom/code
-                    -e DISPLAY
-                    ahb atom-beta -f
+    $ docker run -d -v /tmp/.X11-unix/:/tmp/.X11-unix/  `#X11 forwarding` \
+                    -v /dev/shm:/dev/shm                `#ALSA forwarding` \
+                    -v `dirname "$PWD"`:/home/atom/alp  `#Set working directory` \
+                    -e DISPLAY                          `#Tell docker to display` \
+                    ahb atom-beta -f /home/atom/alp     `#Run atom-beta with /home/atom/alp as initial folder`
 
 If you have your own atom editor and want to use your own configurations from your /home/user/.atom folder, do:
 
-    $ docker run -d -v /tmp/.X11-unix/:/tmp/.X11-unix/
-                    -v /dev/shm:/dev/shm
-                    -v ${HOME}/.atom:/home/atom/.atom
-                    -e DISPLAY
-                    ahb atom-beta -f
+    $ docker run -d -v /tmp/.X11-unix/:/tmp/.X11-unix/   `#X11 forwarding` \
+                -v /dev/shm:/dev/shm                     `#ALSA forwarding` \
+                    -v ${HOME}/.atom:/home/atom/.atom \  `#Personalized .atom config` \
+                    -v `dirname "$PWD"`:/home/atom/alp   `#Set working directory` \
+                    -e DISPLAY                           `#Tell docker to display` \
+                    ahb atom-beta -f /home/atom/alp      `#Run atom-beta with /home/atom/alp as initial folder`
+
+To set up an alias you can run directly from the command-line, or pin to your Linux taskbar/dock:
+
+    $ alias alp-atom='cd path/to/antarctic-lakes-phd/code/ && \
+            docker run -d -v /tmp/.X11-unix/:/tmp/.X11-unix/  `#X11 forwarding`  \
+                          -v /dev/shm:/dev/shm                `#ALSA forwarding` \
+                          -v `dirname "$PWD"`:/home/atom/alp  `#Set working directory` \
+                          -e DISPLAY                          `#Tell docker to display` \
+                          ahb atom-beta -f /home/atom/alp     `#Run atom-beta with /home/atom/alp as initial folder`'
+
+    $ alp-atom     `#This single statement now runs the above code directly :woohoo:`
+
+Note that the alias only applies for your current login session, to make it permanent, add the "alias alp-atom ... " code block to the end of your ~/.bashrc file, or create a [~/.bash_aliases](https://askubuntu.com/questions/17536/how-do-i-create-a-permanent-bash-alias/17537#17537) file and put it in there.
 
 ##### ***Note: work in progress below***
 
@@ -126,20 +140,22 @@ https://medium.com/@cswiggz/quick-start-to-tensorflow-in-docker-with-a-gui-39414
 
 ### Something's messed up and you want to clean up stuff:
 
-Check what docker images you have now by running
+General cleanup methods:
 
-`docker images -a`
+    docker images -a          #Check what docker images you have now by running`
 
-To remove the specified docker image from your machine
+    docker container prune    #Remove all stopped containers
 
-`docker rmi <imagename>`
+    docker rmi <imagename>    #To remove the specified docker image from your machine
 
-Remove all docker images from your machine (**careful!!**)
 
-`docker rmi $(docker images -q)`
 
-To force remove all docker images (**be very very careful!!**)
+Forceful cleanup methods (**careful!!**):
 
-`docker rmi -f $(docker images -q)`
+    docker rmi $(docker images -q)     #Remove all docker images from your machine
+
+    docker rmi -f $(docker images -q)  #Force remove all docker images (be very very careful!!)
 
 P.S. If you're a bit lazy in doing the build yourself, you could try to pull it from docker hub directly
+
+###### TODO

@@ -10,9 +10,9 @@ chmod 0600 ~/.netrc
 #create cookies file
 touch .urs_cookies
 #trigger authentication first
-wget -c -P ../../data/icesat --load-cookies .urs_cookies --save-cookies .urs_cookies --keep-session-cookies --no-check-certificate --auth-no-challenge=on -r --reject "index.html*,icons" -nH -np --cut-dirs=1 -e robots=off "https://n5eil01u.ecs.nsidc.org/GLAS/GLA12.034/"
+wget -c -P ../data/icesat --load-cookies .urs_cookies --save-cookies .urs_cookies --keep-session-cookies --no-check-certificate --auth-no-challenge=on -r --reject "index.html*,icons" -nH -np --cut-dirs=1 -e robots=off "https://n5eil01u.ecs.nsidc.org/GLAS/GLA12.034/"
 #does actual download
-wget -c -P ../../data/icesat --load-cookies .urs_cookies --save-cookies .urs_cookies --keep-session-cookies --no-check-certificate --auth-no-challenge=on -r --reject "index.html*,icons" -nH -np --cut-dirs=1 --tries=5 -e robots=off "https://n5eil01u.ecs.nsidc.org/GLAS/GLA12.034/"
+wget -c -P ../data/icesat --load-cookies .urs_cookies --save-cookies .urs_cookies --keep-session-cookies --no-check-certificate --auth-no-challenge=on -r --reject "index.html*,icons" -nH -np --cut-dirs=1 --tries=5 -e robots=off "https://n5eil01u.ecs.nsidc.org/GLAS/GLA12.034/"
 
 #final tidy up
 rm .urs_cookies
