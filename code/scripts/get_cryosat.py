@@ -3,7 +3,6 @@
 import ftplib
 import getpass
 import os
-import subprocess
 
 print(os.getcwd())
 dataDir = os.path.join(os.getcwd(), 'data')
@@ -34,5 +33,4 @@ for orgAccount, siteURL in ftpSites.items():
 
     #Loop to download files recursively
     for filename in filenames[:2]:
-        subprocess.Popen(['wget', '-N', r"ftp://{0}".format(siteURL)])
         ftp.retrbinary('RETR {0}'.format(filename), open(os.path.join(dataDir, satName, path, filename), 'wb').write)

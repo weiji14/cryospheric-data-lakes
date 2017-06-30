@@ -100,6 +100,9 @@ To open up the atom-beta editor environment, assuming that your terminal's curre
                     -e DISPLAY                          `#Tell docker to display` \
                     ahb atom-beta -f /home/atom/alp     `#Run atom-beta with /home/atom/alp as initial folder`
 
+If nothing seems to happen, you may need to allow access to the X Server from other hosts using a tool like xhost (see [here](https://stackoverflow.com/questions/16296753/can-you-run-gui-apps-in-a-docker-container#comment65709322_25168483)). Try running `xhost +local:`, then re-run the command above.
+
+
 If you have your own atom editor and want to use your own configurations from your /home/user/.atom folder, do:
 
     $ docker run -d -v /tmp/.X11-unix/:/tmp/.X11-unix/   `#X11 forwarding` \
