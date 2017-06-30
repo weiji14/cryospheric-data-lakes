@@ -34,5 +34,4 @@ for orgAccount, siteURL in ftpSites.items():
 
     #Loop to download files recursively
     for filename in filenames[:2]:
-        subprocess.Popen(['wget', '-N', r"ftp://{0}".format(siteURL)])
         ftp.retrbinary('RETR {0}'.format(filename), open(os.path.join(dataDir, satName, path, filename), 'wb').write)
