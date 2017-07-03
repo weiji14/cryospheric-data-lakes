@@ -1,58 +1,61 @@
 #!/usr/bin/env python3
 ## Python 3 script to download satellite data from FTP sites.
 ## Originally designed for pulling data from European Space Agency (ESA) FTP sites, e.g. for Cryosat-2
-import ftplib
-import getpass
-import os
 import asyncio
 import aioftp
+import ftplib
+import getpass
+#import os
+import pathlib
 import time
 
-print(os.getcwd())
-dataDir = os.path.join(os.getcwd(), 'data')
+
+MAX_CLIENTS = 7       #set the number of connections allowed (default: 7)
+print(pathlib.Path.cwd())
+dataDir = pathlib.PurePath(pathlib.Path.cwd()).joinpath('data')
+
 ftpSites = {'ESA EO' : "science-pds.cryosat.esa.int"}
 #ftpSites.extend{"NSIDC Earthdata" : "https://n5eil01u.ecs.nsidc.org/GLAS/GLA12.034/"}  #TODO add icesat and other satellites as well?
 
-MAX_CLIENTS = 3
-async def fetch_async(pid, URL):
-    start = time.time()
-    print('Fetch async process {0} started at {1}'.format(pid, start))
+async def fetch_async(sem, pid, posixPath):
+    async with sem:        #ensure that we abide by Semaphore limit. I.e. do not DOS attack the FTP server
+        start = time.time()
+        print('Fetch async process {0} started at {1}'.format(pid, start))
 
-    toCdDir = "/".join(URL.split("/")[1:-1])   #the directory inside the ftp server to change_directory (cd) into
-    theFile = URL.split("/")[-1]               #the filename which we wish to get
+        #toCdDir = "/".join(URL.split("/")) #[1:-1])   #the directory inside the ftp server to change_directory (cd) into
+        #theFile = URL.split("/")[-1]               #the filename which we wish to get
 
-    async with aioftp.ClientSession(siteURL, 21, user=usr, password=pwd) as client:
-        print(await client.get_current_directory())   #print current working directory in ftp
-        await client.change_directory(toCdDir)        #change ftp directory to the folder we want
-        print(await client.get_current_directory())   #print the new current working directory
+        toCdDir = posixPath.parent  #[1:-1])   #the directory inside the ftp server to change_directory (cd) into
+        theFile = posixPath.name               #the filename which we wish to get
 
-        #for path, info in (await client.list(recursive=True)):
-        #    print(path, info)
+        async with aioftp.ClientSession(siteURL, 21, user=usr, password=pwd) as client:
+            #print(await client.get_current_directory())   #print current working directory in ftp
+            await client.change_directory(toCdDir)        #change ftp directory to the folder we want
+            #print(await client.get_current_directory())   #print the new current working directory
 
-        print("Downloading", theFile)
-        print(await client.is_file(theFile))
-        await client.download(theFile, os.path.join(dataDir, satName, path))                #finally downloads the file we want into specified folder
-        print(theFile, "has been downloaded")
+            print("Downloading", theFile)
+            #print(await client.is_file(theFile))
+            await client.download(theFile, pathlib.Path(dataDir, satName, toCdDir))                #finally downloads the file we want into specified folder
+            #print(theFile, "has been downloaded")
 
-        #for path, info in (await client.list(recursive=True)):
-            #print(path,info)
-            #if info["type"] == "file" and path.suffix == ".HDR":
-            #    await client.download(path)
+            #for path, info in (await client.list(recursive=True)):
+                #print(path,info)
+                #if info["type"] == "file" and path.suffix == ".HDR":
+                #    await client.download(path)
 
-    print('Process {}, took: {:.2f} seconds'.format(pid, time.time() - start))
+        print('Process {}, took: {:.2f} seconds'.format(pid, time.time() - start))
 
 for orgAccount, siteURL in ftpSites.items():
     #
     if 'cryosat' in siteURL:
         satName = 'cryosat'
-        pathList = ["SIR_GDR", "2017", "01"]
-        path = os.path.join("SIR_GDR", "2017", "01")
+        path = pathlib.Path("SIR_GDR", "2017", "01")
 
     #Make directory if not already exist
-    if not os.path.exists(os.path.join(dataDir, satName, path)):
-        os.makedirs(os.path.join(dataDir, satName, path))
+    if not pathlib.Path(dataDir / satName / path).exists():
+        pathlib.Path.mkdir(pathlib.Path(dataDir / satName / path), parents=True)
 
-    #Connect to ftp site using your own login information
+    #Enter FTP login information
     ftp = ftplib.FTP(siteURL)                           #Connect to top level of the FTP server
     '''
         Info below is valid as of 20170701:
@@ -75,36 +78,49 @@ for orgAccount, siteURL in ftpSites.items():
 
     #Get list of stuff in the ftp directory
     #print(ftp.dir())
-    [ftp.cwd(dir) for dir in path.split(os.sep)]        #change to path we want recursively, cross-platform compatible
+    [ftp.cwd(dir) for dir in path.parts]        #change to path we want recursively, cross-platform compatible
     #ftp.retrlines('LIST')                               #print list of files in ftp folder
     filenames = ftp.nlst()                              #get list of files in ftp folder
 
     #Synchronous loop to download files recursively
     print('Synchronous:')
     start = time.time()
-    for filename in filenames[:2]:
-        ftp.retrbinary('RETR {0}'.format(filename), open(os.path.join(dataDir, satName, path, filename), 'wb').write)
+    for filename in filenames[:21]:
+        ftp.retrbinary('RETR {0}'.format(filename), open(str(pathlib.Path(dataDir / satName / path / filename)), 'wb').write)
     print("Synchronous process took: {:.2f} seconds".format(time.time() - start))
-    #9.88s benchmark
+    ftp.close()
+    #129.25s benchmark on 21 files
 
-    filepaths = [r"{0}".format("/".join([siteURL]+pathList+[filename])) for filename in filenames[2:4]]
+    #filepaths = [r"{0}".format("/".join([siteURL]+pathList+[filename])) for filename in filenames[2:4]]
 
     async def asynchronous():
         start = time.time()
 
-        tasks = [asyncio.ensure_future(fetch_async(i, urlpath)) for i, urlpath in enumerate(filepaths)]  #Create series of coroutines to execute
-        #tasks = [fetch_async(i, urlpath) for i, urlpath in enumerate(filepaths)]
+        #Get list of filenames of the data files we want in a particular ftp folder
+        async with aioftp.ClientSession(siteURL, 21, user=usr, password=pwd) as client:
+            print("Listing files in {0}".format(path))
+            filenames = [filename for filename, info in (await client.list(path))]           #List of pathlib.PurePosixPaths to the files we want
+            #help(pathlib.PurePosixPath('SIR_GDR/2017/01/CS_OFFL_SIR_GDR_2__20170101T012244_20170101T030157_C001.DBL').name)
+
+        #Create tasks and run them concurrently via asyncio
+        sem = asyncio.Semaphore(MAX_CLIENTS)
+        tasks = [asyncio.ensure_future(fetch_async(sem, i, filename)) for i, filename in enumerate(filenames[:21])]  #Create series of coroutines tasks (download tasks) to execute
         await asyncio.wait(tasks)                                                 #Execute those coroutines concurrently and wait for them to fin
 
         print("Asynchronous process took: {:.2f} seconds".format(time.time() - start))
-        #17.80s benchmark
+        #48.27s benchmark on 21 files
 
     #Asynchronous loop to download files recursively
     print('Asynchronous:')
     if __name__ == '__main__':
-        loop = asyncio.get_event_loop()
+        #See https://stackoverflow.com/questions/43646768/cant-create-new-event-loop-after-calling-loop-close-asyncio-get-event-loop-in-p
+        loop = asyncio.new_event_loop()         #Create a new asyncio event_loop
+        asyncio.set_event_loop(loop)            #Set the event loop for the current context to loop
+        loop = asyncio.get_event_loop()         #Use that new asyncio event_loop!
+
         try:
             loop.run_until_complete(asynchronous())
         finally:
             loop.close()
+
     print("end")
