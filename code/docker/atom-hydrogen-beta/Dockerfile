@@ -33,14 +33,14 @@ RUN apt-get -qq update && apt-get install -y --no-install-recommends \
     python3-pip \
 
     # Get beta atom-amd64.deb release from https://atom.io/beta
-    #&& wget --no-verbose https://atom.io/download/deb?channel=beta -O atom-beta-amd64.deb \
-    && wget --no-verbose https://atom.io/download/deb -O atom-stable-amd64.deb \
+    && wget --no-verbose https://atom.io/download/deb?channel=beta -O atom-beta-amd64.deb \
+    #&& wget --no-verbose https://atom.io/download/deb -O atom-stable-amd64.deb \
 
     # Finally install the 'base' atom-amd64 beta-build
-    #&& dpkg -i atom-beta-amd64.deb \
-    && dpkg -i atom-stable-amd64.deb \
-    #&& rm -f atom-beta-amd64.deb \
-    && rm -f atom-stable-amd64.deb \
+    && dpkg -i atom-beta-amd64.deb \
+    #&& dpkg -i atom-stable-amd64.deb \
+    && rm -f atom-beta-amd64.deb \
+    #&& rm -f atom-stable-amd64.deb \
 
     # Install jupyter via pip3
     && pip3 install setuptools wheel \
@@ -67,9 +67,8 @@ RUN chmod 775 /home/atom/.atom
 RUN chown -R `whoami` /home/atom/.atom
 
 # Using apm-beta to install hydrogen to /home/atom/.atom
-#RUN apm-beta install hydrogen
-RUN apm install hydrogen
-RUN apm install atom-runner
+RUN apm-beta install hydrogen
+#RUN apm install hydrogen
 
 # Initiate Jupyter config and start Jupyter notebook service
 RUN jupyter notebook --generate-config --no-browser
@@ -81,5 +80,8 @@ RUN jupyter kernelspec list --json
 
 # Miscellaneous python packages to install for asyncio
 RUN pip3 install aiohttp aioftp
+
+# Fancy libraries for my python work
+RUN pip3 install tqdm
 
 #ENTRYPOINT ["/usr/bin/atom-beta","-f"]
