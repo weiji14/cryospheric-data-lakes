@@ -16,7 +16,7 @@
 - Using [Debian](http://www.debian.org/) 10 Buster slim as our default docker base image
 - See buster-slim tag at https://hub.docker.com/r/_/debian/
 - Rationale:
-  - Why Buster and not Stretch? This PhD began around late June 2017, after Debian 9 Stretch became stable. Debian 10 Buster should move from testing to stable around the end of this PhD so this seemed the best environment to develop in for medium-term future reproducibility's sake.
+  - Why Buster and not Stretch? This repo began around late June 2017, after Debian 9 Stretch became stable. Debian 10 Buster should move from testing to stable around the finalization of this project so this seemed the best environment to develop in for medium-term future reproducibility's sake.
   - Why Buster and not Alpine? Partly because I'm more familiar with apt-get (ok, not a good reason), but also because Alpine's fast paced development might be a bit too unstable. Then again, I do like to go a bit bleeding edge, but need to stop myself here.
   - Why Buster-slim and not Buster? Well, because of size issues of course!
   - Why the contradiction in wanting smaller size but not Alpine? Now that my friend, I'll get to once I get deeper into the heavy development stages  :simple_smile:
