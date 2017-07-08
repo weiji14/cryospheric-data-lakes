@@ -1,5 +1,5 @@
-# Antarctic lakes PhD
-Machine learning project to classify subglacial lakes of Antarctica from various remote sensing datasets.
+# Cryospheric Data Lakes
+Big data tools to handle various cryospheric remote sensing datasets.
 
 Find the underlying [data here](/data) used in this project (or at least links to the sources since they might be too big).
 
