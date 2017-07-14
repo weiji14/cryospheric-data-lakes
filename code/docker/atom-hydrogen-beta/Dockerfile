@@ -81,7 +81,12 @@ RUN jupyter kernelspec list --json
 # Miscellaneous python packages to install for asyncio
 RUN pip3 install aiohttp aioftp
 
-# Fancy libraries for my python work
-RUN pip3 install tqdm
+# Scientific python libraries
+RUN pip3 install \
+    matplotlib \
+    numpy \
+    scikit-learn \
+    scipy \
+    
 
 #ENTRYPOINT ["/usr/bin/atom-beta","-f"]
