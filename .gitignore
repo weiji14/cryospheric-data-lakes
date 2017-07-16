@@ -1,2 +1,3 @@
-
-/data/icesat/GLA12.034/*/*.DAT
+/data/cryosat/**/*.HDR
+/data/cryosat/**/*.DBL
+/data/icesat/**/*.DAT
