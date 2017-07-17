@@ -3,4 +3,4 @@
 	url = https://github.com/amueller/scipy-2017-sklearn
 [submodule "tuts/nn-from-scratch"]
 	path = tuts/nn-from-scratch
-	url = https://github.com/dennybritz/nn-from-scratch
+	url = https://github.com/weiji14/nn-from-scratch
