@@ -85,8 +85,9 @@ RUN pip3 install aiohttp aioftp
 RUN pip3 install \
     matplotlib \
     numpy \
+    pandas \
     scikit-learn \
     scipy \
-    
+
 
 #ENTRYPOINT ["/usr/bin/atom-beta","-f"]

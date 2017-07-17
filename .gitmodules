@@ -1,0 +1,3 @@
+[submodule "tuts/scipy-2017-sklearn"]
+	path = tuts/scipy-2017-sklearn
+	url = https://github.com/amueller/scipy-2017-sklearn
