@@ -45,6 +45,10 @@ With git installed, fire up your command prompt and do:
 
 Alternatively, download the zip file from [here](https://github.com/weiji14/cryospheric-data-lakes/archive/master.zip), and unzip it.
 
+The standard `clone` code above will skip over some [submodules](https://github.com/blog/2104-working-with-submodules), such as external tutorials I have cloned into the [tuts](/tuts) folder. To get absolutely everything (beware beware!), you can do:
+
+    git clone --recursive https://github.com/weiji14/cryospheric-data-lakes.git
+
 ### Running the code
 
 To try out the code (that downloads big data files, processes the data, etc) you can use the atom-hydrogen-beta docker container [here](/code/docker#atom) to ensure ease of reproducibility (aka mitigate denpendency hell problems). Yes, I do my code writing and execution inside that 'atom' docker container with interactive [Hydrogen](https://github.com/nteract/hydrogen#hydrogen-) functionality!!
@@ -68,4 +72,4 @@ Source [code](/code) used in the handling of the data is licensed under the [GNU
 
 ### Other
 
-Other forms of content (such as documentation) in this project repository which is not covered by the above two licenses is licensed under the [Creative Commons Attribution Share Alike 4.0 License](https://creativecommons.org/licenses/by-sa/4.0/).
+Other forms of content (such as documentation) in this project repository which is not covered by the above two licenses is licensed under the [Creative Commons Attribution Share Alike 4.0 License](https://creativecommons.org/licenses/by-sa/4.0/). Linked submodules (e.g. in the [tuts](/tuts) folder) are subjected to their respective upstream licenses.
