@@ -125,9 +125,26 @@ To set up an alias you can run directly from the command-line, or pin to your Li
 
 Note that the alias only applies for your current login session, to make it permanent, add the "alias alp-atom ... " code block to the end of your ~/.bashrc file, or create a [~/.bash_aliases](https://askubuntu.com/questions/17536/how-do-i-create-a-permanent-bash-alias/17537#17537) file and put it in there.
 
-##### ***Note: work in progress below***
+For Windows users wanting to try out this docker atom build, you can do so using MobaXterm (see [here](https://stackoverflow.com/questions/16296753/can-you-run-gui-apps-in-a-docker-container/36190462#36190462)). I recommend installing it using [choco](https://chocolatey.org/) from an elevated command shell.
 
-For Windows users wanting to try out this docker atom build, you can do so using Xming (see [here](https://github.com/moby/moby/issues/8710#issuecomment-135109677)). I recommend installing it using [choco](https://chocolatey.org/) from an elevated command shell.
+    > choco install mobaxterm
+
+After that, start MobaXterm, configure X server: Settings -> X11 (tab) -> set X11 Remote Access to full, and then you can do:
+    
+    > cd ../
+    > echo %cd%
+    
+    D:\path\to\top-level-directory
+    
+    > docker run --rm -v "%cd%:/home/atom/alp" -e DISPLAY=10.64.66.107:0.0 ahb atom -f /home/atom/alp
+
+The display IP address you should use can be found in MobaXterm if you click on 'Start local terminal'.
+
+Animated instructions:
+      
+![mobaxterm_atom](https://user-images.githubusercontent.com/23487320/28297702-77686926-6bc3-11e7-9ff1-bd9b73f85c44.gif)
+
+Alternatively, you can try using Xming (see [here](https://github.com/moby/moby/issues/8710#issuecomment-135109677)). Again, I recommend installing it using [choco](https://chocolatey.org/) from an elevated command shell.
 
     > choco install xming
     > "C:\Program Files (x86)\Xming\Xming.exe" :0 -multiwindow -clipboard -ac
@@ -136,10 +153,11 @@ Then you can do:
 
     > docker run -e DISPLAY=10.0.75.1:0 ahb atom-beta -f
 
-Useful troubleshooting links:
+Useful guide on how it should look like if it works:
 
 https://medium.com/@cswiggz/quick-start-to-tensorflow-in-docker-with-a-gui-39414245251f
 
+If you hit an error `Gtk: cannot open display: 10.0.75.1:0.0`, welcome to my world :)
 
 ### Something's messed up and you want to clean up stuff:
 
