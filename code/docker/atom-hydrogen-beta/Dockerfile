@@ -27,25 +27,25 @@ RUN apt-get -qq update && apt-get install -y --no-install-recommends \
     libasound2 \
     libxkbfile1 \
 
-    # Install jupyter build required dependencies
+    # Install jupyter's required build dependencies
     build-essential \
     python3-dev \
     python3-pip \
+    #sudo \
 
     # Get beta atom-amd64.deb release from https://atom.io/beta
     && wget --no-verbose https://atom.io/download/deb?channel=beta -O atom-beta-amd64.deb \
-    #&& wget --no-verbose https://atom.io/download/deb -O atom-stable-amd64.deb \
 
     # Finally install the 'base' atom-amd64 beta-build
     && dpkg -i atom-beta-amd64.deb \
-    #&& dpkg -i atom-stable-amd64.deb \
     && rm -f atom-beta-amd64.deb \
-    #&& rm -f atom-stable-amd64.deb \
 
     # Install jupyter via pip3
     && pip3 install setuptools wheel \
     && pip3 install jupyter \
-    #&& pip3 install notebook
+
+    ## Install apm package to view ipynb notebooks (requires make)
+    #&& sudo -u atom apm-beta install jupyter-notebook \
 
     # Remove dev/build stuff as not needed anymore
     && apt-get remove -y \
@@ -61,14 +61,16 @@ RUN apt-get -qq update && apt-get install -y --no-install-recommends \
 RUN useradd -d /home/atom -m atom
 USER atom
 
-# Setup atom directory
+# Setup atom directory for user 'atom'
 RUN mkdir -p /home/atom/.atom
-RUN chmod 775 /home/atom/.atom
+RUN chmod 755 /home/atom/.atom
 RUN chown -R `whoami` /home/atom/.atom
 
 # Using apm-beta to install hydrogen to /home/atom/.atom
 RUN apm-beta install hydrogen
-#RUN apm install hydrogen
+
+# Install apm packages to view ipynb notebooks
+RUN apm-beta install nbviewer
 
 # Initiate Jupyter config and start Jupyter notebook service
 RUN jupyter notebook --generate-config --no-browser
@@ -87,7 +89,6 @@ RUN pip3 install \
     numpy \
     pandas \
     scikit-learn \
-    scipy \
-
+    scipy
 
 #ENTRYPOINT ["/usr/bin/atom-beta","-f"]
