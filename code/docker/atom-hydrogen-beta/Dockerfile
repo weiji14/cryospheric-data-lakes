@@ -31,7 +31,6 @@ RUN apt-get -qq update && apt-get install -y --no-install-recommends \
     build-essential \
     python3-dev \
     python3-pip \
-    #sudo \
 
     # Get beta atom-amd64.deb release from https://atom.io/beta
     && wget --no-verbose https://atom.io/download/deb?channel=beta -O atom-beta-amd64.deb \
@@ -43,9 +42,6 @@ RUN apt-get -qq update && apt-get install -y --no-install-recommends \
     # Install jupyter via pip3
     && pip3 install setuptools wheel \
     && pip3 install jupyter \
-
-    ## Install apm package to view ipynb notebooks (requires make)
-    #&& sudo -u atom apm-beta install jupyter-notebook \
 
     # Remove dev/build stuff as not needed anymore
     && apt-get remove -y \
@@ -70,7 +66,7 @@ RUN chown -R `whoami` /home/atom/.atom
 RUN apm-beta install hydrogen
 
 # Install apm packages to view ipynb notebooks
-RUN apm-beta install nbviewer
+RUN apm-beta install nbviewer browser-plus
 
 # Initiate Jupyter config and start Jupyter notebook service
 RUN jupyter notebook --generate-config --no-browser
@@ -91,4 +87,17 @@ RUN pip3 install \
     scikit-learn \
     scipy
 
-#ENTRYPOINT ["/usr/bin/atom-beta","-f"]
+# Setup script to start Jupyter Notebook server and atom-beta at launch
+EXPOSE 8888
+WORKDIR /home/atom
+RUN echo "#!/bin/bash\njupyter notebook --no-browser --ip=0.0.0.0 &\njupyter notebook list\natom-beta -f" > start_script.sh
+RUN chmod +x start_script.sh
+
+# Configure container startup
+#ENTRYPOINT ["tini", "--"]
+CMD ["./start_script.sh"]
+
+# Add Tini as late as possible to avoid cache busting
+#ENV TINI_VERSION v0.15.0
+#ADD https://github.com/krallin/tini/releases/download/${TINI_VERSION}/tini tini
+#RUN chmod +x tini
