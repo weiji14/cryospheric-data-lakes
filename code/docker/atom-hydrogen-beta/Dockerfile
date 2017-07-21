@@ -90,7 +90,10 @@ RUN pip3 install \
 # Setup script to start Jupyter Notebook server and atom-beta at launch
 EXPOSE 8888
 WORKDIR /home/atom
-RUN echo "#!/bin/bash\njupyter notebook --no-browser --ip=0.0.0.0 &\njupyter notebook list\natom-beta -f" > start_script.sh
+RUN echo "#!/bin/bash\n \
+          jupyter notebook --no-browser --ip=0.0.0.0 &\n \
+          jupyter notebook list\n \
+          atom-beta -f /home/atom/alp" > start_script.sh
 RUN chmod +x start_script.sh
 
 # Configure container startup

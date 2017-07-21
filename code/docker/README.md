@@ -94,32 +94,32 @@ Try running a python command from your terminal using the docker image you just 
 
 To open up the atom-beta editor environment, assuming that your terminal's current working directory is in ../code
 
-    $ docker run -d -v /tmp/.X11-unix/:/tmp/.X11-unix/  `#X11 forwarding` \
-                    -v /dev/shm:/dev/shm                `#ALSA forwarding` \
-                    -v `dirname "$PWD"`:/home/atom/alp  `#Set working directory` \
-                    -e DISPLAY                          `#Tell docker to display` \
-                    ahb atom-beta -f /home/atom/alp     `#Run atom-beta with /home/atom/alp as initial folder`
+    $ docker run --rm -v /tmp/.X11-unix/:/tmp/.X11-unix/  `#X11 forwarding` \
+                      -v /dev/shm:/dev/shm                `#ALSA forwarding` \
+                      -v `dirname "$PWD"`:/home/atom/alp  `#Set working directory` \
+                      -e DISPLAY                          `#Tell docker to display` \
+                      ahb                                 `#Run atom-beta`
 
 If nothing seems to happen, you may need to allow access to the X Server from other hosts using a tool like xhost (see [here](https://stackoverflow.com/questions/16296753/can-you-run-gui-apps-in-a-docker-container#comment65709322_25168483)). Try running `xhost +local:`, then re-run the command above.
 
 
 If you have your own atom editor and want to use your own configurations from your /home/user/.atom folder, do:
 
-    $ docker run -d -v /tmp/.X11-unix/:/tmp/.X11-unix/   `#X11 forwarding` \
-                -v /dev/shm:/dev/shm                     `#ALSA forwarding` \
-                    -v ${HOME}/.atom:/home/atom/.atom \  `#Personalized .atom config` \
-                    -v `dirname "$PWD"`:/home/atom/alp   `#Set working directory` \
-                    -e DISPLAY                           `#Tell docker to display` \
-                    ahb atom-beta -f /home/atom/alp      `#Run atom-beta with /home/atom/alp as initial folder`
+    $ docker run --rm -v /tmp/.X11-unix/:/tmp/.X11-unix/   `#X11 forwarding` \
+                      -v /dev/shm:/dev/shm                 `#ALSA forwarding` \
+                      -v ${HOME}/.atom:/home/atom/.atom \  `#Personalized .atom config` \
+                      -v `dirname "$PWD"`:/home/atom/alp   `#Set working directory` \
+                      -e DISPLAY                           `#Tell docker to display` \
+                      ahb                                  `#Run atom-beta`
 
 To set up an alias you can run directly from the command-line, or pin to your Linux taskbar/dock:
 
     $ alias alp-atom='cd path/to/antarctic-lakes-phd/code/ && \
-            docker run -d -v /tmp/.X11-unix/:/tmp/.X11-unix/  `#X11 forwarding`  \
-                          -v /dev/shm:/dev/shm                `#ALSA forwarding` \
-                          -v `dirname "$PWD"`:/home/atom/alp  `#Set working directory` \
-                          -e DISPLAY                          `#Tell docker to display` \
-                          ahb atom-beta -f /home/atom/alp     `#Run atom-beta with /home/atom/alp as initial folder`'
+            docker run --rm -v /tmp/.X11-unix/:/tmp/.X11-unix/  `#X11 forwarding`  \
+                            -v /dev/shm:/dev/shm                `#ALSA forwarding` \
+                            -v `dirname "$PWD"`:/home/atom/alp  `#Set working directory` \
+                            -e DISPLAY                          `#Tell docker to display` \
+                            ahb                                 `#Run atom-beta`
 
     $ alp-atom     `#This single statement now runs the above code directly :woohoo:`
 
@@ -130,18 +130,18 @@ For Windows users wanting to try out this docker atom build, you can do so using
     > choco install mobaxterm
 
 After that, start MobaXterm, configure X server: Settings -> X11 (tab) -> set X11 Remote Access to full, and then you can do:
-    
+
     > cd ../
     > echo %cd%
-    
+
     D:\path\to\top-level-directory
-    
-    > docker run --rm -v "%cd%:/home/atom/alp" -e DISPLAY=10.64.66.107:0.0 ahb atom -f /home/atom/alp
+
+    > docker run --rm -v "%cd%:/home/atom/alp" -e DISPLAY=10.64.66.107:0.0 ahb
 
 The display IP address you should use can be found in MobaXterm if you click on 'Start local terminal'.
 
 Animated instructions:
-      
+
 ![mobaxterm_atom](https://user-images.githubusercontent.com/23487320/28297702-77686926-6bc3-11e7-9ff1-bd9b73f85c44.gif)
 
 Alternatively, you can try using Xming (see [here](https://github.com/moby/moby/issues/8710#issuecomment-135109677)). Again, I recommend installing it using [choco](https://chocolatey.org/) from an elevated command shell.
@@ -151,7 +151,7 @@ Alternatively, you can try using Xming (see [here](https://github.com/moby/moby/
 
 Then you can do:
 
-    > docker run -e DISPLAY=10.0.75.1:0 ahb atom-beta -f
+    > docker run --rm -v "%cd%:/home/atom/alp" -e DISPLAY=10.0.75.1:0 ahb
 
 Useful guide on how it should look like if it works:
 
