@@ -81,6 +81,7 @@ RUN pip3 install aiohttp aioftp
 
 # Scientific python libraries
 RUN pip3 install \
+    h5py \
     matplotlib \
     numpy \
     pandas \
