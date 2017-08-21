@@ -1,5 +1,6 @@
 /data/cryosat/**/*.HDR
 /data/cryosat/**/*.DBL
+/data/icesat/**/*.H5
 /data/icesat/**/*.DAT
 /data/icesat/**/*.jpg
 /data/icesat/**/*.xml
