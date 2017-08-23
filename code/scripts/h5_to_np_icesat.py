@@ -4,6 +4,7 @@ import collections
 import h5py
 import os
 import numpy as np
+import xarray as xr
 
 print(os.getcwd())
 os.chdir('/home/atom/alp/data/icesat/GLAH12.034/2003.02.20')
@@ -46,11 +47,14 @@ if 1==1:
 
         #Finally create the n-dimensional array to store all the data. Do this by stacking each feature (e.g. coordinates/time/other param) using np.dstack.
         dataListShape = [f[datagroup+'/'+fields[key]].shape for key in fields.keys()]
-        assert(np.median(dataListShape) == np.max(dataListShape))
-        dataShape = np.max(dataListShape)
-        xyzt = np.hstack(f[datagroup+'/'+fields[key]][:].reshape(-1,1) for key in fields.keys() if f[datagroup+'/'+fields[key]].shape == dataShape)
-        assert(xyzt.shape == (dataShape, len(fields)))
-        xyzt
+        assert(np.median(dataListShape) == np.max(dataListShape))  #stupid way to get 'm' which is the no. of individual datapoints
+        m = np.max(dataListShape) #take m as the largest length
+
+        xyzt = np.hstack((f[datagroup+'/'+fields[key]][:].reshape(-1,1) for key in fields.keys() if f[datagroup+'/'+fields[key]].shape == m)).T
+        assert(xyzt.shape == (len(fields), m))  #check that final numpy array has shape (n, m) where n is no. of features and m is no. of datapoints
+
+        data = xr.DataArray(xyzt, dims=('x','y'))
+
 
     # %%
 

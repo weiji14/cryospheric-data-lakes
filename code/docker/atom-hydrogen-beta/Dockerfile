@@ -86,7 +86,8 @@ RUN pip3 install \
     numpy \
     pandas \
     scikit-learn \
-    scipy
+    scipy \
+    xarray
 
 # Setup script to start Jupyter Notebook server and atom-beta at launch
 EXPOSE 8888
