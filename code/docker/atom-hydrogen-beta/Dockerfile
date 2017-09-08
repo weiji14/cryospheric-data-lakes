@@ -2,9 +2,16 @@ FROM debian:buster-slim
 LABEL maintainer "https://github.com/weiji14"
 ENV LANG=C.UTF-8 LC_ALL=C.UTF-8
 
+# Install standard dependencies a la buildpack-deps curl https://hub.docker.com/_/buildpack-deps/
+RUN apt-get -qq update && apt-get install -y --no-install-recommends \
+    ca-certificates \
+    curl \
+    gnupg2 \
+    && rm -rf /var/lib/apt/lists/*
+
 # Setup base atom-beta install
 RUN apt-get -qq update && apt-get install -y --no-install-recommends \
-    # Install atom required dependencies
+    # Install atom required dependencies See `apt-cache depends atom-beta`
     git \
     gconf2 \
     gconf-service \
@@ -16,10 +23,6 @@ RUN apt-get -qq update && apt-get install -y --no-install-recommends \
     gvfs-bin \
     xdg-utils \
     libcap2 \
-
-    # Install wget, ca-certificates
-    wget \
-    ca-certificates \
 
     # Install X11 and ALSA dependencies so we can view (and hear?) the atom GUI
     libx11-xcb1 \
@@ -33,7 +36,7 @@ RUN apt-get -qq update && apt-get install -y --no-install-recommends \
     python3-pip \
 
     # Get beta atom-amd64.deb release from https://atom.io/beta
-    && wget --no-verbose https://atom.io/download/deb?channel=beta -O atom-beta-amd64.deb \
+    && curl -L -o atom-beta-amd64.deb https://atom.io/download/deb?channel=beta \
 
     # Finally install the 'base' atom-amd64 beta-build
     && dpkg -i atom-beta-amd64.deb \
@@ -45,7 +48,6 @@ RUN apt-get -qq update && apt-get install -y --no-install-recommends \
 
     # Remove dev/build stuff as not needed anymore
     && apt-get remove -y \
-    wget \
     build-essential \
     python3-dev \
 
@@ -95,8 +97,8 @@ WORKDIR /home/atom
 RUN echo "#!/bin/bash\n \
           jupyter notebook --no-browser --ip=0.0.0.0 &\n \
           jupyter notebook list\n \
-          atom-beta -f /home/atom/alp" > start_script.sh
-RUN chmod +x start_script.sh
+          atom-beta -f /home/atom/alp" > start_script.sh \
+    && chmod +x start_script.sh
 
 # Configure container startup
 #ENTRYPOINT ["tini", "--"]
