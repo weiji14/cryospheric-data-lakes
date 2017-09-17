@@ -2,8 +2,9 @@
 
 import collections
 import h5py
-import os
 import numpy as np
+import os
+import pandas as pd
 import xarray as xr
 
 print(os.getcwd())
@@ -50,10 +51,31 @@ if 1==1:
         assert(np.median(dataListShape) == np.max(dataListShape))  #stupid way to get 'm' which is the no. of individual datapoints
         m = np.max(dataListShape) #take m as the largest length
 
+        ## numpy
         xyzt = np.hstack((f[datagroup+'/'+fields[key]][:].reshape(-1,1) for key in fields.keys() if f[datagroup+'/'+fields[key]].shape == m)).T
-        assert(xyzt.shape == (len(fields), m))  #check that final numpy array has shape (n, m) where n is no. of features and m is no. of datapoints
+        assert(xyzt.shape == (len(fields), m))  #check that final numpy array has shape (n, m) where n is no. of features and m is no. of datapoints e.g. (4, 20000)
+        xyzt.shape
+        xyzt.ndim
+        xyzt.T.ndim
 
-        data = xr.DataArray(xyzt, dims=('x','y'))
+        ## pandas
+        assert(isinstance(xyzt, np.ndarray))
+        pdData = pd.DataFrame(xyzt.T, columns=fields.keys())
+        pdData['t'] = pd.to_datetime(pdData['t'], unit='s', origin=pd.Timestamp('2000-01-01'), infer_datetime_format=True)  #convert time data into standard python datetime format
+        pdData
+
+        pdData.loc[:,['x','y','z']].loc[lambda df: df.y < 0].to_csv("/home/atom/alp/code/scripts/pdData.csv")  #export Antarctic data (South of Equator) only
+        pdData.to_csv("/home/atom/alp/code/scripts/pdData.csv")
+
+        ##%%
+        assert(isinstance(pdData['t'][0], pd.Timestamp))
+        #help(pdData.loc)
+
+        ## xarray
+        assert(isinstance(pdData, pd.DataFrame))
+        xrData = pdData.to_xarray()
+        xrData
+        assert(isinstance(xrData, xr.Dataset))
 
 
     # %%
