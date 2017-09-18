@@ -37,10 +37,10 @@ def init_h5_keyDict(h5file):
     [v.name for v in h5[datagroup].values()]
 
     #Standard parameters
-    fields['x'] = 'Geolocation/d_lon'
-    fields['y'] = 'Geolocation/d_lat'
-    fields['z'] = 'Elevation_Surfaces/d_elev'
-    fields['t'] = 'Time/d_UTCTime_40'
+    fields['x'] = datagroup+'/Geolocation/d_lon'
+    fields['y'] = datagroup+'/Geolocation/d_lat'
+    fields['z'] = datagroup+'/Elevation_Surfaces/d_elev'
+    fields['t'] = datagroup+'/Time/d_UTCTime_40'
 
     #All other useful-ish parameters
     #def func(name, obj):
@@ -75,12 +75,12 @@ def h5_to_pydata(h5file, h5fields):
     #h5.driver
 
     #%% calculate m (number of individual datapoints) so we can do reshapes and assertion checks
-    dataListShape = [h5[datagroup+'/'+h5fields[key]].shape for key in h5fields.keys()]
+    dataListShape = [h5[h5fields[key]].shape for key in h5fields.keys()]
     assert(np.median(dataListShape) == np.max(dataListShape))  #stupid way to get 'm' which is the no. of individual datapoints
     m = np.max(dataListShape) #take m as the largest length
 
     #%% numpy
-    xyzt = np.hstack((h5[datagroup+'/'+h5fields[key]][:].reshape(-1,1) for key in h5fields.keys() if h5[datagroup+'/'+h5fields[key]].shape == m)).T
+    xyzt = np.hstack((h5[h5fields[key]][:].reshape(-1,1) for key in h5fields.keys() if h5[h5fields[key]].shape == m)).T
     assert(xyzt.shape == (len(h5fields), m))  #check that final numpy array has shape (n, m) where n is no. of features and m is no. of datapoints e.g. (4, 20000)
     xyzt.shape
     xyzt.ndim
