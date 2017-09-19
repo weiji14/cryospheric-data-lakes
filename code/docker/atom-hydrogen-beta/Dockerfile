@@ -42,9 +42,10 @@ RUN apt-get -qq update && apt-get install -y --no-install-recommends \
     && dpkg -i atom-beta-amd64.deb \
     && rm -f atom-beta-amd64.deb \
 
-    # Install jupyter via pip3
+    # Install jupyterlab via pip3 https://github.com/jupyterlab/jupyterlab
     && pip3 install setuptools wheel \
-    && pip3 install jupyter \
+    && pip3 install jupyterlab \
+    && jupyter serverextension enable --py jupyterlab --sys-prefix \
 
     # Remove dev/build stuff as not needed anymore
     && apt-get remove -y \
@@ -71,7 +72,7 @@ RUN apm-beta install hydrogen
 RUN apm-beta install nbviewer browser-plus
 
 # Initiate Jupyter config and start Jupyter notebook service
-RUN jupyter notebook --generate-config --no-browser
+RUN jupyter lab --generate-config --no-browser
 
 # Fix 'No module named ipykernel_launcher' https://github.com/nteract/hydrogen/issues/730
 RUN python3 -m ipykernel install --user
@@ -91,20 +92,7 @@ RUN pip3 install \
     scipy \
     xarray
 
-# Setup script to start Jupyter Notebook server and atom-beta at launch
+# Setup command to start Jupyter Notebook server and atom-beta at launch
 EXPOSE 8888
 WORKDIR /home/atom
-RUN echo "#!/bin/bash\n \
-          jupyter notebook --no-browser --ip=0.0.0.0 &\n \
-          jupyter notebook list\n \
-          atom-beta -f /home/atom/alp" > start_script.sh \
-    && chmod +x start_script.sh
-
-# Configure container startup
-#ENTRYPOINT ["tini", "--"]
-CMD ["./start_script.sh"]
-
-# Add Tini as late as possible to avoid cache busting
-#ENV TINI_VERSION v0.15.0
-#ADD https://github.com/krallin/tini/releases/download/${TINI_VERSION}/tini tini
-#RUN chmod +x tini
+CMD { jupyter lab --no-browser --ip=0.0.0.0 & } ; atom-beta -f /home/atom/alp
