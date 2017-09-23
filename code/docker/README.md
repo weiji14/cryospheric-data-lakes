@@ -3,11 +3,12 @@
 ## Docker image list
 
 #### Main
-- [x] [atom-beta](https://atom.io/)
+- [x] [atom-hydrogen-beta](https://atom.io/)
+- [x] [jupyter-lab](https://github.com/jupyterlab/jupyterlab)
 - [x] [python3](https://www.python.org)
-- [ ] [Generic Mapping Tools (GMT)](http://gmt.soest.hawaii.edu/)
 
 #### Maybes
+- [ ] [Generic Mapping Tools (GMT)](http://gmt.soest.hawaii.edu/)
 - [ ] [Broadview Radar Altimetry Toolbox (BRAT)](https://github.com/BRAT-DEV/main)
 - [ ] [CryoSat User Tool (CUT)](https://earth.esa.int/web/guest/-/cryosat-user-tool-7386)
 - [ ] [CryoSat Matlab routines](https://earth.esa.int/web/guest/-/cryosat-matlab-routines)
@@ -34,6 +35,8 @@ Below are the code you can use to build the python3/atom-beta docker images, ass
 `cd ~/path/to/antarctic-lakes-phd/code`
 
 `docker build -f docker/python3/Dockerfile -t icepy3 .`
+
+`docker build -f docker/jupyter-lab/Dockerfile -t jlab .`
 
 `docker build -f docker/atom-hydrogen-beta/Dockerfile -t ahb .`
 
@@ -89,6 +92,25 @@ Try running a python command from your terminal using the docker image you just 
 
     3.5.3+ (default, Jun  7 2017, 23:23:48)
     [GCC 6.3.0 20170516]
+
+
+#### [Jupyter Lab](https://github.com/jupyterlab/jupyterlab)
+
+To start the jupyter lab server, assuming that your terminal's current working directory is in ../code
+
+    $ docker run --rm -p 8888:8888                        `#Map port 8888 for Jupyter` \
+                  -v `dirname "$PWD"`:/home/atom/alp      `#Set working directory` \
+                  jlab                                    `#Run jupyter lab`
+
+There will be many lines printed out, and you will see an output similar to this at the end :
+
+    Copy/paste this URL into your browser when you connect for the first time, to login with a token:
+        http://0.0.0.0:8888/?token=2151518272a8eeff0f37b2488f09e22cc85ed8adcb1e1d3c
+
+Do what it says, by copying that link and pasting it into your own host browser (e.g. Firefox/Chrome/etc). You may have to try an address like http://localhost:8888/ instead in some cases.
+
+If port 8888 is taken, change the `docker run` command to use a higher port number e.g. `-p 8889:8888`. You would then access jupyter lab a url like http://localhost:8889/.
+
 
 #### [Atom](https://atom.io/)
 

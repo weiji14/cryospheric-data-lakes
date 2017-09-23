@@ -37,46 +37,16 @@ RUN pip3 install --no-cache-dir ipyleaflet bqplot pythreejs ipyvolume \
     && jupyter nbextension enable --py --sys-prefix pythreejs \
     && jupyter nbextension enable --py --sys-prefix ipyvolume
 
-# Install beta atom-amd64.deb release from https://atom.io/beta, plus X11 and ALSA dependencies
-RUN curl -L -o atom-beta-amd64.deb https://atom.io/download/deb?channel=beta \
-    && apt-get -qq update && apt-get install -y --no-install-recommends \
-        ./atom-beta-amd64.deb \
-        libx11-xcb1 \ 
-        libxss1 \ 
-        libasound2 \ 
-        libxkbfile1 \ 
-    && rm -f atom-beta-amd64.deb \
-    && rm -rf /var/lib/apt/lists/*
-
 # Initiate docker container with user 'atom'
 RUN useradd -d /home/atom -m atom
 USER atom
 
-# Setup atom directory for user 'atom'
-RUN mkdir -p /home/atom/.atom
-RUN chmod 755 /home/atom/.atom
-RUN chown -R `whoami` /home/atom/.atom
-
-# Using apm-beta to install hydrogen to /home/atom/.atom
-RUN apm-beta install hydrogen
-
-# Install apm packages to view ipynb notebooks
-RUN apm-beta install browser-plus
-
-# Initiate Jupyter config and start Jupyter notebook service
-RUN jupyter lab --generate-config --no-browser
-
-# Fix 'No module named ipykernel_launcher' https://github.com/nteract/hydrogen/issues/730
-RUN python3 -m ipykernel install --user
-
-RUN jupyter kernelspec list --json
-
 # Miscellaneous python packages to install
-RUN pip3 install --no-cache-dir \
-    aiohttp \
-    aioftp
+#RUN pip3 install --no-cache-dir \
+#    aiohttp \
+#    aioftp
 
 # Setup default command to launch at docker container startup
 EXPOSE 8888
 WORKDIR /home/atom
-CMD { jupyter lab --no-browser --ip=0.0.0.0 & } ; atom-beta -f /home/atom/alp
+CMD jupyter lab --no-browser --ip=0.0.0.0
