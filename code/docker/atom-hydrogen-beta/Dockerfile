@@ -9,24 +9,31 @@ RUN apt-get -qq update && apt-get install -y --no-install-recommends \
     gnupg2 \
     && rm -rf /var/lib/apt/lists/*
 
-# Install python pip
+# Install python pip and setuptools
 RUN apt-get -qq update && apt-get install -y --no-install-recommends \
     python3-pip \
+    && pip3 install --no-cache-dir setuptools wheel \
     && rm -rf /var/lib/apt/lists/*
 
 # Install Scientific python libraries a la scipy-notebook https://github.com/jupyter/docker-stacks/blob/master/scipy-notebook/Dockerfile
 RUN pip3 install --no-cache-dir \
+    dask[dataframe] \
+    graphviz \
     h5py \
     matplotlib \
     numpy \
     pandas \
     scikit-learn \
     scipy \
-    xarray
+    tables \
+    xarray \
+    && apt-get -qq update && apt-get install -y --no-install-recommends \
+    graphviz \
+    && rm -rf /var/lib/apt/lists/*
 
 # Install jupyterlab via pip3 https://github.com/jupyterlab/jupyterlab
-RUN pip3 install --no-cache-dir setuptools wheel \
-    && pip3 install --no-cache-dir jupyterlab \
+RUN pip3 install --no-cache-dir \
+    jupyterlab \
     && jupyter serverextension enable --py jupyterlab --sys-prefix
 
 # Install jupyter widgets https://jupyter.org/widgets.html
@@ -41,10 +48,10 @@ RUN pip3 install --no-cache-dir ipyleaflet bqplot pythreejs ipyvolume \
 RUN curl -L -o atom-beta-amd64.deb https://atom.io/download/deb?channel=beta \
     && apt-get -qq update && apt-get install -y --no-install-recommends \
         ./atom-beta-amd64.deb \
-        libx11-xcb1 \ 
-        libxss1 \ 
-        libasound2 \ 
-        libxkbfile1 \ 
+        libx11-xcb1 \
+        libxss1 \
+        libasound2 \
+        libxkbfile1 \
     && rm -f atom-beta-amd64.deb \
     && rm -rf /var/lib/apt/lists/*
 

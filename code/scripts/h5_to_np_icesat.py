@@ -1,12 +1,17 @@
 ##Python 3 script to extract geophysical data from icesat HDF5 format files into python numpy-based arrays
 
 import collections
+import dask
+import dask.dataframe as dd
+from dask.diagnostics import ProgressBar
+import glob
 import h5py
 import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D
 import numpy as np
 import os
 import pandas as pd
+import tables
 import xarray as xr
 
 #print(os.getcwd())
@@ -111,13 +116,12 @@ def h5_to_pydata(h5file, h5fields):
 
     return npData, pdData, xrData
 
-#%%
+h5fields40hz = init_h5_keyDict("GLAH12_634_1102_001_0071_0_01_0001.H5", datagroup="Data_40HZ", useAll=False)
+h5fields1hz = init_h5_keyDict("GLAH12_634_1102_001_0071_0_01_0001.H5", datagroup="Data_1HZ", useAll=False)
 
-h5fields40hz = init_h5_keyDict("GLAH12_634_1102_001_0071_0_01_0001.H5", datagroup="Data_40HZ")
 npData, pdData, xrData = h5_to_pydata("GLAH12_634_1102_001_0071_0_01_0001.H5", h5fields40hz)
 df40 = pdData.loc[:,['x','y','z','i']].loc[lambda df: df.y < 0]  #filter for Antarctica only (South of Equator)
 
-h5fields1hz = init_h5_keyDict("GLAH12_634_1102_001_0071_0_01_0001.H5", datagroup="Data_1HZ", useAll=False)
 npData, pdData, xrData = h5_to_pydata("GLAH12_634_1102_001_0071_0_01_0001.H5", h5fields1hz)
 df1 = pdData.loc[:,['x','y','k','i']].loc[lambda df: df.y < 0]  #filter for Antarctica only (South of Equator)
 
@@ -125,6 +129,77 @@ df = df40
 #pdData.to_csv("/home/atom/alp/code/scripts/pdData.csv")   #export Greenland and Antarctic data
 #df.to_csv("/home/atom/alp/code/scripts/pdData.csv")       #export Antarctic data (South of Equator) only
 
+#%% Dask
+#See also VITables, a GUI for PyTables https://github.com/uvemas/ViTables
+print(dask.__version__)
+p = ProgressBar()  #Real-time feedback on dask processes
+p.register()
+
+#%% Info inside the HDF5 file
+#h5file = os.path.join('/home/atom/alp/data/icesat/GLAH12.034/2003.02.20/GLAH12_634_1102_001_0071_0_01_0001_test.H5')
+#[k for k in h5py.File(h5file, "r").keys()]
+#list(h5fields40hz.values())[0]
+
+#%% Debugging https://github.com/pandas-dev/pandas/issues/17661
+#store = pd.HDFStore(h5file, mode='r+')
+#store.select('Data_40HZ/Geolocation/d_lon')
+#store.__contains__("Data_40HZ/Geolocation")
+#store.get_node("Data_40HZ/Elevation_Surfaces")
+#store.get_storer("Data_40HZ")
+#store.groups()
+#store.items
+#store.close()
+
+#tables.is_hdf5_file(h5file)
+#lala = tables.open_file(h5file, mode='r+', root_uep='/Data_40HZ/Geolocation')
+#lala.del_node_attr('/d_lon', 'DIMENSION_LIST')
+#lala.close()
+
+#pd.read_hdf(h5file, key='/Data_40HZ/Geolocation/d_lon')
+#dd.read_hdf(h5file, key='Data_40HZ/Geolocation/d_lon')
+
+#%% Get dask.dataframe(s) for fields [i, x, y, z, k, t] from Data_40HZ and Data_1HZ
+bugFixed = False
+if bugFixed == True:
+    #ideal command to run once ICESAT dask.read_hdf bug is fixed, upstream problem with PyTables https://github.com/PyTables/PyTables/issues/647
+    df40 = dd.read_hdf('/home/atom/alp/data/icesat/GLAH12.034/**/*.H5', key='/Data_40HZ')
+    df1 = dd.read_hdf('/home/atom/alp/data/icesat/GLAH12.034/**/*.H5', key='/Data_1HZ')
+else:
+    hpyPath = "/home/atom/alp/data/icesat/GLAHPY12.034"
+    os.makedirs(hpyPath, mode=0o777, exist_ok=True)
+    def pdData_to_hdf(h5f):
+        outFile = hpyPath+"/"+h5f.split('/')[-1]
+        if not os.path.exists(outFile):
+            print(h5f.split('/')[-1])
+            pd40 = h5_to_pydata(h5f, h5fields40hz)[1]
+            pd40.to_hdf(outFile, key="/Data_40HZ", format='table', mode='w')
+            pd1 = h5_to_pydata(h5f, h5fields1hz)[1]
+            pd1.to_hdf(outFile, key="/Data_1HZ", format='table', mode='a')
+    if len(glob.glob(hpyPath+'/*.H5')) != 637:
+        [pdData_to_hdf(h) for h in glob.iglob('/home/atom/alp/data/icesat/GLAH12.034/**/*.H5')]  #convert data from raw NSIDC supplied HDF5 into PyTables compatible format
+    #df40 = dd.read_hdf(hpyPath+'/*.H5', key='/Data_40HZ')  #workaround command to load Data_40HZ data into dask, not dask.delayed
+    #df1 = dd.read_hdf(hpyPath+'/*.H5', key='/Data_1HZ')   #workaround command to load Data_40HZ data into dask, not dask.delayed
+    df40 = dask.delayed(dd.read_hdf)(hpyPath+'/*.H5', key='/Data_40HZ')
+    df1 = dask.delayed(dd.read_hdf)(hpyPath+'/*.H5', key='/Data_1HZ')
+
+#%% Join the Data_40HZ and Data_1HZ data on i_rec_ndx(i) to get Track Number(k) on Data_40HZ table
+assert(list(h5fields40hz.keys()) == ['i', 'x', 'y', 'z', 't'])
+assert(list(h5fields1hz.keys()) == ['i', 'x', 'y', 'k', 't'])
+df_all = dask.delayed(df40.merge)(df1[['i', 'k']], on='i')   #Perform dask delayed parallel join
+os.chdir('/home/atom/alp/code/scripts')                      #change directory so that mydask.png can be saved to the right directory when running dask.visualize()
+df_all.visualize()
+
+#%% Computationally intensive code if running on full ICESAT dataset!!
+df = df_all.compute()   #very computationally intensive!!
+assert(isinstance(df, dd.DataFrame))
+#df.to_csv(hpyPath+'/export*.csv')  #export the joined table into csv files
+
+df_all['k'].unique().compute()   #compute unique values of 'k' where k is the ICESAT Track Number
+sqlFilter = ((df_all['k'] <= 72) | (df_all['k'] >= 42)) & ((df_all['y'] < 0) & (df_all['x'] >= 180))
+df = df_all[sqlFilter]
+df = df.compute()
+print(df)
+assert(isinstance(df, pd.DataFrame))
 
 ### Part 2 Plot those datapoints!!
 #%matplotlib notebook
@@ -152,7 +227,7 @@ x=df.loc[:mi,['x']]
 y=df.loc[:mi,['y']]
 z=df.loc[:mi,['z']]
 ax.scatter(x, y, z, c=z, cmap=plt.cm.jet, zdir='z', s=2)
-fig;
+fig
 
 #%% Matplotlib 3D surface plot https://gis.stackexchange.com/a/66440/78212
 #ax = fig.add_subplot(111, projection='3d')
