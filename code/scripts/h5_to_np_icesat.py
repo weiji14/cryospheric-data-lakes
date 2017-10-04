@@ -39,7 +39,7 @@ def init_h5_keyDict(h5file, datagroup="Data_40HZ", useAll=False):
     #GLAH12 Product Data Dictionary https://nsidc.org/data/glas/data-dictionary-glah12
     #[k for k in h5.keys()]
 
-    #%% Retrieve data stored in the hdf5 file using known keys.
+    # Retrieve data stored in the hdf5 file using known keys.
     [g for g in h5['{0}'.format(datagroup)]]
 
     fields = collections.OrderedDict()
@@ -54,7 +54,7 @@ def init_h5_keyDict(h5file, datagroup="Data_40HZ", useAll=False):
             fields['z'] = datagroup+'/Elevation_Surfaces/d_elev'  #Elevation         (z)
             fields['t'] = datagroup+'/Time/d_UTCTime_40'          #Timestamp         (t)
         elif datagroup == 'Data_1HZ':
-            fields['k'] = datagroup+'/Geolocation/i_track'        #Track number      (k)
+            fields['k'] = datagroup+'/Geolocation/i_track'        #Track number      (k)tables
             fields['t'] = datagroup+'/Time/d_UTCTime_1'           #Timestamp         (t)
 
     #All other useful-ish parameters
@@ -69,6 +69,8 @@ def init_h5_keyDict(h5file, datagroup="Data_40HZ", useAll=False):
 
     assert(isinstance(fields, dict))
     return fields
+
+#%%
 
 def h5_to_pydata(h5file, h5fields):
     '''
@@ -90,31 +92,33 @@ def h5_to_pydata(h5file, h5fields):
     #h5.libver
     #h5.driver
 
-    #%% calculate m (number of individual datapoints) so we can do reshapes and assertion checks
+    # calculate m (number of individual datapoints) so we can do reshapes and assertion checks
     dataListShape = [h5[h5fields[key]].shape for key in h5fields.keys()]
     assert(np.median(dataListShape) == np.max(dataListShape))  #stupid way to get 'm' which is the no. of individual datapoints
     m = np.max(dataListShape) #take m as the largest length
 
-    #%% numpy
+    # numpy
     npData = np.hstack((h5[h5fields[key]][:].reshape(-1,1) for key in h5fields.keys() if h5[h5fields[key]].shape == m)).T
     assert(npData.shape == (len(h5fields), m))  #check that final numpy array has shape (n, m) where n is no. of features and m is no. of datapoints e.g. (4, 20000)
     npData.shape
     npData.ndim
     npData.T.ndim
 
-    #%% pandas
+    # pandas
     assert(isinstance(npData, np.ndarray))
     pdData = pd.DataFrame(npData.T, columns=h5fields.keys())
     pdData['t'] = pd.to_datetime(pdData['t'], unit='s', origin=pd.Timestamp('2000-01-01'), infer_datetime_format=True)  #convert time data into standard python datetime format
     assert(isinstance(pdData['t'][0], pd.Timestamp))
 
-    #%% xarray
+    # xarray
     assert(isinstance(pdData, pd.DataFrame))
     xrData = pdData.to_xarray()
     xrData
     assert(isinstance(xrData, xr.Dataset))
 
     return npData, pdData, xrData
+
+#%%
 
 h5fields40hz = init_h5_keyDict("GLAH12_634_1102_001_0071_0_01_0001.H5", datagroup="Data_40HZ", useAll=False)
 h5fields1hz = init_h5_keyDict("GLAH12_634_1102_001_0071_0_01_0001.H5", datagroup="Data_1HZ", useAll=False)
@@ -177,10 +181,12 @@ else:
             pd1.to_hdf(outFile, key="/Data_1HZ", format='table', mode='a')
     if len(glob.glob(hpyPath+'/*.H5')) != 637:
         [pdData_to_hdf(h) for h in glob.iglob('/home/atom/alp/data/icesat/GLAH12.034/**/*.H5')]  #convert data from raw NSIDC supplied HDF5 into PyTables compatible format
-    #df40 = dd.read_hdf(hpyPath+'/*.H5', key='/Data_40HZ')  #workaround command to load Data_40HZ data into dask, not dask.delayed
-    #df1 = dd.read_hdf(hpyPath+'/*.H5', key='/Data_1HZ')   #workaround command to load Data_40HZ data into dask, not dask.delayed
-    df40 = dask.delayed(dd.read_hdf)(hpyPath+'/*.H5', key='/Data_40HZ')
-    df1 = dask.delayed(dd.read_hdf)(hpyPath+'/*.H5', key='/Data_1HZ')
+    subsetLen = 20
+    subsetFiles = glob.glob(hpyPath+'/*.H5')[:subsetLen]
+    df40 = dd.read_hdf(subsetFiles, key='/Data_40HZ')  #workaround command to load Data_40HZ data into dask, not dask.delayed so slow
+    df1 = dd.read_hdf(subsetFiles, key='/Data_1HZ')   #workaround command to load Data_40HZ data into dask, not dask.delayed so slow
+    #df40 = dask.delayed(dd.read_hdf)(hpyPath+'/*.H5', key='/Data_40HZ')
+    #df1 = dask.delayed(dd.read_hdf)(hpyPath+'/*.H5', key='/Data_1HZ')
 
 #%% Join the Data_40HZ and Data_1HZ data on i_rec_ndx(i) to get Track Number(k) on Data_40HZ table
 assert(list(h5fields40hz.keys()) == ['i', 'x', 'y', 'z', 't'])
@@ -195,19 +201,102 @@ assert(isinstance(df, dd.DataFrame))
 #df.to_csv(hpyPath+'/export*.csv')  #export the joined table into csv files
 
 df_all['k'].unique().compute()   #compute unique values of 'k' where k is the ICESAT Track Number
-sqlFilter = ((df_all['k'] <= 72) | (df_all['k'] >= 42)) & ((df_all['y'] < 0) & (df_all['x'] >= 180))
+trackSubset = ((df_all['k'] <= 72) | (df_all['k'] >= 42))  #which ICESAT tracks to use
+boundSubset = ((df_all['y'] < 0) & (df_all['x'] >= 0))   #Geographical boundaries
+sqlFilter = trackSubset & boundSubset
 df = df_all[sqlFilter]
-df = df.compute()
+df = df.compute()  #Computes lazy dataframe and makes it non-lazy
+df = df.persist()  #will persist dataframe in RAM
 print(df)
-assert(isinstance(df, pd.DataFrame))
+assert(isinstance(df, dd.DataFrame))
 
 ### Part 2 Plot those datapoints!!
 #%matplotlib notebook
 %matplotlib inline
-#old_settings = np.seterr()
-#np.seterr(all='ignore')
-#np.seterr(**old_settings)
 
+#%% Holoviews + Datashader + Geoviews
+#!conda install -y holoviews
+#!conda install -y -c bokeh datashader
+#!conda install -c ioam geoviews
+import holoviews as hv
+import datashader as ds
+import geoviews as gv
+print(hv.__version__)
+print(ds.__version__)
+print(gv.__version__)
+hv.extension('bokeh')
+hv.notebook_extension('bokeh')
+#holoviews misc imports
+from holoviews.streams import * #RangeXY
+from colorcet import cm
+#datashader misc imports
+from holoviews.operation.datashader import aggregate, datashade, dynspread, shade
+#Geoviews misc imports
+import geoviews.feature as gf
+from cartopy import crs
+#Datashader options
+dynspread.max_px=20
+dynspread.threshold=0.5
+shade.cmap="#30a2da" # to match HV Bokeh default
+# See https://anaconda.org/jbednar/holoviews_datashader/notebook
+
+print(df.info(), df.head())
+
+#%%
+#df = df.set_index('t')
+#Reproject points from EPSG 4326 (PlateCarree) to EPSG 3031
+points = gv.Points(df, kdims=[('x', '3031X'), ('y', '3031Y')], vdims=['i', 'z', 'k'], crs = crs.PlateCarree())
+projected_gv = gv.operation.project_points(points, projection=crs.epsg(3031))
+assert(isinstance(projected_gv, gv.element.geo.Points))
+
+#%%
+%%opts QuadMesh [tools=['hover']] (alpha=0 hover_alpha=0.2)
+%%output size=300  #set output size, e.g. 200 = 2x the default output size
+hv.notebook_extension('bokeh')
+gv_options = {'bgcolor':'black', 'show_grid':True}
+
+hvmap = projected_gv
+dsmap = datashade(hvmap, x_sampling=1, y_sampling=1, cmap=cm['fire'])
+gvmap = dynspread(dsmap.opts(plot=gv_options))
+gvmap * hv.util.Dynamic(aggregate(hvmap, width=5, height=5, streams=[PointerX]), operation=hv.QuadMesh)
+
+#%%
+#!pip install paramnb
+#!conda install -y -c ioam parambokeh
+import param
+import paramnb
+import parambokeh
+
+minAlt = round(df['z'].min().compute(), -2)
+maxAlt = round(df['z'].max().compute(), -2)
+
+class IceSatExplorer(hv.streams.Stream):
+    colormap  = param.ObjectSelector(default=cm["fire"], objects=cm.values())
+    altitude  = param.Range(default=(minAlt, maxAlt), bounds=(minAlt, maxAlt), doc="""Elevation of ICESAT laser point""")
+    timerange = param.Range()
+    
+    def make_view(self, x_range=None, y_range=None, **kwargs):
+        #map_tiles = tiles.opts(style=dict(alpha=self.alpha), plot=options) 
+
+        hvmap = projected_gv.select(z=self.altitude)
+        dsmap = datashade(hvmap, x_sampling=1, y_sampling=1, cmap=self.colormap,
+                          dynamic=False, x_range=x_range, y_range=y_range)
+        gv_options = {'bgcolor':'black', 'show_grid':True}
+        gvmap = dynspread(dsmap.opts(plot=gv_options))
+        return gvmap #* hv.util.Dynamic(aggregate(hvmap, width=5, height=5, streams=[PointerX]), operation=hv.QuadMesh)
+        
+        #points = hv.Points(df, kdims=[self.plot+'_x', self.plot+'_y'], vdims=['passenger_count'])
+        #selected = points.select(passenger_count=self.passengers)
+        #taxi_trips = datashade(selected, x_sampling=1, y_sampling=1, cmap=self.colormap,
+        #                       dynamic=False, x_range=x_range, y_range=y_range,
+        #                       width=800, height=475)
+        #return map_tiles * taxi_trips
+
+#%%
+%%output size=300  #set output size, e.g. 200 = 2x the default output size
+explorer = IceSatExplorer()
+paramnb.Widgets(explorer, callback=explorer.event)
+hv.DynamicMap(explorer.make_view, streams=[explorer, RangeXY()])
 
 #%% Matplotlib 2D
 plt.scatter(pdData.loc[:,['x']], pdData.loc[:,['y']]); #2d plot, will show Greenland on top right and Antarctica at the bottom
@@ -235,28 +324,8 @@ fig
 #ax.contour(x,y,z)
 #fig;
 
-
-#%% ipyleaflet
-#!pip3 install ipyleaflet
-#!jupyter nbextension enable --py ipyleaflet
-#!jupyter nbextension enable --py --sys-prefix ipyleaflet
-import ipyleaflet
-print(ipyleaflet.__version__)
-ipyleaflet.Map(center=[-77.84651, 166.75710], zoom=2)
-
-
-#%% ipyvolume
-#!pip3 install ipyvolume
-#!jupyter nbextension enable --py ipyvolume
-#jupyter nbextension enable --py --sys-prefix ipyvolume
-import ipyvolume as ipv
-print(ipv.__version__)
-# If a blank box shows up, see https://superuser.com/questions/836832/how-can-i-enable-webgl-in-my-browser
-ipv.quickscatter(x.values.flatten(), y.values.flatten(), z.values.flatten(), size=100000, marker="sphere")
-
-
 #%% Folium
-#!pip3 install folium
+#!pip install folium
 import folium
 print(folium.__version__)
 #%%timeit
@@ -266,7 +335,7 @@ map_osm
 
 
 #%% laspy
-#!pip3 install laspy
+#!pip install laspy
 import laspy
 print(laspy.__version__)
 header = laspy.header.Header()
@@ -288,10 +357,6 @@ outfile.y = ally
 outfile.z = allz
 
 outfile.close()
-
-
-
-
 
 
 # %%
