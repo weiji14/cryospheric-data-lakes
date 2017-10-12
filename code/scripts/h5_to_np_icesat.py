@@ -193,7 +193,12 @@ assert(list(h5fields40hz.keys()) == ['i', 'x', 'y', 'z', 't'])
 assert(list(h5fields1hz.keys()) == ['i', 'x', 'y', 'k', 't'])
 df_all = dask.delayed(df40.merge)(df1[['i', 'k']], on='i')   #Perform dask delayed parallel join
 os.chdir('/home/atom/alp/code/scripts')                      #change directory so that mydask.png can be saved to the right directory when running dask.visualize()
-df_all.visualize()
+#df_all.visualize()
+
+#%% Computationally intensive code if running on full ICESAT dataset!!
+df = df_all.compute()   #very computationally intensive!!
+assert(isinstance(df, dd.DataFrame))
+#df.to_csv(hpyPath+'/export*.csv')  #export the joined table into csv files
 
 #%% Computationally intensive code if running on full ICESAT dataset!!
 df = df_all.compute()   #very computationally intensive!!
@@ -201,18 +206,27 @@ assert(isinstance(df, dd.DataFrame))
 #df.to_csv(hpyPath+'/export*.csv')  #export the joined table into csv files
 
 df_all['k'].unique().compute()   #compute unique values of 'k' where k is the ICESAT Track Number
-trackSubset = ((df_all['k'] <= 72) | (df_all['k'] >= 42))  #which ICESAT tracks to use
-boundSubset = ((df_all['y'] < 0) & (df_all['x'] >= 0))   #Geographical boundaries
-sqlFilter = trackSubset & boundSubset
-df = df_all[sqlFilter]
-df = df.compute()  #Computes lazy dataframe and makes it non-lazy
-df = df.persist()  #will persist dataframe in RAM
-print(df)
+toFilter = True
+if toFilter == True:
+    trackSubset = ((df_all['k'] <= 72) | (df_all['k'] >= 42))  #which ICESAT tracks to use
+    boundSubset = ((df_all['y'] < 0) & (df_all['x'] >= 0))   #Geographical boundaries
+    sqlFilter = trackSubset & boundSubset
+    df = df_all[sqlFilter]
+elif toFilter == False:
+    df = df_all
+#df.visualize()
+
+if not isinstance(df, dd.DataFrame):
+    df = df.compute()  #Computes lazy dataframe and makes it non-lazy
+    df = df.persist()  #will persist dataframe in RAM
+print(df.__class__, df)
 assert(isinstance(df, dd.DataFrame))
 
 ### Part 2 Plot those datapoints!!
 #%matplotlib notebook
 %matplotlib inline
+#!conda install -y -c conda-forge nodejs
+#!jupyter labextension install jupyterlab_bokeh
 
 #%% Holoviews + Datashader + Geoviews
 #!conda install -y holoviews
@@ -258,27 +272,31 @@ gv_options = {'bgcolor':'black', 'show_grid':True}
 hvmap = projected_gv
 dsmap = datashade(hvmap, x_sampling=1, y_sampling=1, cmap=cm['fire'])
 gvmap = dynspread(dsmap.opts(plot=gv_options))
-gvmap * hv.util.Dynamic(aggregate(hvmap, width=5, height=5, streams=[PointerX]), operation=hv.QuadMesh)
+#gvmap * hv.util.Dynamic(aggregate(hvmap, width=5, height=5, streams=[PointerX]), operation=hv.QuadMesh)
 
-#%%
+#%% Usable
 #!pip install paramnb
 #!conda install -y -c ioam parambokeh
 import param
 import paramnb
-import parambokeh
+#import parambokeh
 
 minAlt = round(df['z'].min().compute(), -2)
 maxAlt = round(df['z'].max().compute(), -2)
+minTrk = int(df['k'].min().compute())
+maxTrk = int(df['k'].max().compute())
+
 
 class IceSatExplorer(hv.streams.Stream):
-    colormap  = param.ObjectSelector(default=cm["fire"], objects=cm.values())
-    altitude  = param.Range(default=(minAlt, maxAlt), bounds=(minAlt, maxAlt), doc="""Elevation of ICESAT laser point""")
-    timerange = param.Range()
+    colormap   = param.ObjectSelector(default=cm["fire"], objects=cm.values())
+    altitude   = param.Range(default=(minAlt, maxAlt), bounds=(minAlt, maxAlt), doc="""Elevation of ICESAT laser point""")
+    trackrange = param.Range(default=(minTrk, maxTrk), bounds=(minTrk, maxTrk), doc="""ICESAT Track subset""" )
+    timerange  = param.Range()
     
     def make_view(self, x_range=None, y_range=None, **kwargs):
         #map_tiles = tiles.opts(style=dict(alpha=self.alpha), plot=options) 
 
-        hvmap = projected_gv.select(z=self.altitude)
+        hvmap = projected_gv.select(z=self.altitude, k=self.trackrange)
         dsmap = datashade(hvmap, x_sampling=1, y_sampling=1, cmap=self.colormap,
                           dynamic=False, x_range=x_range, y_range=y_range)
         gv_options = {'bgcolor':'black', 'show_grid':True}
@@ -292,11 +310,75 @@ class IceSatExplorer(hv.streams.Stream):
         #                       width=800, height=475)
         #return map_tiles * taxi_trips
 
+#%% DEV TESTING!
+#TEST reproject dynamically with bounding box
+#!pip install paramnb
+#!conda install -y -c ioam parambokeh
+import param
+import paramnb
+#import parambokeh
+
+minAlt = round(df['z'].min().compute(), -2)
+maxAlt = round(df['z'].max().compute(), -2)
+minTrk = int(df['k'].min().compute())
+maxTrk = int(df['k'].max().compute())
+
+class IceSatExplorer(hv.streams.Stream):
+    #plotdims   = param.ObjectSelector(default=['x', 'y'], objects=[['x', 'y'], ['y', 'z'], ['x', 'z']])
+    colormap   = param.ObjectSelector(default=cm["fire"], objects=cm.values())
+    altitude   = param.Range(default=(minAlt, maxAlt), bounds=(minAlt, maxAlt), doc="""Elevation of ICESAT laser point""")
+    trackrange = param.Range(default=(minTrk, maxTrk), bounds=(minTrk, maxTrk), doc="""ICESAT Track subset""" )
+    timerange  = param.Range()
+    
+    def make_view(self, plotdims=['x', 'y'], x_range=None, y_range=None, **kwargs):
+        datas = projected_gv.select(z=self.altitude, k=self.trackrange).to(hv.Dataset)
+        
+        hvmap = datas.to(hv.Points, kdims=plotdims, vdims=['i', 'k'], groupby=[])
+        #dsmap = datashade(hvmap, cmap=self.colormap, dynamic=False, x_range=x_range, y_range=y_range)
+        #gv_options = {'bgcolor':'black', 'show_grid':True}
+        #gvmap = dynspread(dsmap.opts(plot=gv_options))
+        gvmap = hvmap
+        return gvmap
+    
+    def z_y_views(self, x_range, y_range):
+        x_min = x_range[0]; x_max = x_range[1]
+        y_min = y_range[0]; y_max = y_range[1]
+        
+        datas = projected_gv.select(x=x_range, y=y_range, z=self.altitude, k=self.trackrange).to(hv.Dataset)
+        hvmap = datas.to(hv.Points, kdims=self.plotdims, vdims=['i', 'k'], groupby=[])
+        dsmap = datashade(hvmap, cmap=self.colormap, dynamic=False, x_range=x_range, y_range=y_range)
+        gv_options = {'bgcolor':'black', 'show_grid':True}
+        gvmap = dynspread(dsmap.opts(plot=gv_options))
+        
+        return gvmap
+        #return pts
+        
 #%%
-%%output size=300  #set output size, e.g. 200 = 2x the default output size
-explorer = IceSatExplorer()
+%%output size=150  #set output size, e.g. 200 = 2x the default output size
+#%%opts Points [tools=['box_select', 'lasso_select']]
+explorer = IceSatExplorer() 
 paramnb.Widgets(explorer, callback=explorer.event)
-hv.DynamicMap(explorer.make_view, streams=[explorer, RangeXY()])
+
+def z_y_points(x_range, y_range):
+    x_min = x_range[0]; x_max = x_range[1]
+    #y_min = y_range[0]; y_max = y_range[1]
+    pts = projected_gv.select(x=x_range).to(hv.Dataset)
+    pts = pts.to(hv.Points, kdims=['z', 'y'], groupby=[])
+    return pts
+
+x_y = explorer.make_view(plotdims=['x', 'y'])
+dmap = hv.DynamicMap(z_y_points, streams=[hv.streams.RangeXY(x_range=(-2500000, 2500000), source=x_y)], kdims=[])
+
+dynspread(datashade(x_y)) + dynspread(datashade(dmap))
+
+#xy_map = hv.DynamicMap(explorer.make_view, streams=[explorer, RangeXY()])
+#xy_map
+#hv.help(xy_map)
+
+#+ \
+#datashade(dmap)
+#hv.DynamicMap(IceSatExplorer(plotdims=['x', 'z']).make_view, streams=[explorer, RangeXY(source=explorer.make_view)])
+
 
 #%% Matplotlib 2D
 plt.scatter(pdData.loc[:,['x']], pdData.loc[:,['y']]); #2d plot, will show Greenland on top right and Antarctica at the bottom
