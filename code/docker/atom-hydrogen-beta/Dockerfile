@@ -48,14 +48,17 @@ RUN conda install -y -c conda-forge \
     jupyterlab \
     && conda clean -tipsy
 
-# Install plotting libraries
+# Install big data, geospatial and plotting libraries
 RUN conda install -y -c conda-forge \
     -c bokeh \
     -c ioam \
         datashader \
+        fastparquet \
+        geopandas \
         geoviews \
         holoviews \
         python-graphviz \
+        python-snappy \
     && conda clean -tipsy
 
 # Using conda 4.4.0 from conda-canary https://github.com/conda/conda/blob/d4f0bd4ee9af42d3e72c65d690ed83a9cb6aad0f/CHANGELOG.md#440-unreleased
@@ -79,7 +82,20 @@ RUN curl -L -o atom-beta-amd64.deb https://atom.io/download/deb?channel=beta \
     && rm -f atom-beta-amd64.deb \
     && rm -rf /var/lib/apt/lists/*
 
+## Build geopandas-cython https://jorisvandenbossche.github.io/blog/2017/09/19/geopandas-cython/
+RUN apt-get -qq update && apt-get install -y --no-install-recommends \
+        build-essential \
+        libgeos-dev
+
 USER $USER
+
+RUN pip install --no-cache-dir \
+        Cython \
+    && git clone https://github.com/geopandas/geopandas $HOME/geopandas \
+    && cd $HOME/geopandas \
+    && git checkout geopandas-cython \
+    && make inplace \
+    && pip install .
 
 # Setup atom directory for user 'atom'
 RUN mkdir -p $HOME/.atom
@@ -88,9 +104,6 @@ RUN chown -R `whoami` $HOME/.atom
 
 # Using apm-beta to install hydrogen to $HOME/.atom
 RUN apm-beta install hydrogen
-
-# Install apm packages to view ipynb notebooks
-RUN apm-beta install browser-plus
 
 # Initiate Jupyter config and start Jupyter notebook service
 RUN jupyter lab --generate-config --no-browser
