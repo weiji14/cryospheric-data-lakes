@@ -31,38 +31,36 @@ RUN curl -L -o ~/miniconda.sh https://repo.continuum.io/miniconda/Miniconda3-lat
 
 ENV PATH=$HOME/miniconda3/bin:$PATH
 
+# Using conda 4.4.0 from conda-canary https://github.com/conda/conda/blob/d4f0bd4ee9af42d3e72c65d690ed83a9cb6aad0f/CHANGELOG.md#440-unreleased
+RUN conda install -y -c conda-canary conda
+
 # Install Scientific python libraries a la scipy-notebook https://github.com/jupyter/docker-stacks/blob/master/scipy-notebook/Dockerfile
-RUN pip install --no-cache-dir \
-    dask[dataframe] \
-    h5py \
-    matplotlib \
-    numpy \
-    pandas \
-    scikit-learn \
-    scipy \
-    tables \
-    xarray
-
 # Install jupyterlab https://github.com/jupyterlab/jupyterlab
-RUN conda install -y -c conda-forge \
-    jupyterlab \
-    && conda clean -tipsy
-
 # Install big data, geospatial and plotting libraries
-RUN conda install -y -c conda-forge \
-    -c bokeh \
-    -c ioam \
-        datashader \
+RUN conda install -y -c \
+        dask-core \
+        h5py \
+        matplotlib \
+        numpy \
+        pandas \
+        scikit-learn \
+        scipy \
+        pytables \
+        xarray \
+        jupyterlab \
         fastparquet \
         geopandas \
-        geoviews \
-        holoviews \
+        bokeh::datashader \
+        ioam::geoviews \
+        ioam::holoviews \
         python-graphviz \
         python-snappy \
     && conda clean -tipsy
 
-# Using conda 4.4.0 from conda-canary https://github.com/conda/conda/blob/d4f0bd4ee9af42d3e72c65d690ed83a9cb6aad0f/CHANGELOG.md#440-unreleased
-#RUN conda install -y -c conda-canary conda
+# Miscellaneous python packages to install
+RUN pip install --no-cache-dir \
+    aiohttp \
+    aioftp
 
 USER root
 
@@ -82,20 +80,7 @@ RUN curl -L -o atom-beta-amd64.deb https://atom.io/download/deb?channel=beta \
     && rm -f atom-beta-amd64.deb \
     && rm -rf /var/lib/apt/lists/*
 
-## Build geopandas-cython https://jorisvandenbossche.github.io/blog/2017/09/19/geopandas-cython/
-RUN apt-get -qq update && apt-get install -y --no-install-recommends \
-        build-essential \
-        libgeos-dev
-
 USER $USER
-
-RUN pip install --no-cache-dir \
-        Cython \
-    && git clone https://github.com/geopandas/geopandas $HOME/geopandas \
-    && cd $HOME/geopandas \
-    && git checkout geopandas-cython \
-    && make inplace \
-    && pip install .
 
 # Setup atom directory for user 'atom'
 RUN mkdir -p $HOME/.atom
@@ -112,11 +97,6 @@ RUN jupyter lab --generate-config --no-browser
 RUN python3 -m ipykernel install --user
 
 RUN jupyter kernelspec list --json
-
-# Miscellaneous python packages to install
-RUN pip install --no-cache-dir \
-    aiohttp \
-    aioftp
 
 # Setup default command to launch at docker container startup
 EXPOSE 8888

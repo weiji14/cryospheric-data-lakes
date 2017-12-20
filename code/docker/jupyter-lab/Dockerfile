@@ -31,35 +31,36 @@ RUN curl -L -o ~/miniconda.sh https://repo.continuum.io/miniconda/Miniconda3-lat
 
 ENV PATH=$HOME/miniconda3/bin:$PATH
 
-# Install Scientific python libraries a la scipy-notebook https://github.com/jupyter/docker-stacks/blob/master/scipy-notebook/Dockerfile
-RUN pip install --no-cache-dir \
-    dask[dataframe] \
-    h5py \
-    matplotlib \
-    numpy \
-    pandas \
-    scikit-learn \
-    scipy \
-    tables \
-    xarray
-
-# Install jupyterlab https://github.com/jupyterlab/jupyterlab
-RUN conda install -y -c conda-forge \
-    jupyterlab \
-    && conda clean -tipsy
-
-# Install plotting libraries
-RUN conda install -y -c conda-forge \
-    -c bokeh \
-    -c ioam \
-        datashader \
-        geoviews \
-        holoviews \
-        python-graphviz \
-    && conda clean -tipsy
-
 # Using conda 4.4.0 from conda-canary https://github.com/conda/conda/blob/d4f0bd4ee9af42d3e72c65d690ed83a9cb6aad0f/CHANGELOG.md#440-unreleased
-#RUN conda install -y -c conda-canary conda
+RUN conda install -y -c conda-canary conda
+
+# Install Scientific python libraries a la scipy-notebook https://github.com/jupyter/docker-stacks/blob/master/scipy-notebook/Dockerfile
+# Install jupyterlab https://github.com/jupyterlab/jupyterlab
+# Install big data, geospatial and plotting libraries
+RUN conda install -y -c \
+        dask-core \
+        h5py \
+        matplotlib \
+        numpy \
+        pandas \
+        scikit-learn \
+        scipy \
+        pytables \
+        xarray \
+        jupyterlab \
+        fastparquet \
+        geopandas \
+        bokeh::datashader \
+        ioam::geoviews \
+        ioam::holoviews \
+        python-graphviz \
+        python-snappy \
+    && conda clean -tipsy
+
+# Miscellaneous python packages to install
+RUN pip install --no-cache-dir \
+    aiohttp \
+    aioftp
 
 USER root
 
@@ -69,11 +70,6 @@ RUN apt-get -qq update && apt-get install -y --no-install-recommends \
     && rm -rf /var/lib/apt/lists/*
 
 USER $USER
-
-# Miscellaneous python packages to install
-RUN pip install --no-cache-dir \
-    aiohttp \
-    aioftp
 
 # Setup default command to launch at docker container startup
 EXPOSE 8888
