@@ -80,6 +80,12 @@ RUN curl -L -o atom-beta-amd64.deb https://atom.io/download/deb?channel=beta \
     && rm -f atom-beta-amd64.deb \
     && rm -rf /var/lib/apt/lists/*
 
+# Install TeX Live
+RUN apt-get -qq update && apt-get install -y --no-install-recommends \
+        lmodern \
+        texlive \
+    && rm -rf /var/lib/apt/lists/*
+
 USER $USER
 
 # Setup atom directory for user 'atom'
@@ -89,6 +95,9 @@ RUN chown -R `whoami` $HOME/.atom
 
 # Using apm-beta to install hydrogen to $HOME/.atom
 RUN apm-beta install hydrogen
+
+# Using apm-beta to install Markdown-preview-enhanced (primarily for Pandoc/LaTeX PDF export)
+RUN apm-beta install markdown-preview-enhanced
 
 # Initiate Jupyter config and start Jupyter notebook service
 RUN jupyter lab --generate-config --no-browser
