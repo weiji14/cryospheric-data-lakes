@@ -110,4 +110,4 @@ RUN jupyter kernelspec list --json
 # Setup default command to launch at docker container startup
 EXPOSE 8888
 WORKDIR $HOME
-CMD { jupyter lab --no-browser --ip=0.0.0.0 & } ; atom-beta -f $HOME/alp
+CMD { jupyter lab --no-browser --ip=0.0.0.0 & } ; atom-beta -f $HOME

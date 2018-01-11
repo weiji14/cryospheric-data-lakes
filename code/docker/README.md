@@ -32,7 +32,7 @@
 ### Build Example:
 Below are the code you can use to build the python3/atom-beta docker images, assuming that your terminal's current working directory is in ../code:
 
-`cd ~/path/to/antarctic-lakes-phd/code`
+`cd ~/path/to/cryospheric-data-lakes/code`
 
 `docker build -f docker/python3/Dockerfile -t icepy3 .`
 
@@ -99,7 +99,7 @@ Try running a python command from your terminal using the docker image you just 
 To start the jupyter lab server, assuming that your terminal's current working directory is in ../code
 
     $ docker run --rm -p 8888:8888                        `#Map port 8888 for Jupyter` \
-                  -v `dirname "$PWD"`:/home/atom/alp      `#Set working directory` \
+                  -v `dirname "$PWD"`:/home/atom          `#Set working directory` \
                   jlab                                    `#Run jupyter lab`
 
 There will be many lines printed out, and you will see an output similar to this at the end :
@@ -119,7 +119,7 @@ To open up the atom-beta editor environment, assuming that your terminal's curre
     $ docker run --rm -p 8888:8888                        `#Map port 8888 for Jupyter` \
                       -v /tmp/.X11-unix/:/tmp/.X11-unix/  `#X11 forwarding` \
                       -v /dev/shm:/dev/shm                `#ALSA forwarding` \
-                      -v `dirname "$PWD"`:/home/atom/alp  `#Set working directory` \
+                      -v `dirname "$PWD"`:/home/atom      `#Set working directory` \
                       -e DISPLAY                          `#Tell docker to display` \
                       ahb                                 `#Run atom-beta`
 
@@ -132,23 +132,23 @@ If you have your own atom editor and want to use your own configurations from yo
                       -v /tmp/.X11-unix/:/tmp/.X11-unix/  `#X11 forwarding` \
                       -v /dev/shm:/dev/shm                `#ALSA forwarding` \
                       -v ${HOME}/.atom:/home/atom/.atom \ `#Personalized .atom config` \
-                      -v `dirname "$PWD"`:/home/atom/alp  `#Set working directory` \
+                      -v `dirname "$PWD"`:/home/atom      `#Set working directory` \
                       -e DISPLAY                          `#Tell docker to display` \
                       ahb                                 `#Run atom-beta`
 
 To set up an alias you can run directly from the command-line, or pin to your Linux taskbar/dock:
 
-    $ alias alp-atom='cd path/to/antarctic-lakes-phd/code/ && \
+    $ alias cryodatalake-atom='cd path/to/cryospheric-data-lakes/code/ && \
             docker run --rm -p 8888:8888                        `#Map port 8888 for Jupyter` \
                             -v /tmp/.X11-unix/:/tmp/.X11-unix/  `#X11 forwarding`  \
                             -v /dev/shm:/dev/shm                `#ALSA forwarding` \
-                            -v `dirname "$PWD"`:/home/atom/alp  `#Set working directory` \
+                            -v `dirname "$PWD"`:/home/atom      `#Set working directory` \
                             -e DISPLAY                          `#Tell docker to display` \
                             ahb                                 `#Run atom-beta`
 
-    $ alp-atom     `#This single statement now runs the above code directly :woohoo:`
+    $ cryodatalake-atom     `#This single statement now runs the above code directly :woohoo:`
 
-Note that the alias only applies for your current login session, to make it permanent, add the "alias alp-atom ... " code block to the end of your ~/.bashrc file, or create a [~/.bash_aliases](https://askubuntu.com/questions/17536/how-do-i-create-a-permanent-bash-alias/17537#17537) file and put it in there.
+Note that the alias only applies for your current login session, to make it permanent, add the "alias cryodatalake-atom ... " code block to the end of your ~/.bashrc file, or create a [~/.bash_aliases](https://askubuntu.com/questions/17536/how-do-i-create-a-permanent-bash-alias/17537#17537) file and put it in there.
 
 **BONUS**: Once you launch the docker container, you can also access a [Jupyter Lab](https://github.com/jupyterlab/jupyterlab) IDE-like environment either through your own host browser at http://localhost:8888/ or http://0.0.0.0:8888/. You can also open it inside of Atom using `Ctrl+Shift+P` and typing `Browser Plus: Open`. The token code can be copied from the terminal where you executed the `docker run` statement.
 
@@ -163,7 +163,7 @@ After that, start MobaXterm, configure X server: Settings -> X11 (tab) -> set X1
 
     D:\path\to\top-level-directory
 
-    > docker run --rm -p 8888:8888 -v "%cd%:/home/atom/alp" -e DISPLAY=10.64.66.107:0.0 ahb
+    > docker run --rm -p 8888:8888 -v "%cd%:/home/atom -e DISPLAY=10.64.66.107:0.0 ahb
 
 The display IP address you should use can be found in MobaXterm if you click on 'Start local terminal'.
 
@@ -178,7 +178,7 @@ Alternatively, you can try using Xming (see [here](https://github.com/moby/moby/
 
 Then you can do:
 
-    > docker run --rm -p 8888:8888 -v "%cd%:/home/atom/alp" -e DISPLAY=10.0.75.1:0 ahb
+    > docker run --rm -p 8888:8888 -v "%cd%:/home/atom" -e DISPLAY=10.0.75.1:0 ahb
 
 Useful guide on how it should look like if it works:
 

@@ -73,5 +73,5 @@ USER $USER
 
 # Setup default command to launch at docker container startup
 EXPOSE 8888
-WORKDIR /home/atom
+WORKDIR $HOME
 CMD jupyter lab --no-browser --ip=0.0.0.0

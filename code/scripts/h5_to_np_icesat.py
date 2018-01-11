@@ -15,7 +15,7 @@ import tables
 import xarray as xr
 
 #print(os.getcwd())
-os.chdir('/home/atom/alp/data/icesat/GLAH12.034/2003.02.20')
+os.chdir(os.environ['HOME']+"/data/icesat/GLAH12.034/2003.02.20")
 print(os.getcwd())
 
 ### Part 1 Load Data
@@ -130,8 +130,8 @@ npData, pdData, xrData = h5_to_pydata("GLAH12_634_1102_001_0071_0_01_0001.H5", h
 df1 = pdData.loc[:,['x','y','k','i']].loc[lambda df: df.y < 0]  #filter for Antarctica only (South of Equator)
 
 df = df40
-#pdData.to_csv("/home/atom/alp/code/scripts/pdData.csv")   #export Greenland and Antarctic data
-#df.to_csv("/home/atom/alp/code/scripts/pdData.csv")       #export Antarctic data (South of Equator) only
+#pdData.to_csv(/os.environ['HOME']+"/code/scripts/pdData.csv")   #export Greenland and Antarctic data
+#df.to_csv(os.environ['HOME']+"code/scripts/pdData.csv")       #export Antarctic data (South of Equator) only
 
 #%% Dask
 #See also VITables, a GUI for PyTables https://github.com/uvemas/ViTables
@@ -140,7 +140,7 @@ p = ProgressBar()  #Real-time feedback on dask processes
 p.register()
 
 #%% Info inside the HDF5 file
-#h5file = os.path.join('/home/atom/alp/data/icesat/GLAH12.034/2003.02.20/GLAH12_634_1102_001_0071_0_01_0001_test.H5')
+#h5file = os.path.join(os.environ['HOME']+"/data/icesat/GLAH12.034/2003.02.20/GLAH12_634_1102_001_0071_0_01_0001_test.H5")
 #[k for k in h5py.File(h5file, "r").keys()]
 #list(h5fields40hz.values())[0]
 
@@ -166,10 +166,10 @@ p.register()
 bugFixed = False
 if bugFixed == True:
     #ideal command to run once ICESAT dask.read_hdf bug is fixed, upstream problem with PyTables https://github.com/PyTables/PyTables/issues/647
-    df40 = dd.read_hdf('/home/atom/alp/data/icesat/GLAH12.034/**/*.H5', key='/Data_40HZ')
-    df1 = dd.read_hdf('/home/atom/alp/data/icesat/GLAH12.034/**/*.H5', key='/Data_1HZ')
+    df40 = dd.read_hdf(os.environ['HOME']+"/data/icesat/GLAH12.034/**/*.H5', key='/Data_40HZ")
+    df1 = dd.read_hdf(os.environ['HOME']+"/data/icesat/GLAH12.034/**/*.H5', key='/Data_1HZ")
 else:
-    hpyPath = "/home/atom/alp/data/icesat/GLAHPY12.034"
+    hpyPath = os.environ['HOME']+"/data/icesat/GLAHPY12.034"
     os.makedirs(hpyPath, mode=0o777, exist_ok=True)
     def pdData_to_hdf(h5f):
         outFile = hpyPath+"/"+h5f.split('/')[-1]
@@ -180,8 +180,8 @@ else:
             pd1 = h5_to_pydata(h5f, h5fields1hz)[1]
             pd1.to_hdf(outFile, key="/Data_1HZ", format='table', mode='a')
     if len(glob.glob(hpyPath+'/*.H5')) != 637:
-        [pdData_to_hdf(h) for h in glob.iglob('/home/atom/alp/data/icesat/GLAH12.034/**/*.H5')]  #convert data from raw NSIDC supplied HDF5 into PyTables compatible format
-    subsetLen = 20
+        [pdData_to_hdf(h) for h in glob.iglob(os.environ['HOME']+"/data/icesat/GLAH12.034/**/*.H5")]  #convert data from raw NSIDC supplied HDF5 into PyTables compatible format
+    subsetLen = 2
     subsetFiles = glob.glob(hpyPath+'/*.H5')[:subsetLen]
     df40 = dd.read_hdf(subsetFiles, key='/Data_40HZ')  #workaround command to load Data_40HZ data into dask, not dask.delayed so slow
     df1 = dd.read_hdf(subsetFiles, key='/Data_1HZ')   #workaround command to load Data_40HZ data into dask, not dask.delayed so slow
@@ -192,7 +192,7 @@ else:
 assert(list(h5fields40hz.keys()) == ['i', 'x', 'y', 'z', 't'])
 assert(list(h5fields1hz.keys()) == ['i', 'x', 'y', 'k', 't'])
 df_all = dask.delayed(df40.merge)(df1[['i', 'k']], on='i')   #Perform dask delayed parallel join
-os.chdir('/home/atom/alp/code/scripts')                      #change directory so that mydask.png can be saved to the right directory when running dask.visualize()
+os.chdir(os.environ['HOME']+"/code/scripts")                 #change directory so that mydask.png can be saved to the right directory when running dask.visualize()
 #df_all.visualize()
 
 #%% Computationally intensive code if running on full ICESAT dataset!!
@@ -421,7 +421,7 @@ map_osm
 import laspy
 print(laspy.__version__)
 header = laspy.header.Header()
-outfile = laspy.file.File("/home/atom/alp/code/scripts/output.las", mode="w", header=header)
+outfile = laspy.file.File(os.environ['HOME']+"/code/scripts/output.las", mode="w", header=header)
 
 allx = df.loc[:,['x']].values.flatten()
 ally = df.loc[:,['y']].values.flatten()
