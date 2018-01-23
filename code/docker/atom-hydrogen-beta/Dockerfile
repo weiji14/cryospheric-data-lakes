@@ -98,6 +98,7 @@ RUN apm-beta install hydrogen
 
 # Using apm-beta to install Markdown-preview-enhanced (primarily for Pandoc/LaTeX PDF export)
 RUN apm-beta install markdown-preview-enhanced
+RUN echo "\"*\":\n  \"markdown-preview-enhanced\":\n    usePandocParser: true" >> $HOME/.atom/config.cson
 
 # Initiate Jupyter config and start Jupyter notebook service
 RUN jupyter lab --generate-config --no-browser
