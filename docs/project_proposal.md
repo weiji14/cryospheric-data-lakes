@@ -9,6 +9,7 @@ author: Wei Ji Leong
 institute: |
   | Antarctic Research Centre
   | Victoria University of Wellington
+keywords: Antarctica, big data, deep learning, convolutional neural networks, computer vision
 output: pdf_document
 #toc: true
 date: \today
@@ -35,16 +36,47 @@ For us, we introduce another layer of complexity by attempting to combine such s
 
 From first principles, we assert that an exponential rise in the amount of data necessitates the use of exponentially growing technologies, so that the amount of value generated from the data per unit time can increase proportionately.
 To tackle this, we adhere ourselves to an automated data processing workflow that is as reproducible as possible, down to the very copies of the software and data used.
-On the hardware front, we make use of Graphical Processing Units (GPUs) where possible to speed up our neural network model's calculations.
+On the hardware front, we make use of Graphical Processing Units (GPUs) where possible to speed up our neural network model's calculations [see @SteinkrausUsingGPUsmachine2005].
 On the software front, parallel implementations of algorithms and self learning artificial intelligence modules offer us a similar speed up advantage in analyzing the data.
 Taken together, these increases result in several magnitude orders of improved runtime efficiencies, allowing us to scale alongside the volumes of data being collected to analyze.
 Keeping up with these technological improvements will allow for more experimental iterations even as our data repository size grows, thus improving our chances of uncovering groundbreaking discoveries within a reasonable amount of time.
 
 ## Previous work
 
-Mention previous studies in this field.
+### Subglacial lake inventories
 
 
+
+### Convolutional Neural Networks
+
+Convolutional Neural Networks have existed since @LeCunBackpropagationAppliedHandwritten1989, and have been shown to outperform pattern recognition tasks [e.g. @LecunGradientbasedlearningapplied1998].
+
+There are many ways to classify different Convolutional Neural Network (ConvNet) architectures, but for the purposes of our subglacial lake detection exercise which is of one object class type, we can focus on the degree to which the boundaries of the lake can be segmented.
+In order of increasing complexity, we can present pattern recognition problems as one of:
+
+- Image Classification (e.g. @LecunGradientbasedlearningapplied1998; @SimonyanVeryDeepConvolutional2014; @KrizhevskyImageNetclassificationdeep2017)
+- Object Localization (e.g. @GirshickRichfeaturehierarchies2013; @GirshickFastRCNN2015; @RenFasterRCNNRealTime2015; @RedmonYouOnlyLook2015; @RedmonYOLO9000BetterFaster2016)
+- Object Segmentation (e.g. @LongFullyConvolutionalNetworks2014; @RonnebergerUNetConvolutionalNetworks2015; @JegouOneHundredLayers2016; @HeMaskRCNN2017).
+
+Note that these three different ConvNet classes relate to the output node of the ConvNet and not the architectural complexity or depth of the ConvNet's hidden layers.
+It can be argued however, that an object segmentation ConvNet would require a more specialized architecture with more layers than an image classification ConvNet.
+
+For the Object Localization class of ConvNets, we can identify two broad family groups.
+The Region-based family of R-CNN ConvNets such as R-CNN [@GirshickRichfeaturehierarchies2013], Fast-RCNN [@GirshickFastRCNN2015], and Faster R-CNN [@RenFasterRCNNRealTime2015] involves a two-step pipeline that first divides an image into regions before running a classifier algorithm on those regions to output bounding boxes.
+The Regression-based family of ConvNets such as YOLO [@RedmonYouOnlyLook2015], Multibox SSD [@LiuSSDSingleShot2015], and YOLOv2 [@RedmonYOLO9000BetterFaster2016] takes a unified approach with a single neural network that simultaneously predicts bounding boxes and class probabilities.
+While state-of-the-art regression-based ConvNets such as YOLOv2 [@RedmonYOLO9000BetterFaster2016] tend to be faster and more capable as real-time object detection systems, they present a tradeoff in accuracy when compared to region-based ConvNets like Faster-RCNN [@RenFasterRCNNRealTime2015], especially if they are trained on fewer examples or tasked with identifying smaller objects [@HuangSpeedaccuracytradeoffs2016; @XiaDOTALargescaleDataset2017].
+
+For the Object Segmentation class of ConvNets, we can describe the evolution of this class from a basic Fully Convolutional Network to one that has been extended with multiple skip-connections.
+Fully Convolutional Networks are neural networks without the fully connected layers seen in regular deep feedforward neural networks.
+Their fully convolutional-based nature allows input images of any arbitrary size and preserves spatial information [@LongFullyConvolutionalNetworks2014].
+The U-Net architecture is an implementation of this Fully Convolutional Network that has a symmetric contracting and expanding path, and it has been applied successfully to the field of biomedicine [@RonnebergerUNetConvolutionalNetworks2015] and remote sensing [e.g. @LiDeepUNetDeepFully2017; @ZhangRoadExtractionDeep2017; @ZhuDeepLearningRemote2017].
+By using DenseNets [@HuangDenselyConnectedConvolutional2016] which are an extension of ResNets [@HeDeepResidualLearning2015], Fully Convolutional Networks can be made even deeper while maintaining a reasonable number of parameters to obtain better image segmentation results [@JegouOneHundredLayers2016].
+
+Although many new ConvNet developments appear regularly in this fast moving computer vision field, the basic mechanics of convolutional and pooling layers are still well established elements present in most of the papers listed above.
+That said, there are other architectural advances to keep note of which challenge important components of ConvNet architectures.
+Some promising experimental work has been done to replace the convolutional and pooling layers of a ConvNet with an Recurrent Neural Network (RNN)-based alternative [@VisinReNetRecurrentNeural2015; @VisinReSegRecurrentNeural2015], or even supplement ConvNets with RNNs when applying them to higher dimensional datasets such as 3D point clouds [@Liu3DCNNDQNRNNDeepReinforcement2017] or multi-temporal remote sensing datasets [@MinhDeepRecurrentNeural2017; @IencoLandCoverClassification2017].
+Atrous or Dilated Convolutions are another development that allows us to enlarge the field of view of filters for deeper layers while preserving spatial resolution [@ChenDeepLabSemanticImage2016; @ChenRethinkingAtrousConvolution2017; @ZhangProgressivelyDiffusedNetworks2017; @YuDilatedResidualNetworks2017; @ZhangImageSegmentationPyramid2017].
+Futhermore, we have Capsule Networks (CapsNet) which can preserve detailed spatial position and pose information of objects in an equivariant manner, overcoming the limitations of maxpooling layers that can only handle object invariance [@SabourDynamicRoutingCapsules2017].
 
 # Proposed Research
 
@@ -149,6 +181,16 @@ The current javascript-only implementation of this data transfer protocol presen
 ### Data ingestion
 
 With our highly reproducible and cryptographically secure version-control frameworks in place, we move on to the actual work of readying our data for feeding into our model.
+
+### Convolutional Neural Network
+
+Given an input of a multi-dimensional image of Antarctica, the goal of our subglacial lake identification project would be to determine each location of our lake.
+Training an image classification ConvNet, specifically a binary image classifier, would tell us if a region of interest does or does not contain a lake. With an object localization classifier, it may output a bounding box which gives us a better answer. Finally for an object segmentation classifier, the exact boundaries of a lake can be probabilitically determined down to each geographical pixel.
+
+Our proposed ConvNet architecture will be as follows:
+
+
+
 
 
 
