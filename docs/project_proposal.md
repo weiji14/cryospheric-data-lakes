@@ -10,6 +10,7 @@ institute: |
   | Antarctic Research Centre
   | Victoria University of Wellington
 keywords: Antarctica, big data, deep learning, convolutional neural networks, computer vision
+geometry: margin=2.5cm
 output: pdf_document
 #toc: true
 date: \today
@@ -93,19 +94,51 @@ We assume that our deep neural networks will work better with more messy data th
 
 ## Datasets
 
-The data for our study will include, but is not limited to, satellite-based datasets (e.g. ICESAT, CryoSat) supplemented by derived products (e.g. BEDMAP2) and data from airborne geophysical missions (e.g. Operation Icebridge). Subglacial lake boundary training data will use information from published inventories, and there will be some scope for additiional field data collection for groundtruthing purposes.
+The deep learning models will require the use of Antarctic datasets with nearly full coverage of the continent.
+For the supervised classification task, our input data will include stacked layers of gridded raster datasets, and these will be mapped to known output labels or masks of subglacial lake areas.
+Input data for our study will include single-satellite digital terrain models (e.g. ICESAT, CryoSat), compiled products (e.g. BEDMAP2) and model outputs (e.g. MEASURES Ice flow speed).
+Output data will come from published subglacial lake inventory collections.
+For select regions of interest, we may source finer resolution data directly from airborne geophysical missions (e.g. Operation Icebridge) and there will be some scope for additional field data collection for groundtruthing purposes.
 
-### Geophysical data
+Our criteria for incorporating a dataset into the shortlist is prioritized based on factors like spatial resolution and whether they have the potential to be useful for our subglacial lake classification task.
+Where data products of similar types are available, we tend to choose the latest version, keeping an older version only if it has some value not found in the newer version.
+For example, we have two Digital Elevation Models (DEM), one from ICESAT data, and one from CryoSat-2 data, as even though the ICESAT DEM is older, it is of higher spatial resolution and also sourced from a laser altimeter compared to CryoSat-2's radar altimeter.
 
-- ICESAT - LiDAR
-- CryoSat - Radar
-- BEDMAP2 - Mixture
 
-### Training data
+### Training data - Raster Arrays
 
-- Smith lakes [@Smithinventoryactivesubglacial2009]
-- 4th Inventory [@WrightfourthinventoryAntarctic2012]
+|Type         | Sensor Type     | Name                    | Spatial Resolution | Literature Citation                          | Data Citation                            |
+|:----------- |:----------------|:----------------------- | ------------------:|:-------------------------------------------- |:---------------------------------------- |
+| Imagery     | Radar           | RAMP RADARSAT mosaic    |               100m | [@JezekGlaciologicalpropertiesAntarctic1999] | [@JezekRAMPAMM1SAR2013]                  |
+| Imagery     | Multi-spectral  | MODIS MOA               |               125m | [@ScambosMODISbasedMosaicAntarctica2007]     | [@TerryHaranMODISMosaicAntarctica2014]   |
+| Terrain     | Radar           | RAMP2 DEM               |               200m | [@JezekGlaciologicalpropertiesAntarctic1999] | [@LiuRadarsatAntarcticMapping2001]       |
+| Terrain     | Laser Altimeter | GLAS/ICESat DEM         |               500m | [@ShumanICESatAntarcticelevation2006]        | [@DimarzioGLASICESat5002007]             |
+| Terrain     | Radar Altimeter | CryoSat-2 DEM           |              1000m | [@HelmElevationelevationchange2014]          |                                          |
+| Terrain     | Multiple        | BEDMAP2                 |              1000m | [@FretwellBedmap2improvedice2013]            |                                          |
+| Glacio-logy | Radar           | MEASURES Ice flow speed |               450m | [@RignotIceFlowAntarctic2011;@MouginotMappingIceMotion2012] | [@RignotMEaSUREsInSARBasedAntarctica2017]
+| Glacio-logy | Model           | Subglacial water flux   |              1000m | [@LeBrocqEvidenceiceshelves2013]             |                                          |
+| Geo-physics | Magnetic        | Subglacial heat flux    |             15000m | [@MartosHeatFluxDistribution2017]            | [@MartosAntarcticgeothermalheat2017]     |
+| Geo-physics | Gravity         | AntGG Gravity Anomaly   |             10000m | [@ScheinertNewAntarcticgravity2016]          | [@ScheinertAntarcticfreeaircomplete2016] |
+| Geo-physics | Gravity         | SatGravRET2014          |             10000m | [@Hirtnewdegree2190102016]                   |                                          |
 
+
+### Training data - Vector Labels
+
+#### Subglacial Lake Inventories
+
+| Vector Type | Name                                         | Count | Citation                              |
+|:----------- |:-------------------------------------------- |:-----:|:------------------------------------- |
+| Polygon     | Smith et al.                                 |  124  | [@Smithinventoryactivesubglacial2009] |
+| Point       | Wright & Siegert                             |  379  | [@WrightfourthinventoryAntarctic2012] |
+
+#### Individual Subglacial Lakes
+
+| Vector Type | Name                                         | Count | Citation                              |
+|:----------- |:-------------------------------------------- |:-----:|:------------------------------------- |
+| Polygon     | Vostok Subglacial Lake                       |   1   | [@StudingerIcecoverlandscape2003]     |
+| Polygon     | Recovery Subglacial Lakes                    |   4   | [@BellLargesubglaciallakes2007]       |
+| Polygon     | Kamb Subglacial Lakes                        |   3   | [@KimActivesubglaciallakes2016]       |
+| Polygon     | Thwaites Subglacial Lakes                    |   4   | [@SmithConnectedsubglaciallake2017]   |
 
 
 # Data Science Workflow
