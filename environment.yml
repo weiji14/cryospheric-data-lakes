@@ -1,28 +1,26 @@
 name: cryodatalake
 channels:
-  - bokeh
-  - conda-canary
   - ioam
   - conda-forge
   - defaults
 dependencies:
   - dask-core
+  - datashader
+  - fastparquet
+  - geopandas
+  - ioam::geoviews
   - h5py
+  - holoviews
+  - jupyterlab
   - matplotlib
   - numpy
   - pandas
-  - scikit-learn
-  - scipy
   - pytables
-  - xarray
-  - jupyterlab
-  - fastparquet
-  - geopandas
-  - datashader
-  - geoviews
-  - holoviews
   - python-graphviz
   - python-snappy
+  - scikit-learn
+  - scipy
+  - xarray
   - pip:
     - aioftp
     - aiohttp
