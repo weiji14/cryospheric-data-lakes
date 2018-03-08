@@ -26,35 +26,35 @@ RUN curl -L -o ~/miniconda.sh https://repo.continuum.io/miniconda/Miniconda3-lat
     && /bin/bash ~/miniconda.sh -b -p $HOME/miniconda3 \
     && rm ~/miniconda.sh \
     && $HOME/miniconda3/bin/conda config --system --prepend channels conda-forge \
+    && $HOME/miniconda3/bin/conda update -n base -c defaults conda \
     && $HOME/miniconda3/bin/conda update --all --yes \
     && $HOME/miniconda3/bin/conda clean -tipsy
 
 ENV PATH=$HOME/miniconda3/bin:$PATH
 
-# Using conda 4.4.0 from conda-canary https://github.com/conda/conda/blob/d4f0bd4ee9af42d3e72c65d690ed83a9cb6aad0f/CHANGELOG.md#440-unreleased
-RUN conda install -y -c conda-canary conda
-
 # Install Scientific python libraries a la scipy-notebook https://github.com/jupyter/docker-stacks/blob/master/scipy-notebook/Dockerfile
 # Install jupyterlab https://github.com/jupyterlab/jupyterlab
 # Install big data, geospatial and plotting libraries
-RUN conda install -y -c \
+RUN conda install -y \
+    -c conda-forge \
+    -c ioam \
         dask-core \
+        datashader \
+        fastparquet \
+        geopandas \
+        geoviews \
         h5py \
+        holoviews \
+        jupyterlab \
         matplotlib \
         numpy \
         pandas \
-        scikit-learn \
-        scipy \
         pytables \
-        xarray \
-        jupyterlab \
-        fastparquet \
-        geopandas \
-        bokeh::datashader \
-        ioam::geoviews \
-        ioam::holoviews \
         python-graphviz \
         python-snappy \
+        scikit-learn \
+        scipy \
+        xarray \
     && conda clean -tipsy
 
 # Miscellaneous python packages to install
