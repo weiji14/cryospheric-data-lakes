@@ -75,9 +75,21 @@ By using DenseNets [@HuangDenselyConnectedConvolutional2016] which are an extens
 
 Although many new ConvNet developments appear regularly in this fast moving computer vision field, the basic mechanics of convolutional and pooling layers are still well established elements present in most of the papers listed above.
 That said, there are other architectural advances to keep note of which challenge important components of ConvNet architectures.
-Some promising experimental work has been done to replace the convolutional and pooling layers of a ConvNet with an Recurrent Neural Network (RNN)-based alternative [@VisinReNetRecurrentNeural2015; @VisinReSegRecurrentNeural2015], or even supplement ConvNets with RNNs when applying them to higher dimensional datasets such as 3D point clouds [@Liu3DCNNDQNRNNDeepReinforcement2017] or multi-temporal remote sensing datasets [@MinhDeepRecurrentNeural2017; @IencoLandCoverClassification2017].
-Atrous or Dilated Convolutions are another development that allows us to enlarge the field of view of filters for deeper layers while preserving spatial resolution [@ChenDeepLabSemanticImage2016; @ChenRethinkingAtrousConvolution2017; @ZhangProgressivelyDiffusedNetworks2017; @YuDilatedResidualNetworks2017; @ZhangImageSegmentationPyramid2017].
+The standard convolution operation in a ConvNet can be factorized into a more efficient depth-wise separable convolution [@SifreRigidMotionScatteringImage2014] that consists of a channel-wise spatial convolution followed by a pointwise convolution.
+This results in a lighter parameter footprint, making it less computationally expensive with only a slight accuracy loss [@HowardMobileNetsEfficientConvolutional2017], and enabling faster model convergence [@CholletXceptionDeepLearning2016]. Atrous or Dilated Convolutions are another development that allows us to enlarge the field of view of filters for deeper layers while preserving spatial resolution [@ChenDeepLabSemanticImage2016; @ChenRethinkingAtrousConvolution2017; @ZhangProgressivelyDiffusedNetworks2017; @YuDilatedResidualNetworks2017; @ZhangImageSegmentationPyramid2017].
+
+Some promising experimental work have also been done to replace the convolutional and pooling layers of a ConvNet with an Recurrent Neural Network (RNN)-based alternative [@VisinReNetRecurrentNeural2015; @VisinReSegRecurrentNeural2015], or even supplement ConvNets with RNNs when applying them to higher dimensional datasets such as 3D point clouds [@Liu3DCNNDQNRNNDeepReinforcement2017] or multi-temporal remote sensing datasets [@MinhDeepRecurrentNeural2017; @IencoLandCoverClassification2017].
 Futhermore, we have Capsule Networks (CapsNet) which can preserve detailed spatial position and pose information of objects in an equivariant manner, overcoming the limitations of maxpooling layers that can only handle object invariance [@SabourDynamicRoutingCapsules2017].
+
+Well trained ConvNets can offer state of the art accuracy in classification tasks, but they have also inspired other interesting applications.
+One such application is the Super-Resolution Convolutional Neural Network (SRCNN) which is a regression method used to increase the resolution of images [@DongImageSuperResolutionUsing2014], a technology that has since been applied to turn coarse resolution climate models to finer resolution ones via statistical downscaling with the addition of additional input channels, allowing us to capture climate patterns at local levels. [@VandalDeepSDGeneratingHigh2017].
+In the art world, the neural representations learned by the intermediate layers of a ConvNet has also been used to tranfer the content and style from one artform to another [@GatysNeuralAlgorithmArtistic2015].
+
+Given the empirical success of ConvNets, it has started to attract much more critical attention than ever and there is a growing movement to interpret the decision making process of such black box models.
+On one hand, there are valid concerns for needing to improve interpretability arising from the advent of adversarial attacks which can make ConvNets output incorrect predictions a human would not make [@SzegedyIntriguingpropertiesneural2013].
+These adversarial problems are part of the motivation for us to ensure that our proposed research project is end to end reproducible, starting from cryptographically securing the data we input into our ConvNet models.
+On the other hand, having a rich grammar of interpretability starting from building blocks like feature visualization, attribution and dimensionality reduction can help us to derive more meaning from what a ConvNet sees [@OlahBuildingBlocksInterpretability2018], potentially leading to insights that can pave the way for more research avenues into the future.
+
 
 # Proposed Research
 
@@ -104,7 +116,6 @@ Our criteria for incorporating a dataset into the shortlist is prioritized based
 Where data products of similar types are available, we tend to choose the latest version, keeping an older version only if it has some value not found in the newer version.
 For example, we have two Digital Elevation Models (DEM), one from ICESAT data, and one from CryoSat-2 data, as even though the ICESAT DEM is older, it is of higher spatial resolution and also sourced from a laser altimeter compared to CryoSat-2's radar altimeter.
 
-
 ### Training data - Raster Arrays
 
 |Type         | Sensor Type     | Name                    | Spatial Resolution | Literature Citation                          | Data Citation                            |
@@ -120,7 +131,6 @@ For example, we have two Digital Elevation Models (DEM), one from ICESAT data, a
 | Geo-physics | Magnetic        | Subglacial heat flux    |             15000m | [@MartosHeatFluxDistribution2017]            | [@MartosAntarcticgeothermalheat2017]     |
 | Geo-physics | Gravity         | AntGG Gravity Anomaly   |             10000m | [@ScheinertNewAntarcticgravity2016]          | [@ScheinertAntarcticfreeaircomplete2016] |
 | Geo-physics | Gravity         | SatGravRET2014          |             10000m | [@Hirtnewdegree2190102016]                   |                                          |
-
 
 ### Training data - Vector Labels
 
@@ -175,8 +185,7 @@ Conda environments can be created for individual projects, are isolated from oth
 
 In a nutshell, conda manages to extend the ease of use of the pip Python package manager to multiple languages and operating system platforms.
 Much of its value lies in the ability to quickly install a software package using conda to do some ad hoc analysis without messing with dependencies and compilers, and still maintain a degree of assurance that the environment can be reliably reproduced at another place.
-While it is not quite as robust as a docker container, conda virtual environments trades off perfect reprobucibility with practicality as is usually the case during exploratory analysis stages when one is trying to see if something new will work.
-
+While it is not quite as robust as a docker container, conda virtual environments trades off perfect reproducibility with practicality as is usually the case during exploratory analysis stages when one is trying to see if something new will work.
 
 ## Version control system
 
@@ -211,16 +220,47 @@ The current javascript-only implementation of this data transfer protocol presen
 
 ## Model development
 
-### Data ingestion
+### Data preparation
 
 With our highly reproducible and cryptographically secure version-control frameworks in place, we move on to the actual work of readying our data for feeding into our model.
+The heterogeneous nature of our datasets presents some challenges, but the observation-level data fusion process can be structured as a step by step process consisting of data alignment and data correlation, otherwise known as matching and coregistration in remote sensing terminology [@SchmittDataFusionRemote2016].
+
+Geographic data can be broadly classified into vector and raster datasets, with the former being more suitable for discrete datasets, and the latter more associated with continuous datasets.
+For each spot on the surface, we will assemble all the sensor measurements available for that spot using locational attributes tied to the sensor data.
+As we are interested in the continuous spatial variation of adjacent sensor measurements at any one spot, which may determine the presence or absence of subglacial features, we choose to employ the continuous raster format in our Geographic Information System (GIS).
+
+Each data layer can be stacked together to create a multi-dimensional raster image that will feed into our computer vision model.
+Conceptually, we can think of stacking multiple input feature layers in much the same way as stacking multiple bands in a multipectral optical satellite image.
+In order to create the stack, we will first reproject each input layer to a common projected coordinate system - the Antarctic Polar Stereographic (EPSG:3031) which is a conformal projection system based on the WGS84 ellipsoid surface.
+
+Next, each layer may need to be undergo further transformation so that the pixels are aligned across layers, either via a translational shift and/or resampling to a common spatial resolution.
+For the resampling process, we may choose to use classical resampling techniques such as bilinear or bicubic interpolation, or a custom spline interpolation method.
+Alternatively, it is also possible to employ Super-Resolution Convolutional Neural Network (SRCNN) to increase the spatial resolution of the raster [@DongImageSuperResolutionUsing2014].
+For example, we can train an SRCNN to capture interdependencies with variables in the other layers to improve the reliability of the upscaling function [@VandalDeepSDGeneratingHigh2017], compared to a standard bicubic interpolation method which only looks at information from a single layer.
+
+Once this is done, we will generate standardized square tiles of the stacked multi-layer raster.
+Each tile will be centered on one subglacial lake polygon, and may contain more than one lake if lakes are found close to each other.
+Thus, the number of training tiles would equal the number of lakes in our compiled subglacial lake inventory.
+
+At this point, we will divide our dataset into a training set and cross-validation set.
+The training set will be used to train our ConvNet model, while the cross-validation set will be used to evaluate the performance of that model across different hyperparameter settings.
+Furthermore, we will also have a test set to independently verify our final model.
+This test set will likely be generated from the data in the point-only subglacial lake inventory [@WrightfourthinventoryAntarctic2012].
+
+As our training sample is very small, just over a hundred or so, we will also use data augmentation to virtually increase our training set.
+Data augmentation will involve randomly tranforming our tiles, by any combination of the following: mirror image, vertical/horizontal shifts, rotation, shear warping, cropping, adding noise, etc.
+Such data augmentations will reduce the likelihood of overfitting in our ConvNet model.
 
 ### Convolutional Neural Network
 
 Given an input of a multi-dimensional image of Antarctica, the goal of our subglacial lake identification project would be to determine each location of our lake.
-Training an image classification ConvNet, specifically a binary image classifier, would tell us if a region of interest does or does not contain a lake. With an object localization classifier, it may output a bounding box which gives us a better answer. Finally for an object segmentation classifier, the exact boundaries of a lake can be probabilitically determined down to each geographical pixel.
+Training an image classification ConvNet, specifically a binary image classifier, would tell us if a region of interest does or does not contain a lake.
+With an object localization classifier, it may output a bounding box which gives us a better answer.
+Finally for an object segmentation classifier, the exact boundaries of a lake can be probabilitiscally determined down to each geographical pixel.
 
-Our proposed ConvNet architecture will be as follows:
+Our proposed ConvNet will initially be architectured as follows:
+
+
 
 
 
