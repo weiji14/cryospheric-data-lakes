@@ -53,11 +53,24 @@ Keeping up with these technological improvements will allow for more experimenta
 
 
 
+# Proposed Research
 
+## Research questions
 
+The goal of this research is to explore the applicability of deep learning to extract information from cryospheric remote sensing datasets, with a particular focus on Antarctic subglacial hydrology.
+Due to the rich variation and large amount of openly available cryospheric datasets we have, we will first attempt to make full use of the spatial correlations between different physical datasets to increase the spatial resolution of lower resolution datasets.
+Next, we can align and stack these different high resolution datasets together and train a neural network on known subglacial lakes, and see if this can yield potential lakes yet to be discovered by classical methods.
+Finally, we will interpret the ConvNet model's intermediate layers and see how it may inform a new generation of cryospheric research and potentially improve ice sheet models.
+The questions to be addressed are as follows:
 
+(@) What is the potential of using a Super-image Resolution Convolutional Neural Network to increase the spatial resolution of cryospheric datasets?
+Where might this resolution enhancement perform adequately and where might it fail compared to standard resampling techniques?
 
+(@) How can we architect and train a Deep Convolutional Neural Network on a high-dimensional raster dataset to detect subglacial lakes?
+What are the building blocks and hyperparameters that will allow this ConvNet to work well?
 
+(@) Why does a Deep Convolutional Neural Network predict that a subglacial lake is present or absent in any one particular area?
+How might we apply deep learning to improve the predictive capability of ice sheet models?
 
 ## Geographical setting
 
@@ -168,13 +181,56 @@ Our proposed ConvNet will initially be architectured as follows:
 
 # Preliminary Results
 
+Trained a standard feedforward artificial neural network on ICESAT x, y, z, t, zs, zb data but due to imbalanced dataset problem, could not get good test accuracy.
+Namely, high number of false negatives.
+
+Trained an object localization classifier based on YOLOv2 using a stacked optical imagery, surface elevation and bed elevation raster.
+Hard to quantify whether predicted bounding boxes where random or meaningful to our study.
+
+Adapted a U-net based ConvNet to perform object segmentation of subglacial lakes on same stacked dataset.
+Used SELU non-linearity instead of RELU to self normalize images, and tweaked some model hyperparameters.
+More promising than YOLOv2-based model as can output oval shaped objects.
+
+Future steps:
+
+- Stack together even more layers (see Data section)
+- Use depthwise separable convolutions, factorizing a standard convolution to look spatially at individual channels before combining them across channels.
+- Deepen the ConvNet and introduce more Residual-like units.
 
 
 # Project framework
 
 ## Outline
 
+This research project will be structured as a series of sections containing a few chapters.
+Each section is based on a mini-project that will likely cumulate into a piece of work that can be published as a journal research paper.
+
+### Section 1 - Geospatial Data Science Workflow
+
+Chapter 1 - Reproducible data pipeline using version control and cryptography.
+
+Chapter 2 - Using a super-image resolution convolutional neural network to increase spatial resolution of cryospheric datasets.
+
+
+### Section 2 - A supervised Deep Learning approach to mapping the subglacial hydrology of Antarctica
+
+Chapter 3 - Semantic segmentation of subglacial lakes in Antarctica using Convolutional Neural Networks.
+
+Chapter 4 - Inferring the changing subglacial hydrology of Antarctica from time series data using a Recurrent Convolutional Neural Network.
+
+
+### Section 3 - Making sense of our Cryospheric Deep Neural Networks and their applicability to ice sheet models
+
+Chapter 5 - Visualizing and interpreting the layers of a deep subglacial lake classifier and its contribution to cryospheric research.
+
+Chapter 6 - Applications of Deep Learning to dynamic ice sheet models.
+
+
+
 ## Timeline
+
+| Month | TODO                                         |
+|:-----:|:-------------------------------------------- |
 
 
 
