@@ -1,8 +1,8 @@
 ---
 documentclass: article
 title: |
-  | Deep lakes with deep networks:
-  | An integrated deep convolutional neural network approach to reveal subglacial lakes and their channel networks from multiple open remote sensing datasets in Antarctica.
+  | Deep Learning in the Cryosphere:
+  | Using deep neural networks to investigate subglacial water.
   |
   | PhD Proposal in Physical Geography
 author: Wei Ji Leong
@@ -28,30 +28,56 @@ csl: apa.csl
 # Topic Development
 
 ## Background
-With the exponentially increasing amount of remotely sensed geophysical data being generated every day for Antarctica, there lies an immense potential in answering many of the outstanding and urgent questions that this continent refuses to yield.
-Here we propose a novel deep learning based approach to discover features, specifically subglacial lakes and their networked channels, that may have escaped detection from the custom-built data analysis methods that is standard for generations trained prior to the deep learning era.
 
-This approach aims to more fully utilize openly available datasets, with the goal of uncovering discoveries that each individual dataset alone would not have confidently yielded.
-At first glance, the large amount and varied formats of the datasets presents many challenges to researchers, from the very basic management of the data volume itself to the specialized task of logically interpreting the data within set realms of scientific uncertainty.
-For us, we introduce another layer of complexity by attempting to combine such specialized cross-disciplinary datasets though the use of geographical frameworks and state of the art data science practices.
+Glaciers flow via a combination of three methods: 1) plastic deformation of the viscous ice itself, 2) Sliding from water between the glacier and bedrock, 3) Deformation of the bedrock [Patterson pg 1-2].
+Our study is part of this wider literature of work looking at how the flow of glaciers or ice streams is speeding up or slowing down over time in Antarctica.
+In particular, we will focus on mechanisms 2 and 3 which look at the subglacial component of the glacier.
+These basal processes are not very well understood, as they are difficult to observe directly.
+Also, the problem is compounded as basal sliding and deformation are not mutually exclusive but controlled in some way by the amount of water in the subglacial part of the glacier [Patterson pg 132].
 
-From first principles, we assert that an exponential rise in the amount of data necessitates the use of exponentially growing technologies, so that the amount of value generated from the data per unit time can increase proportionately.
+[TODO insert diagram of 3 methods in which glaciers flow]
+
+Still, we need to understand how water behaves at the glacier bed, as it is the key to understanding the two major problems in glaciology: the detailed mechanisms of glacier sliding and deformation of subglacial sediments; and the causes and mechanisms of glacial surges [Patterson pg 104].
+All of these will be crucial for understanding how fast the ice draining from Antarctica will flow in a warming world, and the rate at which sea level will rise to affect our global community.
+
+## Plan
+
+The increasing amount of remotely sensed geophysical data provided daily across Antarctica is an unrealized potential that can help us to answer one basic question - Where does water lies beneath the ice sheet?
+Here we propose a novel deep learning based approach to discover subglacial features, specifically subglacial lakes and their networked channels, that have mostly been studied previously using isolated aerial or ground-based surveys.
+This approach aims to utilize openly available datasets, with the goal of making discoveries that individual datasets alone would not confidently yield.
+
+At present, the large amount and varied formats of the datasets presents many challenges to researchers, from the very basic management of the data volume itself to the specialized task of logically interpreting the data within set realms of scientific uncertainty.
+For us, we introduce another layer of complexity by attempting to combine such specialized cross-disciplinary datasets in both the dimensions of space and time.
+The challenge for us lies in the integration methodology, which involves the combination of standard geographical frameworks and state of the art data science practices.
+
 To tackle this, we adhere ourselves to an automated data processing workflow that is as reproducible as possible, down to the very copies of the software and data used.
-On the hardware front, we make use of Graphical Processing Units (GPUs) where possible to speed up our neural network model's calculations [see @SteinkrausUsingGPUsmachine2005].
+We make use of Graphical Processing Units (GPUs) where possible to speed up our neural network model's calculations [see @SteinkrausUsingGPUsmachine2005].
 On the software front, parallel implementations of algorithms and self learning artificial intelligence modules offer us a similar speed up advantage in analyzing the data.
 Taken together, these increases result in several magnitude orders of improved runtime efficiencies, allowing us to scale alongside the volumes of data being collected to analyze.
 Keeping up with these technological improvements will allow for more experimental iterations even as our data repository size grows, thus improving our chances of uncovering groundbreaking discoveries within a reasonable amount of time.
 
 ## Previous work
 
-### Subglacial lake inventories
+### Subglacial hydrology
 
+### Deep Neural Networks
 
+An artificial neural network, very loosely based on biological neural networks, is a system made up of neurons.
+Each single neuron comprises of a simple mathematical function that takes an input value 'x' and produces some output 'y'.
+Neural networks are architected by combining many of these neurons together, either by stacking them in parallel (width-wise), or by joining them one after another (depth-wise) as multiple hidden layers.
 
+[insert picture of one neuron, a shallow 1-layer network, a deep 2-layer network]
 
+The term deep neural network is used when there is not a direct function mapping between the input data and final output prediction.
+In other words, we call it deep when there are two or more hidden layers in the neural network.
+Earlier layers in the neural network start off as representations of fairly simple features.
+Deeper layers progressively build on these earlier layers, forming more complex feature representations that can provide useful information to generate the output prediction.
 
-
-
+Almost certainly at the start, a neural network will output predicted values that do not match the actual groundtruth value.
+The difference between the groundtruth and predicted value is used as the basis of training the neural network to do better.
+We do this by taking the error difference, and step backwards through the neural network, updating the weights of each neuron using some calculus.
+Basically, the more a neuron contributes to the predicted output, the more that neuron's weight will be adjusted.
+This backward update is also termed as backpropagation [add citation].
 
 # Proposed Research
 
@@ -108,6 +134,22 @@ For example, we have two Digital Elevation Models (DEM), one from ICESAT data, a
 | Geo-physics | Magnetic        | Subglacial heat flux    |             15000m | [@MartosHeatFluxDistribution2017]            | [@MartosAntarcticgeothermalheat2017]     |
 | Geo-physics | Gravity         | AntGG Gravity Anomaly   |             10000m | [@ScheinertNewAntarcticgravity2016]          | [@ScheinertAntarcticfreeaircomplete2016] |
 | Geo-physics | Gravity         | SatGravRET2014          |             10000m | [@Hirtnewdegree2190102016]                   |                                          |
+
+![RAMP RADARSAT](http://quantarctica.npolar.no/opencms/export/sites/quantarctica/data-catalog/images/sat_radarsat.png){width=200px}
+![MODIS MOA](http://quantarctica.npolar.no/opencms/export/sites/quantarctica/data-catalog/images/sat_modis.png){width=200px}
+![RAMP2 DEM](http://quantarctica.npolar.no/opencms/export/sites/quantarctica/data-catalog/images/ter_ramp.png){width=200px}
+
+![Cryosat2 DEM](http://quantarctica.npolar.no/opencms/export/sites/quantarctica/data-catalog/images/ter_cryosat.png){width=200px}
+![BEDMAP2](http://quantarctica.npolar.no/opencms/export/sites/quantarctica/data-catalog/images/ter_bedmap.png){width=200px}
+![MEASURES Ice flow speed](http://quantarctica.npolar.no/opencms/export/sites/quantarctica/data-catalog/images/glac_flowspeed.png){width=200px}
+
+![Subglacial Water Flux](http://quantarctica.npolar.no/opencms/export/sites/quantarctica/data-catalog/images/glac_subglflux.png){width=200px}
+![Subglacial Heat Flux NOTE INCORRECT ONE](http://quantarctica.npolar.no/opencms/export/sites/quantarctica/data-catalog/images/phys_anhf.png){width=200px}
+![AntGG Gravity Anomaly](http://quantarctica.npolar.no/opencms/export/sites/quantarctica/data-catalog/images/phys_antgg.png){width=200px}
+
+![EIGEN-6C4 Gravity Model](http://quantarctica.npolar.no/opencms/export/sites/quantarctica/data-catalog/images/phys_eigen.png){width=200px}
+![Subglacial Lakes Smith](http://quantarctica.npolar.no/opencms/export/sites/quantarctica/data-catalog/images/glac_lakess.png){width=200px}
+![Subglacial lakes Wright & Siegert](http://quantarctica.npolar.no/opencms/export/sites/quantarctica/data-catalog/images/glac_lakesws.png){width=200px}
 
 ### Training data - Vector Labels
 
@@ -203,16 +245,21 @@ Future steps:
 ## Outline
 
 This research project will be structured as a series of sections containing a few chapters.
-Each section is based on a mini-project that will likely cumulate into a piece of work that can be published as a journal research paper.
 
-### Section 1 - Geospatial Data Science Workflow
+### Section 1 - Applications of Deep Learning in the Cryosphere
 
-Chapter 1 - Reproducible data pipeline using version control and cryptography.
+Here, we start of with a few mini-projects that provide a gentle introduction to the applicability of deep learning to the cryosphere.
+The first chapter is inspired by facial recognition technology, and uses an extensive photo dataset to teach a neural network to identify glaciers for a data rescue operation.
+The second chapter is an idea we will explore, whereby a neural network is trained to produce a crisp high resolution image from a lower resolution image, and this is based on similar work that has been applied to regular everyday photos.
 
-Chapter 2 - Using a super-image resolution convolutional neural network to increase spatial resolution of cryospheric datasets.
+- Chapter 1 - Using Capsule Networks to recognize the names of glaciers in New Zealand.
+
+- Chapter 2 - Using a super-image resolution convolutional neural network to increase spatial resolution of cryospheric datasets.
 
 
 ### Section 2 - A supervised Deep Learning approach to mapping the subglacial hydrology of Antarctica
+
+Next, the deep learning techniques are revised and applied on a larger scale to map the geography of subglacial water in Antarctica. For the third chapter, we use a neural network architecture similar to those used in self-driving cars that detect objects, and apply it to several geographic layers to find spatial subglacial lake boundaries. In the fourth chapter, we introduce the time dimension and use it to understand how this subglacial hydrological network drains, fills or re-routes itself over the satellite era.
 
 Chapter 3 - Semantic segmentation of subglacial lakes in Antarctica using Convolutional Neural Networks.
 
@@ -220,6 +267,10 @@ Chapter 4 - Inferring the changing subglacial hydrology of Antarctica from time 
 
 
 ### Section 3 - Making sense of our Cryospheric Deep Neural Networks and their applicability to ice sheet models
+
+Finally, our focus shifts towards an in depth interpretation of the results in our previous sections.
+The fifth chapter aims to peer into our black box neural network models and provide insights on what are the most important parameters that matter in our mathematical models.
+The sixth chapter will then gather these insights and use them to update some of the assumptions underlying our ice sheet models, hopefully leading to more accurate predictions on the future of the Antarctic Ice Sheet.
 
 Chapter 5 - Visualizing and interpreting the layers of a deep subglacial lake classifier and its contribution to cryospheric research.
 
@@ -238,18 +289,28 @@ Chapter 6 - Applications of Deep Learning to dynamic ice sheet models.
 
 ## Funding
 
-## Training
+- Rutherford Discovery Fellowship
+- Antarctic Research Centre Endowed Development Fund (for travel to Fairbanks, Alaska)
 
 ## Hardware
 
+- Linux High Performance Computing cluster
+- Graphical Processing Units (e.g. 4 Tesla K80 GPUs)
 
+# Acknowledgements
 
-# Summary
+I would like to acknowledge some of the short courses and public competitions I have participated in which taught me a lot of things about glaciology and deep learning.
 
-Methodology - we detail the setup of our intended data science pipeline.
-For ensuring software and data reproducibility, we start from a well known and supported technological foundation (Docker and Git), supplemented by an emerging technological stack (Conda and Dat) that handles some of the known limitations of our base setup.
-The solid foundation serves as a skeleton platform where we rest the more experimental and mutable parts of our data science project.
-While each component is different, they are all open source projects with a fundamental respect for cryptographic integrity, ensuring that our data processing pipeline is of high integrity.
+### Courses
+
+- [Deep learning Specialization Coursera by Andrew Ng](https://www.coursera.org/specializations/deep-learning).
+- [Fifth International Summer School in Glaciology at University of Alaska, Fairbanks](https://glaciers.gi.alaska.edu/courses/summer-school/2018).
+
+### Competitions
+
+- [Kaggle Statoil iceberg classification challenge](https://www.kaggle.com/c/statoil-iceberg-classifier-challenge).
+- [Kaggle Data Science Bowl 2018](https://www.kaggle.com/c/data-science-bowl-2018).
+- [New Zealand Space Challenge 2018](https://www.nzspacechallenge.com/).
 
 
 
