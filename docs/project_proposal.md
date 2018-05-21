@@ -29,16 +29,30 @@ csl: apa.csl
 
 ## Background
 
-Glaciers flow via a combination of three methods: 1) plastic deformation of the viscous ice itself, 2) Sliding from water between the glacier and bedrock, 3) Deformation of the bedrock [Patterson pg 1-2].
+Glaciers flow via a combination of three methods: 1) plastic deformation of the viscous ice itself, 2) Sliding from water between the glacier and bedrock, 3) Deformation of the bedrock [@Cuffeyphysicsglaciers2010, p.223].
 Our study is part of this wider literature of work looking at how the flow of glaciers or ice streams is speeding up or slowing down over time in Antarctica.
 In particular, we will focus on mechanisms 2 and 3 which look at the subglacial component of the glacier.
 These basal processes are not very well understood, as they are difficult to observe directly.
-Also, the problem is compounded as basal sliding and deformation are not mutually exclusive but controlled in some way by the amount of water in the subglacial part of the glacier [Patterson pg 132].
+Also, the problem is compounded as basal sliding and deformation are not mutually exclusive but controlled in some way by the amount of water in the subglacial part of the glacier [@Cuffeyphysicsglaciers2010, p.223].
 
 [TODO insert diagram of 3 methods in which glaciers flow]
 
-Still, we need to understand how water behaves at the glacier bed, as it is the key to understanding the two major problems in glaciology: the detailed mechanisms of glacier sliding and deformation of subglacial sediments; and the causes and mechanisms of glacial surges [Patterson pg 104].
-All of these will be crucial for understanding how fast the ice draining from Antarctica will flow in a warming world, and the rate at which sea level will rise to affect our global community.
+Taken together, the motion of glaciers from sliding and deformation at the bed is also called basal slip [@Cuffeyphysicsglaciers2010, p.223].
+The amount of water available plays an important role in increasing or decreasing basal slip.
+In mountain glaciers, it has been observed how glaciers flow faster during the spring melt season and ocassionally after heavy rainfall [@IkenUpliftUnteraargletscherBeginning1983].
+Similarly in Antarctica, there are ice streams overlying subglacial lakes - large water bodies that drain ocassionally and trigger rapid ice flow events [@BellLargesubglaciallakes2007].
+
+We do have some knowledge on how water underneath a glacier helps ice to flow faster.
+On one hand, water in sufficient amounts can exert an upward pressure that is greater than the downward gravitational pull on the ice.
+This tends to occur in small channel cavities where drainage is poor, causing water to accumulate and build up enough pressure to increase the area of separation between ice and rock, lowering friction and thus allowing ice to slide over its bedrock [@Cuffeyphysicsglaciers2010, p.238].
+On the other hand, water can also percolate into porous bedrock and weaken it into a softer material more prone to deformation.
+In fact, most glacier beds are composed of glacial till.
+When these highly porous sediments are saturated with water, they can easily give way and move downhill, carrrying along with it the ice on top [@Cuffeyphysicsglaciers2010, p.255-256].
+Given enough information on the basal velocity, shear stress, and properties of the bedrock, it will then be possible to formulate a slip relation that can predict the movement of a glacier [@Cuffeyphysicsglaciers2010, p.223].
+
+Understanding how water behaves at the glacier bed enables us to solve two major outstanding problems in glaciology: the detailed mechanisms of basal slip; and the causes and mechanisms of glacial surges [@Cuffeyphysicsglaciers2010, p.176].
+All of these will be crucial for figuring out how fast the ice draining from Antarctica will flow as our planet continues to warm.
+Consequently, this will feed into the bigger picture question on what is the rate at which sea level will rise and affect our global community.
 
 ## Plan
 
@@ -97,15 +111,6 @@ What are the building blocks and hyperparameters that will allow this ConvNet to
 
 (@) Why does a Deep Convolutional Neural Network predict that a subglacial lake is present or absent in any one particular area?
 How might we apply deep learning to improve the predictive capability of ice sheet models?
-
-## Geographical setting
-
-We narrow the geographical extent of our study down to the Antarctic continent, lying South of latitude 60 degrees South.
-As our focus is on finding the presence of subglacial lakes and their networked channels, this further restricts our geographical study area to the grounded portion of the Antarctic Ice Sheet, anywhere South of the grounding line.
-
-Note that the grounding line is a dynamic boundary that can change considerably over time.
-We refrain ourselves however, from setting a strict temporal extent filter on data (e.g. less than a decade timeframe) that allows assumptions of an arbitrary stasis baseline to be made, at the expense of excluding potentially useful datasets.
-We assume that our deep neural networks will work better with more messy data than a restricted set of clean data, and that the model will learn to account for the various idiosyncrasies of the datasets it is trained on.
 
 ## Datasets
 
@@ -170,13 +175,10 @@ For example, we have two Digital Elevation Models (DEM), one from ICESAT data, a
 | Polygon     | Thwaites Subglacial Lakes                    |   4   | [@SmithConnectedsubglaciallake2017]   |
 
 
-# Data Science Workflow
+# Methodology
 
-## Model development
+## Data preparation
 
-### Data preparation
-
-With our highly reproducible and cryptographically secure version-control frameworks in place, we move on to the actual work of readying our data for feeding into our model.
 The heterogeneous nature of our datasets presents some challenges, but the observation-level data fusion process can be structured as a step by step process consisting of data alignment and data correlation, otherwise known as matching and coregistration in remote sensing terminology [@SchmittDataFusionRemote2016].
 
 Geographic data can be broadly classified into vector and raster datasets, with the former being more suitable for discrete datasets, and the latter more associated with continuous datasets.
@@ -205,18 +207,11 @@ As our training sample is very small, just over a hundred or so, we will also us
 Data augmentation will involve randomly tranforming our tiles, by any combination of the following: mirror image, vertical/horizontal shifts, rotation, shear warping, cropping, adding noise, etc.
 Such data augmentations will reduce the likelihood of overfitting in our ConvNet model.
 
-### Convolutional Neural Network
+## Neural Network model
 
 Given an input of a multi-dimensional image of Antarctica, the goal of our subglacial lake identification project would be to determine each location of our lake.
-Training an image classification ConvNet, specifically a binary image classifier, would tell us if a region of interest does or does not contain a lake.
-With an object localization classifier, it may output a bounding box which gives us a better answer.
-Finally for an object segmentation classifier, the exact boundaries of a lake can be probabilitiscally determined down to each geographical pixel.
-
-Our proposed ConvNet will initially be architectured as follows:
-
-
-
-
+Our initial proposed model is a Convolutional Neural Network that can perform object segmentation down to the level of a geographic pixel to delineate the exact boundaries of a subglacial water body.
+The model's architecture is as follows:
 
 
 
