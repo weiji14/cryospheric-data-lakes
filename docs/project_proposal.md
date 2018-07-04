@@ -29,13 +29,13 @@ csl: apa.csl
 
 ## Background
 
-Glaciers flow via a combination of three methods: 1) plastic deformation of the viscous ice itself, 2) Sliding from water between the glacier and bedrock, 3) Deformation of the bedrock [@Cuffeyphysicsglaciers2010, p.223].
+Glaciers flow via a combination of three methods: 1) plastic deformation of the viscous ice itself, 2) Sliding from water between the glacier and bed, 3) Deformation of the bed [see Figure 1, @Cuffeyphysicsglaciers2010, p.223].
 Our study is part of this wider literature of work looking at how the flow of glaciers or ice streams is speeding up or slowing down over time in Antarctica.
 In particular, we will focus on mechanisms 2 and 3 which look at the subglacial component of the glacier.
 These basal processes are not very well understood, as they are difficult to observe directly.
 Also, the problem is compounded as basal sliding and deformation are not mutually exclusive but controlled in some way by the amount of water in the subglacial part of the glacier [@Cuffeyphysicsglaciers2010, p.223].
 
-[TODO insert diagram of 3 methods in which glaciers flow]
+![The 3 components that contribute to glacier flow](https://upload.wikimedia.org/wikipedia/commons/3/3a/Glacier_flow-mechanisms.png){width=350px}
 
 Taken together, the motion of glaciers from sliding and deformation at the bed is also called basal slip [@Cuffeyphysicsglaciers2010, p.223].
 The amount of water available plays an important role in increasing or decreasing basal slip.
@@ -56,7 +56,7 @@ Consequently, this will feed into the bigger picture question on what is the rat
 
 ## Plan
 
-The increasing amount of remotely sensed geophysical data provided daily across Antarctica is an unrealized potential that can help us to answer one basic question - Where does water lies beneath the ice sheet?
+The increasing amount of remotely sensed geophysical data provided daily across Antarctica is an unrealized potential that can help us to answer one basic question - Where does water lie beneath the ice sheet?
 Here we propose a novel deep learning based approach to discover subglacial features, specifically subglacial lakes and their networked channels, that have mostly been studied previously using isolated aerial or ground-based surveys.
 This approach aims to utilize openly available datasets, with the goal of making discoveries that individual datasets alone would not confidently yield.
 
@@ -72,7 +72,28 @@ Keeping up with these technological improvements will allow for more experimenta
 
 ## Previous work
 
-### Subglacial hydrology
+### Glacier flow in relation to basal water
+
+Ice is interesting where there is water.
+In Antarctica, water can be easily seen on the surface in some places, mostly close to dark, low-albedo areas like rock outcrops and blue ice regions [@KingslakeWidespreadmovementmeltwater2017].
+The bulk of liquid water in Antarctica however, lies hidden below the ice sheet.
+There are over 400 subglacial lakes already discovered, and we know from geomophological evidence that water also flows in subglacial channels underneath the ice sheet [@SiegertRecentadvancesunderstanding2016].
+Water in the cryospheric system is interesting primarily because of its fluid properties.
+Compared to ice, water flows a lot more quickly over short timescales, and ice that is in contact with water exhibits a higher level of dynamicity than it would otherwise solely by itself.
+
+Various subglacial drainage pathways have been theorized over the years, ranging from fast channelized flow in concentrated channels to slower distributed flows over a large surface area [see Figure 2, @FlowersModellingwaterflow2015].
+These subglacial drainage structures are known to change between the two extremes of efficient and inefficient regimes over space and time, with implications for ice dynamics [@MullerVelocityfluctuationswater1973].
+The treatment of Antarctic glaciers/ice streams does however, differ from that of temperate glaciers owing to the lack of input from surface meltwater, i.e. the Antarctic subglacial water system is predominantly supplied from basal melt processes.
+One area of initial heavy focus was on the Whillans Ice Stream (formerly Ice Stream B), where seismic surveys found a water saturated, ~5 metre thick porous till layer [@BlankenshipSeismicmeasurementsreveal1986] that could easily deform and explain the observed high surface velocities [@AlleyDeformationtillice1986].
+Indeed, further studies in other geographic locations found that soft beds and abundant meltwater are seen as one of the major controls on the locations of ice streams, secondary only to topographic focusing linked to a calving margin [@WinsborrowWhatcontrolslocation2010].
+This reinforces the importance of water as drivers of fast ice flow, and it goes back to the question of why we need to know the location of water beneath the ice sheet.
+
+![Channelized vs Distributed flow in a subglacial drainage system.](http://rspa.royalsocietypublishing.org/content/royprsa/471/2176/20140907/F2.large.jpg){width=350px}
+
+TODO:
+- Surging Glaciers
+- Shallow Ice Approximation (SIA) and Shallow Shelf Approximation (SSA) models of flow
+- Comparison to inverse models
 
 ### Deep Neural Networks
 
@@ -139,6 +160,8 @@ For example, we have two Digital Elevation Models (DEM), one from ICESAT data, a
 | Geo-physics | Magnetic        | Subglacial heat flux    |             15000m | [@MartosHeatFluxDistribution2017]            | [@MartosAntarcticgeothermalheat2017]     |
 | Geo-physics | Gravity         | AntGG Gravity Anomaly   |             10000m | [@ScheinertNewAntarcticgravity2016]          | [@ScheinertAntarcticfreeaircomplete2016] |
 | Geo-physics | Gravity         | SatGravRET2014          |             10000m | [@Hirtnewdegree2190102016]                   |                                          |
+
+\newpage
 
 ![RAMP RADARSAT](http://quantarctica.npolar.no/opencms/export/sites/quantarctica/data-catalog/images/sat_radarsat.png){width=200px}
 ![MODIS MOA](http://quantarctica.npolar.no/opencms/export/sites/quantarctica/data-catalog/images/sat_modis.png){width=200px}
