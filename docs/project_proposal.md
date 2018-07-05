@@ -90,8 +90,16 @@ This reinforces the importance of water as drivers of fast ice flow, and it goes
 
 ![Channelized vs Distributed flow in a subglacial drainage system.](http://rspa.royalsocietypublishing.org/content/royprsa/471/2176/20140907/F2.large.jpg){width=350px}
 
+The most exemplary example of fast glacier flow are when glaciers *surge*, characterized by an "abnormally fast flow of a glacier over a period of a few months to years, during which the glacier margin may advance substantially" [@CogleyGlossaryglaciermass2011, p.89].
+Recurring surge events are well documented in several small glaciers, the classical example being Variegated Glacier in Alaska [@EisenVariegatedGlacierAlaska2005].
+There has been little evidence however, for surges happening across broad regions of modern ice sheets [@Cuffeyphysicsglaciers2010, p.537].
+Isolated surge-type glaciers are found in some parts of East Greenland, initially considered to mostly exhibit Alaskan-type surges based on a hydrologic switch model [@JiskootSurgepotentialdrainagebasin2003], but later studies have shown that Svalbard-type surges based on a thermal switch model also applies to some glaciers in the region [@JiskootSurgesmallEast2009].
+Surge-type glaciers have since been catalogued into two geographical supercluster centres (named Arctic Ring and High Mountain Asia), and the statistical analyses was used to postulate a new enthalpy cycle model [@SevestreClimaticgeometriccontrols2015].
+Optimal surging conditions are satisfied in environments that are not in the cold/dry and warm/humid extremes, but in an intermediate zone where enthalpy heat gains cannot be discharged effectively via heat conduction or meltwater discharge - a zone which includes the Antarctic Peninsula [@SevestreClimaticgeometriccontrols2015].
+The main trigger for surges in Antarctica appears to be from ice shelf breakups, with satellite observations confirming the acceleration of ice after the Larsen B ice shelf partially collapsed [@DeAngelisGlacierSurgeIce2003; @RignotAcceleratedicedischarge2004; @ScambosGlacieraccelerationthinning2004].
+It has been noted though that the surges were only limited to the major fast-flowing tributaries and not the slow moving ice piedmonts or smaller glaciers, showing how glacier dynamics are still governed by basal thermal conditions and subglacial hydrology [@DeAngelisGlacierSurgeIce2003].
+
 TODO:
-- Surging Glaciers
 - Shallow Ice Approximation (SIA) and Shallow Shelf Approximation (SSA) models of flow
 - Comparison to inverse models
 
