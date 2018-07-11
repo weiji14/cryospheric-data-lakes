@@ -24,6 +24,8 @@ csl: apa.csl
 # Abstract
 
 
+
+
 \newpage
 # Topic Development
 
@@ -54,23 +56,26 @@ Understanding how water behaves at the glacier bed enables us to solve two major
 All of these will be crucial for figuring out how fast the ice draining from Antarctica will flow as our planet continues to warm.
 Consequently, this will feed into the bigger picture question on what is the rate at which sea level will rise and affect our global community.
 
-## Plan
-
-The increasing amount of remotely sensed geophysical data provided daily across Antarctica is an unrealized potential that can help us to answer one basic question - Where does water lie beneath the ice sheet?
-Here we propose a novel deep learning based approach to discover subglacial features, specifically subglacial lakes and their networked channels, that have mostly been studied previously using isolated aerial or ground-based surveys.
-This approach aims to utilize openly available datasets, with the goal of making discoveries that individual datasets alone would not confidently yield.
-
-At present, the large amount and varied formats of the datasets presents many challenges to researchers, from the very basic management of the data volume itself to the specialized task of logically interpreting the data within set realms of scientific uncertainty.
-For us, we introduce another layer of complexity by attempting to combine such specialized cross-disciplinary datasets in both the dimensions of space and time.
-The challenge for us lies in the integration methodology, which involves the combination of standard geographical frameworks and state of the art data science practices.
-
-To tackle this, we adhere ourselves to an automated data processing workflow that is as reproducible as possible, down to the very copies of the software and data used.
-We make use of Graphical Processing Units (GPUs) where possible to speed up our neural network model's calculations [see @SteinkrausUsingGPUsmachine2005].
-On the software front, parallel implementations of algorithms and self learning artificial intelligence modules offer us a similar speed up advantage in analyzing the data.
-Taken together, these increases result in several magnitude orders of improved runtime efficiencies, allowing us to scale alongside the volumes of data being collected to analyze.
-Keeping up with these technological improvements will allow for more experimental iterations even as our data repository size grows, thus improving our chances of uncovering groundbreaking discoveries within a reasonable amount of time.
-
 ## Previous work
+
+### Deep Neural Networks
+
+An artificial neural network, very loosely based on biological neural networks, is a system made up of neurons.
+Each single neuron comprises of a simple mathematical function that takes an input value 'x' and produces some output 'y'.
+Neural networks are architected by combining many of these neurons together, either by stacking them in parallel (width-wise), or by joining them one after another (depth-wise) as multiple hidden layers.
+
+[insert picture of one neuron, a shallow 1-layer network, a deep 2-layer network]
+
+The term deep neural network is used when there is not a direct function mapping between the input data and final output prediction.
+In other words, we call it deep when there are two or more hidden layers in the neural network.
+Earlier layers in the neural network start off as representations of fairly simple features.
+Deeper layers progressively build on these earlier layers, forming more complex feature representations that can provide useful information to generate the output prediction.
+
+Almost certainly at the start, a neural network will output predicted values that do not match the actual groundtruth value.
+The difference between the groundtruth and predicted value is used as the basis of training the neural network to do better.
+We do this by taking the error difference, and step backwards through the neural network, updating the weights of each neuron using some calculus.
+Basically, the more a neuron contributes to the predicted output, the more that neuron's weight will be adjusted.
+This backward update is also termed as backpropagation [add citation].
 
 ### Glacier flow in relation to basal water
 
@@ -101,26 +106,6 @@ It has been noted though that the surges were only limited to the major fast-flo
 
 Taken together ...
 
-
-### Deep Neural Networks
-
-An artificial neural network, very loosely based on biological neural networks, is a system made up of neurons.
-Each single neuron comprises of a simple mathematical function that takes an input value 'x' and produces some output 'y'.
-Neural networks are architected by combining many of these neurons together, either by stacking them in parallel (width-wise), or by joining them one after another (depth-wise) as multiple hidden layers.
-
-[insert picture of one neuron, a shallow 1-layer network, a deep 2-layer network]
-
-The term deep neural network is used when there is not a direct function mapping between the input data and final output prediction.
-In other words, we call it deep when there are two or more hidden layers in the neural network.
-Earlier layers in the neural network start off as representations of fairly simple features.
-Deeper layers progressively build on these earlier layers, forming more complex feature representations that can provide useful information to generate the output prediction.
-
-Almost certainly at the start, a neural network will output predicted values that do not match the actual groundtruth value.
-The difference between the groundtruth and predicted value is used as the basis of training the neural network to do better.
-We do this by taking the error difference, and step backwards through the neural network, updating the weights of each neuron using some calculus.
-Basically, the more a neuron contributes to the predicted output, the more that neuron's weight will be adjusted.
-This backward update is also termed as backpropagation [add citation].
-
 ### Ice Sheet Modelling
 
 "All models are wrong; the practical question is how wrong do they have to be to not be useful." [@BoxEmpiricalmodelbuildingresponse1987, p.74].
@@ -147,24 +132,56 @@ TODO:
 - Comparison to inverse models
 - Physics informed deep learning/acceleration using GPUs
 
-# Proposed Research
 
-## Research questions
 
-The goal of this research is to explore the applicability of deep learning to extract information from cryospheric remote sensing datasets, with a particular focus on Antarctic subglacial hydrology.
-Due to the rich variation and large amount of openly available cryospheric datasets we have, we will first attempt to make full use of the spatial correlations between different physical datasets to increase the spatial resolution of lower resolution datasets.
-Next, we can align and stack these different high resolution datasets together and train a neural network on known subglacial lakes, and see if this can yield potential lakes yet to be discovered by classical methods.
-Finally, we will interpret the ConvNet model's intermediate layers and see how it may inform a new generation of cryospheric research and potentially improve ice sheet models.
-The questions to be addressed are as follows:
 
-(@) What is the potential of using a Super-image Resolution Convolutional Neural Network to increase the spatial resolution of cryospheric datasets?
-Where might this resolution enhancement perform adequately and where might it fail compared to standard resampling techniques?
+# Methodology
 
-(@) How can we architect and train a Deep Convolutional Neural Network on a high-dimensional raster dataset to detect subglacial lakes?
-What are the building blocks and hyperparameters that will allow this ConvNet to work well?
+## Plan
 
-(@) Why does a Deep Convolutional Neural Network predict that a subglacial lake is present or absent in any one particular area?
-How might we apply deep learning to improve the predictive capability of ice sheet models?
+The increasing amount of remotely sensed geophysical data provided daily across Antarctica is an unrealized potential that can help us to answer one basic question - Where does water lie beneath the ice sheet?
+Here we propose a novel deep learning based approach to discover subglacial features, specifically subglacial lakes and their networked channels, that have mostly been studied previously using isolated aerial or ground-based surveys.
+This approach aims to utilize openly available datasets, with the goal of making discoveries that individual datasets alone would not confidently yield.
+
+At present, the large amount and varied formats of the datasets presents many challenges to researchers, from the very basic management of the data volume itself to the specialized task of logically interpreting the data within set realms of scientific uncertainty.
+For us, we introduce another layer of complexity by attempting to combine such specialized cross-disciplinary datasets in both the dimensions of space and time.
+The challenge for us lies in the integration methodology, which involves the combination of standard geographical frameworks and state of the art data science practices.
+
+To tackle this, we adhere ourselves to an automated data processing workflow that is as reproducible as possible, down to the very copies of the software and data used.
+We make use of Graphical Processing Units (GPUs) where possible to speed up our neural network model's calculations [see @SteinkrausUsingGPUsmachine2005].
+On the software front, parallel implementations of algorithms and self learning artificial intelligence modules offer us a similar speed up advantage in analyzing the data.
+Taken together, these increases result in several magnitude orders of improved runtime efficiencies, allowing us to scale alongside the volumes of data being collected to analyze.
+Keeping up with these technological improvements will allow for more experimental iterations even as our data repository size grows, thus improving our chances of uncovering groundbreaking discoveries within a reasonable amount of time.
+
+## Data preparation
+
+The heterogeneous nature of our datasets presents some challenges, but the observation-level data fusion process can be structured as a step by step process consisting of data alignment and data correlation, otherwise known as matching and coregistration in remote sensing terminology [@SchmittDataFusionRemote2016].
+
+Geographic data can be broadly classified into vector and raster datasets, with the former being more suitable for discrete datasets, and the latter more associated with continuous datasets.
+For each spot on the surface, we will assemble all the sensor measurements available for that spot using locational attributes tied to the sensor data.
+As we are interested in the continuous spatial variation of adjacent sensor measurements at any one spot, which may determine the presence or absence of subglacial features, we choose to employ the continuous raster format in our Geographic Information System (GIS).
+
+Each data layer can be stacked together to create a multi-dimensional raster image that will feed into our computer vision model.
+Conceptually, we can think of stacking multiple input feature layers in much the same way as stacking multiple bands in a multipectral optical satellite image.
+In order to create the stack, we will first reproject each input layer to a common projected coordinate system - the Antarctic Polar Stereographic (EPSG:3031) which is a conformal projection system based on the WGS84 ellipsoid surface.
+
+Next, each layer may need to be undergo further transformation so that the pixels are aligned across layers, either via a translational shift and/or resampling to a common spatial resolution.
+For the resampling process, we may choose to use classical resampling techniques such as bilinear or bicubic interpolation, or a custom spline interpolation method.
+Alternatively, it is also possible to employ Super-Resolution Convolutional Neural Network (SRCNN) to increase the spatial resolution of the raster [@DongImageSuperResolutionUsing2014].
+For example, we can train an SRCNN to capture interdependencies with variables in the other layers to improve the reliability of the upscaling function [@VandalDeepSDGeneratingHigh2017], compared to a standard bicubic interpolation method which only looks at information from a single layer.
+
+Once this is done, we will generate standardized square tiles of the stacked multi-layer raster.
+Each tile will be centered on one subglacial lake polygon, and may contain more than one lake if lakes are found close to each other.
+Thus, the number of training tiles would equal the number of lakes in our compiled subglacial lake inventory.
+
+At this point, we will divide our dataset into a training set and cross-validation set.
+The training set will be used to train our ConvNet model, while the cross-validation set will be used to evaluate the performance of that model across different hyperparameter settings.
+Furthermore, we will also have a test set to independently verify our final model.
+This test set will likely be generated from the data in the point-only subglacial lake inventory [@WrightfourthinventoryAntarctic2012].
+
+As our training sample is very small, just over a hundred or so, we will also use data augmentation to virtually increase our training set.
+Data augmentation will involve randomly tranforming our tiles, by any combination of the following: mirror image, vertical/horizontal shifts, rotation, shear warping, cropping, adding noise, etc.
+Such data augmentations will reduce the likelihood of overfitting in our ConvNet model.
 
 ## Datasets
 
@@ -230,49 +247,7 @@ For example, we have two Digital Elevation Models (DEM), one from ICESAT data, a
 | Polygon     | Kamb Subglacial Lakes                        |   3   | [@KimActivesubglaciallakes2016]       |
 | Polygon     | Thwaites Subglacial Lakes                    |   4   | [@SmithConnectedsubglaciallake2017]   |
 
-
-# Methodology
-
-## Data preparation
-
-The heterogeneous nature of our datasets presents some challenges, but the observation-level data fusion process can be structured as a step by step process consisting of data alignment and data correlation, otherwise known as matching and coregistration in remote sensing terminology [@SchmittDataFusionRemote2016].
-
-Geographic data can be broadly classified into vector and raster datasets, with the former being more suitable for discrete datasets, and the latter more associated with continuous datasets.
-For each spot on the surface, we will assemble all the sensor measurements available for that spot using locational attributes tied to the sensor data.
-As we are interested in the continuous spatial variation of adjacent sensor measurements at any one spot, which may determine the presence or absence of subglacial features, we choose to employ the continuous raster format in our Geographic Information System (GIS).
-
-Each data layer can be stacked together to create a multi-dimensional raster image that will feed into our computer vision model.
-Conceptually, we can think of stacking multiple input feature layers in much the same way as stacking multiple bands in a multipectral optical satellite image.
-In order to create the stack, we will first reproject each input layer to a common projected coordinate system - the Antarctic Polar Stereographic (EPSG:3031) which is a conformal projection system based on the WGS84 ellipsoid surface.
-
-Next, each layer may need to be undergo further transformation so that the pixels are aligned across layers, either via a translational shift and/or resampling to a common spatial resolution.
-For the resampling process, we may choose to use classical resampling techniques such as bilinear or bicubic interpolation, or a custom spline interpolation method.
-Alternatively, it is also possible to employ Super-Resolution Convolutional Neural Network (SRCNN) to increase the spatial resolution of the raster [@DongImageSuperResolutionUsing2014].
-For example, we can train an SRCNN to capture interdependencies with variables in the other layers to improve the reliability of the upscaling function [@VandalDeepSDGeneratingHigh2017], compared to a standard bicubic interpolation method which only looks at information from a single layer.
-
-Once this is done, we will generate standardized square tiles of the stacked multi-layer raster.
-Each tile will be centered on one subglacial lake polygon, and may contain more than one lake if lakes are found close to each other.
-Thus, the number of training tiles would equal the number of lakes in our compiled subglacial lake inventory.
-
-At this point, we will divide our dataset into a training set and cross-validation set.
-The training set will be used to train our ConvNet model, while the cross-validation set will be used to evaluate the performance of that model across different hyperparameter settings.
-Furthermore, we will also have a test set to independently verify our final model.
-This test set will likely be generated from the data in the point-only subglacial lake inventory [@WrightfourthinventoryAntarctic2012].
-
-As our training sample is very small, just over a hundred or so, we will also use data augmentation to virtually increase our training set.
-Data augmentation will involve randomly tranforming our tiles, by any combination of the following: mirror image, vertical/horizontal shifts, rotation, shear warping, cropping, adding noise, etc.
-Such data augmentations will reduce the likelihood of overfitting in our ConvNet model.
-
-## Neural Network model
-
-Given an input of a multi-dimensional image of Antarctica, the goal of our subglacial lake identification project would be to determine each location of our lake.
-Our initial proposed model is a Convolutional Neural Network that can perform object segmentation down to the level of a geographic pixel to delineate the exact boundaries of a subglacial water body.
-The model's architecture is as follows:
-
-
-
-
-# Preliminary Results
+## Preliminary Work
 
 Trained a standard feedforward artificial neural network on ICESAT x, y, z, t, zs, zb data but due to imbalanced dataset problem, could not get good test accuracy.
 Namely, high number of false negatives.
@@ -290,8 +265,33 @@ Future steps:
 - Use depthwise separable convolutions, factorizing a standard convolution to look spatially at individual channels before combining them across channels.
 - Deepen the ConvNet and introduce more Residual-like units.
 
+### Neural Network model
 
-# Project framework
+Given an input of a multi-dimensional image of Antarctica, the goal of our subglacial lake identification project would be to determine each location of our lake.
+Our initial proposed model is a Convolutional Neural Network that can perform object segmentation down to the level of a geographic pixel to delineate the exact boundaries of a subglacial water body.
+The model's architecture is as follows:
+
+
+
+
+# Proposed Research Framework
+
+## Research questions
+
+The goal of this research is to explore the applicability of deep learning to extract information from cryospheric remote sensing datasets, with a particular focus on Antarctic subglacial hydrology.
+Due to the rich variation and large amount of openly available cryospheric datasets we have, we will first attempt to make full use of the spatial correlations between different physical datasets to increase the spatial resolution of lower resolution datasets.
+Next, we can align and stack these different high resolution datasets together and train a neural network on known subglacial lakes, and see if this can yield potential lakes yet to be discovered by classical methods.
+Finally, we will interpret the ConvNet model's intermediate layers and see how it may inform a new generation of cryospheric research and potentially improve ice sheet models.
+The questions to be addressed are as follows:
+
+(@) What is the potential of using a Super-image Resolution Convolutional Neural Network to increase the spatial resolution of cryospheric datasets?
+Where might this resolution enhancement perform adequately and where might it fail compared to standard resampling techniques?
+
+(@) How can we architect and train a Deep Convolutional Neural Network on a high-dimensional raster dataset to detect subglacial lakes?
+What are the building blocks and hyperparameters that will allow this ConvNet to work well?
+
+(@) Why does a Deep Convolutional Neural Network predict that a subglacial lake is present or absent in any one particular area?
+How might we apply deep learning to improve the predictive capability of ice sheet models?
 
 ## Outline
 
@@ -307,7 +307,6 @@ The second chapter is an idea we will explore, whereby a neural network is train
 
 - Chapter 2 - Using a super-image resolution convolutional neural network to increase spatial resolution of cryospheric datasets.
 
-
 ### Section 2 - A supervised Deep Learning approach to mapping the subglacial hydrology of Antarctica
 
 Next, the deep learning techniques are revised and applied on a larger scale to map the geography of subglacial water in Antarctica. For the third chapter, we use a neural network architecture similar to those used in self-driving cars that detect objects, and apply it to several geographic layers to find spatial subglacial lake boundaries. In the fourth chapter, we introduce the time dimension and use it to understand how this subglacial hydrological network drains, fills or re-routes itself over the satellite era.
@@ -315,7 +314,6 @@ Next, the deep learning techniques are revised and applied on a larger scale to 
 Chapter 3 - Semantic segmentation of subglacial lakes in Antarctica using Convolutional Neural Networks.
 
 Chapter 4 - Inferring the changing subglacial hydrology of Antarctica from time series data using a Recurrent Convolutional Neural Network.
-
 
 ### Section 3 - Making sense of our Cryospheric Deep Neural Networks and their applicability to ice sheet models
 
@@ -327,8 +325,6 @@ Chapter 5 - Visualizing and interpreting the layers of a deep subglacial lake cl
 
 Chapter 6 - Applications of Deep Learning to dynamic ice sheet models.
 
-
-
 ## Timeline
 
 | Month | TODO                                         |
@@ -336,7 +332,13 @@ Chapter 6 - Applications of Deep Learning to dynamic ice sheet models.
 
 
 
-# Budget and Resource Requirements
+
+# Acknowledgements
+
+This project would not be possible without the academic and technical support from the Antarctic Research Centre.
+Many thanks to my supervisors Dr. Huw Horgan and Dr. Brian Anderson for providing inspiration and helpful guidance in reviewing earlier drafts of this proposal.
+I would also like to acknowledge some of the short courses and public competitions I have participated in which taught me a lot of things about glaciology and deep learning.
+A special mention goes to Dr. Regine Hock and others in the International Summer School in Glaciology for really opening my eyes to the world of glaciology.
 
 ## Funding
 
@@ -348,20 +350,17 @@ Chapter 6 - Applications of Deep Learning to dynamic ice sheet models.
 - Linux High Performance Computing cluster
 - Graphical Processing Units (e.g. 4 Tesla K80 GPUs)
 
-# Acknowledgements
-
-I would like to acknowledge some of the short courses and public competitions I have participated in which taught me a lot of things about glaciology and deep learning.
-
-### Courses
+## Courses
 
 - [Deep learning Specialization Coursera by Andrew Ng](https://www.coursera.org/specializations/deep-learning).
 - [Fifth International Summer School in Glaciology at University of Alaska, Fairbanks](https://glaciers.gi.alaska.edu/courses/summer-school/2018).
 
-### Competitions
+## Competitions
 
 - [Kaggle Statoil iceberg classification challenge](https://www.kaggle.com/c/statoil-iceberg-classifier-challenge).
 - [Kaggle Data Science Bowl 2018](https://www.kaggle.com/c/data-science-bowl-2018).
 - [New Zealand Space Challenge 2018](https://www.nzspacechallenge.com/).
+
 
 
 
