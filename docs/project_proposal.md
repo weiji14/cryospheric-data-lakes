@@ -88,7 +88,7 @@ One area of initial heavy focus was on the Whillans Ice Stream (formerly Ice Str
 Indeed, further studies in other geographic locations found that soft beds and abundant meltwater are seen as one of the major controls on the locations of ice streams, secondary only to topographic focusing linked to a calving margin [@WinsborrowWhatcontrolslocation2010].
 This reinforces the importance of water as drivers of fast ice flow, and it goes back to the question of why we need to know the location of water beneath the ice sheet.
 
-![Channelized vs Distributed flow in a subglacial drainage system.](http://rspa.royalsocietypublishing.org/content/royprsa/471/2176/20140907/F2.large.jpg){width=350px}
+![Channelized vs Distributed flow in a subglacial drainage system.](http://rspa.royalsocietypublishing.org/content/royprsa/471/2176/20140907/F2.large.jpg){width=300px}
 
 The most exemplary example of fast glacier flow are when glaciers *surge*, characterized by an "abnormally fast flow of a glacier over a period of a few months to years, during which the glacier margin may advance substantially" [@CogleyGlossaryglaciermass2011, p.89].
 Recurring surge events are well documented in several small glaciers, the classical example being Variegated Glacier in Alaska [@EisenVariegatedGlacierAlaska2005].
@@ -99,9 +99,8 @@ Optimal surging conditions are satisfied in environments that are not in the col
 The main trigger for surges in Antarctica appears to be from ice shelf breakups, with satellite observations confirming the acceleration of ice after the Larsen B ice shelf partially collapsed [@DeAngelisGlacierSurgeIce2003; @RignotAcceleratedicedischarge2004; @ScambosGlacieraccelerationthinning2004].
 It has been noted though that the surges were only limited to the major fast-flowing tributaries and not the slow moving ice piedmonts or smaller glaciers, showing how glacier dynamics are still governed by basal thermal conditions and subglacial hydrology [@DeAngelisGlacierSurgeIce2003].
 
-TODO:
-- Shallow Ice Approximation (SIA) and Shallow Shelf Approximation (SSA) models of flow
-- Comparison to inverse models
+Taken together ...
+
 
 ### Deep Neural Networks
 
@@ -121,6 +120,32 @@ The difference between the groundtruth and predicted value is used as the basis 
 We do this by taking the error difference, and step backwards through the neural network, updating the weights of each neuron using some calculus.
 Basically, the more a neuron contributes to the predicted output, the more that neuron's weight will be adjusted.
 This backward update is also termed as backpropagation [add citation].
+
+### Ice Sheet Modelling
+
+"All models are wrong; the practical question is how wrong do they have to be to not be useful." [@BoxEmpiricalmodelbuildingresponse1987, p.74].
+An ice sheet model in its most primitive form has to capture two processes: 1) climatic-basal mass balance [@CogleyGlossaryglaciermass2011, p. 29], 2) ice flow [@CogleyGlossaryglaciermass2011, p. 42].
+For each process being modelled, there are many methods ranging from simple or complex that are used to approximate the physical reality of an ice sheet.
+The choice of which scheme to choose depends on factors like the amount of computational power available, spatial resolution of the grid, the length of the time period the stimulation will run for, and how accurate the results need to be with the physical world.
+
+Mass balance changes can be modelled by accounting for total accummulation minus total ablation [@CogleyGlossaryglaciermass2011, p.7].
+For an ice sheet like Antarctica, important contributions to mass balance change are the surface ablation that can be calculated using simple temperature-index methods or sophisticated energy balance methods [@HockGlaciermeltreview2005], plus frontal ablation which includes calving, subaerial melting and subaerial sublimation, and subaqueous frontal melting [@CogleyGlossaryglaciermass2011, p. 44].
+
+Modern ice flow modelling relies on the numerical implementation of fluid dynamics.
+There is an entire hierarchy of flow models going from zero-order and higher-order models to gold standard Full-Stokes models that can describe the forces going from the grounded portion of the ice sheet to the floating ice shelves [@KirchnerCapabilitieslimitationsnumerical2011].
+Zero-order models commonly used include the Shallow ice approximation (SIA), which only considers shear stresses that are assumed to govern the flow of grounded ice [@FowlerFlowPolythermalGlaciers1978; @HutterTheoreticalglaciologymaterial1983]; and the Shallow shelf approximation (SSA), which only considers longitudinal stresses that are assumed to govern the flow of floating ice shelves [@MorlandUnconfinedIceShelfFlow1987].
+Higher-order models approximate the full Stokes equations [see @Hindmarshnumericalcomparisonapproximations2004] with examples including the Blatter-Pattyn models [@BlatterVelocitystressfields1995; @Pattynnewthreedimensionalhigherorder2003] and hybrid type models [@BuelerShallowshelfapproximation2009; @WinkelmannPotsdamParallelIce2011; @PollardDescriptionhybridice2012].
+Full Stokes models capture the most complete physical representation we have of ice flow with examples like Elmer/Ice [@GagliardiniCapabilitiesperformanceElmer2013] and FELIX-S [@Lengparallelhighorderaccurate2012].
+Traditionally, zero-order or higher-order models have been used for their computational efficiency, and continue to be used for paleo ice-sheet stimulations over longer timescales [@KirchnerShallowiceapproximation2016].
+In recent years however, there has been a gradual shift towards the use of Full Stokes models as they provide more consistent results even across dynamic regions like grounding lines [@PattynBenchmarkexperimentshigherorder2008; @ZhangcomparisontwoStokes2017], and also to couple ice sheet models with ocean models [@deBoerCurrentstatefuture2017; @Asay-DavisExperimentaldesignthree2016].
+
+![](https://ars.els-cdn.com/content/image/1-s2.0-S0277379111002915-gr1.jpg){width=300px}
+![](https://ars.els-cdn.com/content/image/1-s2.0-S0277379111002915-gr4.jpg){width=350px}
+
+TODO:
+
+- Comparison to inverse models
+- Physics informed deep learning/acceleration using GPUs
 
 # Proposed Research
 
