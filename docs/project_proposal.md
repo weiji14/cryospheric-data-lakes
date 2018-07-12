@@ -127,10 +127,14 @@ In recent years however, there has been a gradual shift towards the use of Full 
 ![](https://ars.els-cdn.com/content/image/1-s2.0-S0277379111002915-gr1.jpg){width=300px}
 ![](https://ars.els-cdn.com/content/image/1-s2.0-S0277379111002915-gr4.jpg){width=350px}
 
-TODO:
-
-- Comparison to inverse models
-- Physics informed deep learning/acceleration using GPUs
+It can be argued that the increasing demand for using complex Full Stokes ice sheet models over simpler higher-order models not only necessitates the use of more computational power, but also a smarter use of technology.
+Ice sheet models have to align with observational data in the old paleo record [e.g. @PollardModellingWestAntarctic2009] and modern settings [@GolledgemultimillennialAntarcticcommitment2015] without statistically overfitting the data and losing predictive capability.
+Tuning parameters to data observations takes multiple experiments, yet one full experiment can take a long time to finish.
+Although parallelized implementations of ice sheet models have been developed [see e.g. @WinkelmannPotsdamParallelIce2011], a 3-dimensional Full Stokes model can still take about 40 hours to run on a high-performance computing cluster of a few hundred CPUs [@LarourContinentalscalehigh2012].
+Finer refinements to the models will only continue, and if we wish to prevent computational time from spiralling out of control, we will either need to find more processors, or utilize more efficient processors.
+For example, one study showed a 60-180x speedup by using a Graphical Processing Unit (GPU) implementation of a second-order ice sheet flow model instead of a normal CPU implementation [@BraedstrupIcesheetmodellingaccelerated2014].
+Furthermore, physics informed neural networks can be trained with data to solve and discover non-linear partial differential equations like the Navier-Stokes equation [@RudyDatadrivendiscoverypartial2017; @RaissiPhysicsInformedDeep2017; @RaissiPhysicsInformedDeep2017a], hinting at an extremely efficient GPU accelerated way for Full Stokes ice flow modelling.
+We therefore envision that bringing together geophysical observations, physics-based models, and new GPU-accelerated neural network developments will provide the driving force for accelerating advancement in the glaciological field.
 
 
 
