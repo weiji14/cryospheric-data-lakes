@@ -62,20 +62,29 @@ Consequently, this will feed into the bigger picture question on what is the rat
 
 An artificial neural network, very loosely based on biological neural networks, is a system made up of neurons.
 Each single neuron comprises of a simple mathematical function that takes an input value 'x' and produces some output 'y'.
-Neural networks are architected by combining many of these neurons together, either by stacking them in parallel (width-wise), or by joining them one after another (depth-wise) as multiple hidden layers.
+Neural networks are built by combining many of these neurons together, either by stacking them in parallel (width-wise), or by joining them one after another (depth-wise) as multiple hidden layers.
 
 [insert picture of one neuron, a shallow 1-layer network, a deep 2-layer network]
 
 The term deep neural network is used when there is not a direct function mapping between the input data and final output prediction.
 In other words, we call it deep when there are two or more hidden layers in the neural network.
 Earlier layers in the neural network start off as representations of fairly simple features.
-Deeper layers progressively build on these earlier layers, forming more complex feature representations that can provide useful information to generate the output prediction.
+Deeper layers progressively build on these earlier layers, forming more complex feature representations that can provide useful information to generate the output prediction [@GoodfellowDeeplearning2016].
 
-Almost certainly at the start, a neural network will output predicted values that do not match the actual groundtruth value.
+Initially, a neural network will almost always output predicted values that do not match the actual groundtruth value.
 The difference between the groundtruth and predicted value is used as the basis of training the neural network to do better.
 We do this by taking the error difference, and step backwards through the neural network, updating the weights of each neuron using some calculus.
 Basically, the more a neuron contributes to the predicted output, the more that neuron's weight will be adjusted.
-This backward update is also termed as backpropagation [add citation].
+This backward update is also termed as backpropagation [@RumelhartLearningrepresentationsbackpropagating1986].
+
+For computer vision applications, Convolutional Neural Networks (ConvNets) are usually used in place of a standard feedforward neural network [see @LeCunDeeplearning2015 for a general review].
+ConvNets have existed since @LeCunBackpropagationAppliedHandwritten1989, and are commonly used in pattern recognition tasks [e.g. @LecunGradientbasedlearningapplied1998].
+It became a prominent tool in the computer vision community since the AlexNet architecture [@KrizhevskyImageNetClassificationDeep2012] almost halved the error rate of conventional object classification approaches in the 2012 ImageNet Large Scale Visual Recognition Competition.
+Besides classification tasks, ConvNets have also been adapted for other uses.
+One such application is the Super-Resolution Convolutional Neural Network (SRCNN) which is a regression method used to increase the resolution of images [@DongImageSuperResolutionUsing2014].
+SRCNN can not only be used on ordinary photographic images, but also on pixel-based geographic datasets like Digital Elevation Models, improving their spatial resolution in a manner much better than ordinary interpolation methods [@ChenConvolutionalNeuralNetwork2016].
+An even more interesting application is how SRCNNs can use the statistical correlation between geographical datasets like precipitation and elevation to increase the resolution of climate models, allowing us to capture more accurate local climate patterns [@VandalDeepSDGeneratingHigh2017].
+Therefore, given a variety of high resolution datasets that are correlated to a low resolution geographic dataset we wish to improve, it should be possible to design a neural network to improve the low resolution dataset with enough training.
 
 ### Glacier flow in relation to basal water
 
