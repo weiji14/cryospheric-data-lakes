@@ -31,13 +31,13 @@ csl: apa.csl
 
 ## Background
 
-Glaciers flow via a combination of three methods: 1) plastic deformation of the viscous ice itself, 2) Sliding from water between the glacier and bed, 3) Deformation of the bed [see Figure 1, @Cuffeyphysicsglaciers2010, p.223].
+Glaciers flow via a combination of three processes: 1) plastic deformation of the viscous ice itself; 2) sliding from water between the glacier and bed; and 3) deformation of the bed [see Figure 1, @Cuffeyphysicsglaciers2010, p.223].
 Our study is part of this wider literature of work looking at how the flow of glaciers or ice streams is speeding up or slowing down over time in Antarctica.
 In particular, we will focus on mechanisms 2 and 3 which look at the subglacial component of the glacier.
 These basal processes are not very well understood, as they are difficult to observe directly.
-Also, the problem is compounded as basal sliding and deformation are not mutually exclusive but controlled in some way by the amount of water in the subglacial part of the glacier [@Cuffeyphysicsglaciers2010, p.223].
+Also, the problem is compounded as basal sliding and deformation are not mutually exclusive but both controlled in some way by the amount of water in the subglacial part of the glacier [@Cuffeyphysicsglaciers2010, p.223].
 
-![The 3 components that contribute to glacier flow](https://upload.wikimedia.org/wikipedia/commons/3/3a/Glacier_flow-mechanisms.png){width=350px}
+![The three components that contribute to glacier flow](https://upload.wikimedia.org/wikipedia/commons/3/3a/Glacier_flow-mechanisms.png){width=350px}
 
 Taken together, the motion of glaciers from sliding and deformation at the bed is also called basal slip [@Cuffeyphysicsglaciers2010, p.223].
 The amount of water available plays an important role in increasing or decreasing basal slip.
@@ -54,7 +54,7 @@ Given enough information on the basal velocity, shear stress, and properties of 
 
 Understanding how water behaves at the glacier bed enables us to solve two major outstanding problems in glaciology: the detailed mechanisms of basal slip; and the causes and mechanisms of glacial surges [@Cuffeyphysicsglaciers2010, p.176].
 All of these will be crucial for figuring out how fast the ice draining from Antarctica will flow as our planet continues to warm.
-Consequently, this will feed into the bigger picture question on what is the rate at which sea level will rise and affect our global community.
+Consequently, this will feed into the bigger picture question on what is the rate at which sea level will rise and affect our coastal communities around the globe.
 
 ## Previous work
 
@@ -84,7 +84,7 @@ Besides classification tasks, ConvNets have also been adapted for other uses.
 One such application is the Super-Resolution Convolutional Neural Network (SRCNN) which is a regression method used to increase the resolution of images [@DongImageSuperResolutionUsing2014].
 SRCNN can not only be used on ordinary photographic images, but also on pixel-based geographic datasets like Digital Elevation Models, improving their spatial resolution in a manner much better than ordinary interpolation methods [@ChenConvolutionalNeuralNetwork2016].
 An even more interesting application is how SRCNNs can use the statistical correlation between geographical datasets like precipitation and elevation to increase the resolution of climate models, allowing us to capture more accurate local climate patterns [@VandalDeepSDGeneratingHigh2017].
-Therefore, given a variety of high resolution datasets that are correlated to a low resolution geographic dataset we wish to improve, it should be possible to design a neural network to improve the low resolution dataset with enough training.
+Therefore, given a variety of high resolution datasets that are correlated to a low resolution geographic dataset we wish to improve, it should be possible to design and train a neural network to improve that low resolution dataset.
 
 ### Glacier flow in relation to basal water
 
@@ -93,13 +93,13 @@ In Antarctica, water can be easily seen on the surface in some places, mostly cl
 The bulk of liquid water in Antarctica however, lies hidden below the ice sheet.
 There are over 400 subglacial lakes already discovered, and we know from geomophological evidence that water also flows in subglacial channels underneath the ice sheet [@SiegertRecentadvancesunderstanding2016].
 Water in the cryospheric system is interesting primarily because of its fluid properties.
-Compared to ice, water flows a lot more quickly over short timescales, and ice that is in contact with water exhibits a higher level of dynamicity than it would otherwise solely by itself.
+Compared to ice, water flows a lot more quickly over short timescales, and ice that is in contact with water is more dynamic than it would otherwise be.
 
-Various subglacial drainage pathways have been theorized over the years, ranging from fast channelized flow in concentrated channels to slower distributed flows over a large surface area [see Figure 2, @FlowersModellingwaterflow2015].
+Various subglacial drainage pathways have been theorized over the years, ranging from fast channelized flow to slower distributed flows over a large surface area [see Figure 2, @FlowersModellingwaterflow2015].
 These subglacial drainage structures are known to change between the two extremes of efficient and inefficient regimes over space and time, with implications for ice dynamics [@MullerVelocityfluctuationswater1973].
 The treatment of Antarctic glaciers/ice streams does however, differ from that of temperate glaciers owing to the lack of input from surface meltwater, i.e. the Antarctic subglacial water system is predominantly supplied from basal melt processes.
 One area of initial heavy focus was on the Whillans Ice Stream (formerly Ice Stream B), where seismic surveys found a water saturated, ~5 metre thick porous till layer [@BlankenshipSeismicmeasurementsreveal1986] that could easily deform and explain the observed high surface velocities [@AlleyDeformationtillice1986].
-Indeed, further studies in other geographic locations found that soft beds and abundant meltwater are seen as one of the major controls on the locations of ice streams, secondary only to topographic focusing linked to a calving margin [@WinsborrowWhatcontrolslocation2010].
+Indeed, further studies in other geographic locations found that soft beds and abundant meltwater are one of the major controls on the locations of ice streams, secondary only to topographic focusing linked to a calving margin [@WinsborrowWhatcontrolslocation2010].
 This reinforces the importance of water as drivers of fast ice flow, and it goes back to the question of why we need to know the location of water beneath the ice sheet.
 
 ![Channelized vs Distributed flow in a subglacial drainage system.](http://rspa.royalsocietypublishing.org/content/royprsa/471/2176/20140907/F2.large.jpg){width=300px}
@@ -107,26 +107,28 @@ This reinforces the importance of water as drivers of fast ice flow, and it goes
 The most exemplary example of fast glacier flow are when glaciers *surge*, characterized by an "abnormally fast flow of a glacier over a period of a few months to years, during which the glacier margin may advance substantially" [@CogleyGlossaryglaciermass2011, p.89].
 Recurring surge events are well documented in several small glaciers, the classical example being Variegated Glacier in Alaska [@EisenVariegatedGlacierAlaska2005].
 There has been little evidence however, for surges happening across broad regions of modern ice sheets [@Cuffeyphysicsglaciers2010, p.537].
-Isolated surge-type glaciers are found in some parts of East Greenland, initially considered to mostly exhibit Alaskan-type surges based on a hydrologic switch model [@JiskootSurgepotentialdrainagebasin2003], but later studies have shown that Svalbard-type surges based on a thermal switch model also applies to some glaciers in the region [@JiskootSurgesmallEast2009].
-Surge-type glaciers have since been catalogued into two geographical supercluster centres (named Arctic Ring and High Mountain Asia), and the statistical analyses was used to postulate a new enthalpy cycle model [@SevestreClimaticgeometriccontrols2015].
+Isolated surge-type glaciers are found in some parts of East Greenland, initially considered to mostly exhibit Alaskan-type surges based on a hydrologic switch model [@JiskootSurgepotentialdrainagebasin2003].
+Later studies have shown that Svalbard-type surges based on a thermal switch model also apply to some glaciers in the region [@JiskootSurgesmallEast2009].
+Surge-type glaciers have since been catalogued into two geographical supercluster centres (named Arctic Ring and High Mountain Asia), and statistical analyses used to postulate a new enthalpy cycle model [@SevestreClimaticgeometriccontrols2015].
 Optimal surging conditions are satisfied in environments that are not in the cold/dry and warm/humid extremes, but in an intermediate zone where enthalpy heat gains cannot be discharged effectively via heat conduction or meltwater discharge - a zone which includes the Antarctic Peninsula [@SevestreClimaticgeometriccontrols2015].
 The main trigger for surges in Antarctica appears to be from ice shelf breakups, with satellite observations confirming the acceleration of ice after the Larsen B ice shelf partially collapsed [@DeAngelisGlacierSurgeIce2003; @RignotAcceleratedicedischarge2004; @ScambosGlacieraccelerationthinning2004].
 It has been noted though that the surges were only limited to the major fast-flowing tributaries and not the slow moving ice piedmonts or smaller glaciers, showing how glacier dynamics are still governed by basal thermal conditions and subglacial hydrology [@DeAngelisGlacierSurgeIce2003].
 
 Observing water under the ice sheet is difficult due to the different materials involved (ice, water, rock) having different transmission properties.
-Surveying these features requires observing either mechanical wave (e.g. active seismic sounding) or electromagnetic wave (e.g. ground-penetrating radar) signals which are derived from an active or passive source, using sensors deployed on the ground, in the air, or onboard of satellites in space.
+Surveying these features requires studying either mechanical wave (e.g. active seismic sounding) or electromagnetic wave (e.g. ground-penetrating radar) signals.
+The waves may come from active or passive sources, and are detected using sensors deployed on the ground, in the air, or onboard of satellites in space.
 We know that subglacial water exists in three ways: 1) subglacial lakes; 2) subglacial channels; 3) subglacial aquifers [@ColleoniSpatiotemporalvariabilityprocesses2018].
 The first direct documented subglacial lake was detected in 1967 using airborne radio-echo sounding [@RobinInterpretationRadioEcho1969] from a joint programme between the UK Scott Polar Research Institute, the US National Science Foundation and the Technical University of Denmark, cumulating in the first subglacial lake inventory of 17 lakes [@OswaldLakesAntarcticIce1973], followed by a second inventory with 77 lakes  [@SiegertinventoryAntarcticsubglacial1996] and a third inventory with 145 lakes [@SiegertrevisedinventoryAntarctic2005].
 Since then, large (10+ km in diameter) 'active' subglacial lakes have been detected based on vertical surface displacements using radar interferometry [@GrayEvidencesubglacialwater2005], laser altimetry [@Smithinventoryactivesubglacial2009] and optical image differencing [@FrickerActiveSubglacialWater2007], resulting in a fourth inventory that includes 379 lakes [@WrightfourthinventoryAntarctic2012] with more discoveries following [e.g. @WrightEvidencehydrologicalconnection2012; @WrightSubglacialhydrologicalconnectivity2014; @RiveraSubglacialLakeCECs2015; @KimActivesubglaciallakes2016; @SmithConnectedsubglaciallake2017].
 Satellite and airborne surveys however, provide limited detail on the subglacial hydrological system, and we need ground based systems to resolve the location of hydrological structures not just directly under the ice but inside of the bedrock as well.
-At Subglacial Lake Whillans for example, radar [@ChristiansonSubglacialLakeWhillans2012] and active seismic [@HorganSubglacialLakeWhillans2012] surveys were conducted to constrain the stratigraphic thickness of the ice and water bodies as part of the Whillans Ice Stream Subglacial Access Research Drilling (WISSARD) project [@TulaczykWISSARDSubglacialLake2014].
-These geophysical surveys are further complemented by passive magnetotelluric [@WannamakerStructurethermalregime2004] and controlled-source electromagnetic methods [@DuganSubsurfaceimagingreveals2015] that measure electrical conductivity, which can not only detect ice-water boundaries but also map deeper groundwater present in subglacial aquifers [@Keyfeasibilityimagingsubglacial2017].
+At Subglacial Lake Whillans for example, radar [@ChristiansonSubglacialLakeWhillans2012] and active seismic [@HorganSubglacialLakeWhillans2012] surveys were conducted to constrain the stratigraphic thickness of the ice and water bodies as part of the Whillans Ice Stream Subglacial Access Research Drilling (WISSARD) project [@TulaczykWISSARDSubglacialLake2014] by timing how long it takes for the waves to reflect off various layers.
+These standard geophysical surveys can be further complemented by passive magnetotelluric [@WannamakerStructurethermalregime2004] and active controlled-source electromagnetic methods [@DuganSubsurfaceimagingreveals2015] that measure electrical conductivity, a technique that can not only detect ice-water boundaries but also map deeper groundwater present in subglacial aquifers [@Keyfeasibilityimagingsubglacial2017].
 Typically, a detailed subglacial hydrology study would integrate most of these methods, using multiple ground-based electromagnetic geophysical techniques, constrained using seismic and airborne geophysical data, to detect, delineate and quantify water beneath the ice sheet [@SiegertAntarcticsubglacialgroundwater2018].
 
 ### Ice Sheet Modelling
 
 "All models are wrong; the practical question is how wrong do they have to be to not be useful." [@BoxEmpiricalmodelbuildingresponse1987, p.74].
-An ice sheet model in its most primitive form has to capture two processes: 1) climatic-basal mass balance [@CogleyGlossaryglaciermass2011, p. 29], 2) ice flow [@CogleyGlossaryglaciermass2011, p. 42].
+An ice sheet model in its most primitive form has to capture two processes: 1) climatic-basal mass balance [@CogleyGlossaryglaciermass2011, p. 29]; and 2) ice flow [@CogleyGlossaryglaciermass2011, p. 42].
 For each process being modelled, there are many methods ranging from simple or complex that are used to approximate the physical reality of an ice sheet.
 The choice of which scheme to choose depends on factors like the amount of computational power available, spatial resolution of the grid, the length of the time period the stimulation will run for, and how accurate the results need to be with the physical world.
 
@@ -136,10 +138,11 @@ For an ice sheet like Antarctica, important contributions to mass balance change
 Modern ice flow modelling relies on the numerical implementation of fluid dynamics.
 There is an entire hierarchy of flow models going from zero-order and higher-order models to gold standard Full-Stokes models that can describe the forces going from the grounded portion of the ice sheet to the floating ice shelves [@KirchnerCapabilitieslimitationsnumerical2011].
 Zero-order models commonly used include the Shallow ice approximation (SIA), which only considers shear stresses that are assumed to govern the flow of grounded ice [@FowlerFlowPolythermalGlaciers1978; @HutterTheoreticalglaciologymaterial1983]; and the Shallow shelf approximation (SSA), which only considers longitudinal stresses that are assumed to govern the flow of floating ice shelves [@MorlandUnconfinedIceShelfFlow1987].
-Higher-order models approximate the full Stokes equations [see @Hindmarshnumericalcomparisonapproximations2004] with examples including the Blatter-Pattyn models [@BlatterVelocitystressfields1995; @Pattynnewthreedimensionalhigherorder2003] and hybrid type models [@BuelerShallowshelfapproximation2009; @WinkelmannPotsdamParallelIce2011; @PollardDescriptionhybridice2012].
-Full Stokes models capture the most complete physical representation we have of ice flow with examples like Elmer/Ice [@GagliardiniCapabilitiesperformanceElmer2013] and FELIX-S [@Lengparallelhighorderaccurate2012].
+Higher-order models approximate the full Stokes equations [see @Hindmarshnumericalcomparisonapproximations2004], with examples including the Blatter-Pattyn models [@BlatterVelocitystressfields1995; @Pattynnewthreedimensionalhigherorder2003] and hybrid type models [@BuelerShallowshelfapproximation2009; @WinkelmannPotsdamParallelIce2011; @PollardDescriptionhybridice2012].
+Full Stokes models capture the most complete physical representation we have of ice flow, with examples like Elmer/Ice [@GagliardiniCapabilitiesperformanceElmer2013] and FELIX-S [@Lengparallelhighorderaccurate2012].
 Traditionally, zero-order or higher-order models have been used for their computational efficiency, and continue to be used for paleo ice-sheet stimulations over longer timescales [@KirchnerShallowiceapproximation2016].
-In recent years however, there has been a gradual shift towards the use of Full Stokes models as they provide more consistent results even across dynamic regions like grounding lines [@PattynBenchmarkexperimentshigherorder2008; @ZhangcomparisontwoStokes2017], and also to couple ice sheet models with ocean models [@deBoerCurrentstatefuture2017; @Asay-DavisExperimentaldesignthree2016].
+In recent years however, there has been a gradual shift towards the use of Full Stokes models as they provide more consistent results even across dynamic regions like grounding lines [@PattynBenchmarkexperimentshigherorder2008; @ZhangcomparisontwoStokes2017].
+This is especially important as there is a growing movement to couple ice sheet models with ocean models for more realistic stimulations [@deBoerCurrentstatefuture2017; @Asay-DavisExperimentaldesignthree2016].
 
 ![](https://ars.els-cdn.com/content/image/1-s2.0-S0277379111002915-gr1.jpg){width=300px}
 ![](https://ars.els-cdn.com/content/image/1-s2.0-S0277379111002915-gr4.jpg){width=350px}
@@ -160,9 +163,9 @@ We therefore envision that bringing together geophysical observations, physics-b
 
 ## Plan
 
-The increasing amount of remotely sensed geophysical data provided daily across Antarctica is an unrealized potential that can help us to answer one basic question - Where does water lie beneath the ice sheet?
-Here we propose a novel deep learning based approach to discover subglacial features, specifically subglacial lakes and their networked channels, that have mostly been studied previously using isolated aerial or ground-based surveys.
-This approach aims to utilize openly available datasets, with the goal of making discoveries that individual datasets alone would not confidently yield.
+Remotely-sensed geophysical data across Antarctica provides an unrealized potential that can help us to answer one basic question - Where does water lie beneath the ice sheet?
+Here we propose a novel deep learning based approach to explore subglacial features, specifically subglacial lakes, channels and aquifers, that have often been studied using siloed datasets from space-borne, aerial or ground-based surveys.
+This approach aims to utilize openly available datasets, with the goal of making discoveries that a few individual datasets alone would not have revealed.
 
 At present, the large amount and varied formats of the datasets presents many challenges to researchers, from the very basic management of the data volume itself to the specialized task of logically interpreting the data within set realms of scientific uncertainty.
 For us, we introduce another layer of complexity by attempting to combine such specialized cross-disciplinary datasets in both the dimensions of space and time.
@@ -180,7 +183,7 @@ The heterogeneous nature of our datasets presents some challenges, but the obser
 
 Geographic data can be broadly classified into vector and raster datasets, with the former being more suitable for discrete datasets, and the latter more associated with continuous datasets.
 For each spot on the surface, we will assemble all the sensor measurements available for that spot using locational attributes tied to the sensor data.
-As we are interested in the continuous spatial variation of adjacent sensor measurements at any one spot, which may determine the presence or absence of subglacial features, we choose to employ the continuous raster format in our Geographic Information System (GIS).
+As we are interested in the continuous spatial variation of adjacent sensor measurements at any one spot, we choose to employ the continuous raster format in our Geographic Information System (GIS).
 
 Each data layer can be stacked together to create a multi-dimensional raster image that will feed into our computer vision model.
 Conceptually, we can think of stacking multiple input feature layers in much the same way as stacking multiple bands in a multipectral optical satellite image.
@@ -190,33 +193,21 @@ Next, each layer may need to be undergo further transformation so that the pixel
 For the resampling process, we may choose to use classical resampling techniques such as bilinear or bicubic interpolation, or a custom spline interpolation method.
 Alternatively, it is also possible to employ Super-Resolution Convolutional Neural Network (SRCNN) to increase the spatial resolution of the raster [@DongImageSuperResolutionUsing2014].
 For example, we can train an SRCNN to capture interdependencies with variables in the other layers to improve the reliability of the upscaling function [@VandalDeepSDGeneratingHigh2017], compared to a standard bicubic interpolation method which only looks at information from a single layer.
-
-Once this is done, we will generate standardized square tiles of the stacked multi-layer raster.
-Each tile will be centered on one subglacial lake polygon, and may contain more than one lake if lakes are found close to each other.
-Thus, the number of training tiles would equal the number of lakes in our compiled subglacial lake inventory.
-
-At this point, we will divide our dataset into a training set and cross-validation set.
-The training set will be used to train our ConvNet model, while the cross-validation set will be used to evaluate the performance of that model across different hyperparameter settings.
-Furthermore, we will also have a test set to independently verify our final model.
-This test set will likely be generated from the data in the point-only subglacial lake inventory [@WrightfourthinventoryAntarctic2012].
-
-As our training sample is very small, just over a hundred or so, we will also use data augmentation to virtually increase our training set.
-Data augmentation will involve randomly tranforming our tiles, by any combination of the following: mirror image, vertical/horizontal shifts, rotation, shear warping, cropping, adding noise, etc.
-Such data augmentations will reduce the likelihood of overfitting in our ConvNet model.
+Once this is done, we will have a multi-layer raster that will act as an input to our neural network model.
 
 ## Datasets
 
 The deep learning models will require the use of Antarctic datasets with nearly full coverage of the continent.
-For the supervised classification task, our input data will include stacked layers of gridded raster datasets, and these will be mapped to known output labels or masks of subglacial lake areas.
-Input data for our study will include single-satellite digital terrain models (e.g. ICESAT, CryoSat), compiled products (e.g. BEDMAP2) and model outputs (e.g. MEASURES Ice flow speed).
-Output data will come from published subglacial lake inventory collections.
-For select regions of interest, we may source finer resolution data directly from airborne geophysical missions (e.g. Operation Icebridge) and there will be some scope for additional field data collection for groundtruthing purposes.
+Our input data will include both raster- and vector-type datasets mainly collected from satellite platforms.
+Examples of raster data include single-satellite digital terrain models (e.g. ICESAT, CryoSat), compiled products (e.g. BEDMAP2) and model outputs (e.g. Subglacial water flux).
+Vector data will include polygons or points that come from published subglacial lake inventory collections.
+For select regions of interest, we may source finer resolution data directly from airborne geophysical missions (e.g. Operation Icebridge) or ground based surveys.
 
-Our criteria for incorporating a dataset into the shortlist is prioritized based on factors like spatial resolution and whether they have the potential to be useful for our subglacial lake classification task.
+Our criteria for incorporating a dataset into the shortlist is prioritized based on factors like spatial resolution and whether they have the potential to be useful for our subglacial hydrology research.
 Where data products of similar types are available, we tend to choose the latest version, keeping an older version only if it has some value not found in the newer version.
 For example, we have two Digital Elevation Models (DEM), one from ICESAT data, and one from CryoSat-2 data, as even though the ICESAT DEM is older, it is of higher spatial resolution and also sourced from a laser altimeter compared to CryoSat-2's radar altimeter.
 
-### Training data - Raster Arrays
+### Raster Data
 
 |Type         | Sensor Type     | Name                    | Spatial Resolution | Literature Citation                          | Data Citation                            |
 |:----------- |:----------------|:----------------------- | ------------------:|:-------------------------------------------- |:---------------------------------------- |
@@ -231,6 +222,24 @@ For example, we have two Digital Elevation Models (DEM), one from ICESAT data, a
 | Geo-physics | Magnetic        | Subglacial heat flux    |             15000m | [@MartosHeatFluxDistribution2017]            | [@MartosAntarcticgeothermalheat2017]     |
 | Geo-physics | Gravity         | AntGG Gravity Anomaly   |             10000m | [@ScheinertNewAntarcticgravity2016]          | [@ScheinertAntarcticfreeaircomplete2016] |
 | Geo-physics | Gravity         | SatGravRET2014          |             10000m | [@Hirtnewdegree2190102016]                   |                                          |
+
+### Vector Data
+
+#### Subglacial Lake Inventories
+
+| Vector Type | Name                                         | Count | Citation                              |
+|:----------- |:-------------------------------------------- |:-----:|:------------------------------------- |
+| Polygon     | Smith et al.                                 |  124  | [@Smithinventoryactivesubglacial2009] |
+| Point       | Wright & Siegert                             |  379  | [@WrightfourthinventoryAntarctic2012] |
+
+#### Individual Subglacial Lakes
+
+| Vector Type | Name                                         | Count | Citation                              |
+|:----------- |:-------------------------------------------- |:-----:|:------------------------------------- |
+| Polygon     | Vostok Subglacial Lake                       |   1   | [@StudingerIcecoverlandscape2003]     |
+| Polygon     | Recovery Subglacial Lakes                    |   4   | [@BellLargesubglaciallakes2007]       |
+| Polygon     | Kamb Subglacial Lakes                        |   3   | [@KimActivesubglaciallakes2016]       |
+| Polygon     | Thwaites Subglacial Lakes                    |   4   | [@SmithConnectedsubglaciallake2017]   |
 
 \newpage
 
@@ -249,24 +258,6 @@ For example, we have two Digital Elevation Models (DEM), one from ICESAT data, a
 ![EIGEN-6C4 Gravity Model](http://quantarctica.npolar.no/opencms/export/sites/quantarctica/data-catalog/images/phys_eigen.png){width=200px}
 ![Subglacial Lakes Smith](http://quantarctica.npolar.no/opencms/export/sites/quantarctica/data-catalog/images/glac_lakess.png){width=200px}
 ![Subglacial lakes Wright & Siegert](http://quantarctica.npolar.no/opencms/export/sites/quantarctica/data-catalog/images/glac_lakesws.png){width=200px}
-
-### Training data - Vector Labels
-
-#### Subglacial Lake Inventories
-
-| Vector Type | Name                                         | Count | Citation                              |
-|:----------- |:-------------------------------------------- |:-----:|:------------------------------------- |
-| Polygon     | Smith et al.                                 |  124  | [@Smithinventoryactivesubglacial2009] |
-| Point       | Wright & Siegert                             |  379  | [@WrightfourthinventoryAntarctic2012] |
-
-#### Individual Subglacial Lakes
-
-| Vector Type | Name                                         | Count | Citation                              |
-|:----------- |:-------------------------------------------- |:-----:|:------------------------------------- |
-| Polygon     | Vostok Subglacial Lake                       |   1   | [@StudingerIcecoverlandscape2003]     |
-| Polygon     | Recovery Subglacial Lakes                    |   4   | [@BellLargesubglaciallakes2007]       |
-| Polygon     | Kamb Subglacial Lakes                        |   3   | [@KimActivesubglaciallakes2016]       |
-| Polygon     | Thwaites Subglacial Lakes                    |   4   | [@SmithConnectedsubglaciallake2017]   |
 
 ## Preliminary Work
 
@@ -299,52 +290,47 @@ The model's architecture is as follows:
 
 ## Research questions
 
-The goal of this research is to explore the applicability of deep learning to extract information from cryospheric remote sensing datasets, with a particular focus on Antarctic subglacial hydrology.
-Due to the rich variation and large amount of openly available cryospheric datasets we have, we will first attempt to make full use of the spatial correlations between different physical datasets to increase the spatial resolution of lower resolution datasets.
-Next, we can align and stack these different high resolution datasets together and train a neural network on known subglacial lakes, and see if this can yield potential lakes yet to be discovered by classical methods.
-Finally, we will interpret the ConvNet model's intermediate layers and see how it may inform a new generation of cryospheric research and potentially improve ice sheet models.
+The goal of this research is to explore the applicability of deep learning to extract information from cryospheric remote sensing datasets in an efficient manner, with a particular focus on Antarctic subglacial hydrology.
 The questions to be addressed are as follows:
 
 (@) What is the potential of using a Super-image Resolution Convolutional Neural Network to increase the spatial resolution of cryospheric datasets?
 Where might this resolution enhancement perform adequately and where might it fail compared to standard resampling techniques?
 
-(@) How can we architect and train a Deep Convolutional Neural Network on a high-dimensional raster dataset to detect subglacial lakes?
-What are the building blocks and hyperparameters that will allow this ConvNet to work well?
+(@) Where do subglacial lakes exist in Antarctica based on the geographical information we have gathered from our geophysical sensors?
+How can we architect and train a Deep Convolutional Neural Network on a high-dimensional raster dataset to find these subglacial lakes?
 
-(@) Why does a Deep Convolutional Neural Network predict that a subglacial lake is present or absent in any one particular area?
-How might we apply deep learning to improve the predictive capability of ice sheet models?
+(@) How can we use neural networks to speed up the calculations of Full Stokes ice sheet models via efficient Graphical Processing Units?
+What is the potential of using this new and highly efficient paradigm across paleo- and modern day settings to improve our estimates on future sea level rise?
 
 ## Outline
 
-This research project will be structured as a series of sections containing a few chapters.
+This dissertation will follow a journal article style format, consisting of an introduction, three main topic chapters, and a conclusion.
+Each of the three main topic chapters will provide significant contributions to the data, science and tools we use in glaciology.
 
-### Section 1 - Applications of Deep Learning in the Cryosphere
+### Chapter 1 - Introduction
 
-Here, we start of with a few mini-projects that provide a gentle introduction to the applicability of deep learning to the cryosphere.
-The first chapter is inspired by facial recognition technology, and uses an extensive photo dataset to teach a neural network to identify glaciers for a data rescue operation.
-The second chapter is an idea we will explore, whereby a neural network is trained to produce a crisp high resolution image from a lower resolution image, and this is based on similar work that has been applied to regular everyday photos.
+### Chapter 2 - Applying Deep Learning to Cryospheric Datasets: Using a super-image resolution convolutional neural network to increase the spatial resolution of cryospheric datasets
 
-- Chapter 1 - Using Capsule Networks to recognize the names of glaciers in New Zealand.
+Here, we start off by improving the cryospheric datasets that forms the basis of our project.
+This is an idea based on similar work in enhancing the resolution regular everyday photos.
+Over Antarctica, there are low resolution datasets for the whole continent (e.g. BEDMAP2) and high resolution datasets collected from isolated field studies.
+We can match the two images geographically and train a super-image resolution neural network to produce a crisp high resolution image at places where we do not have field observations.
 
-- Chapter 2 - Using a super-image resolution convolutional neural network to increase spatial resolution of cryospheric datasets.
+### Chapter 3 - Antarctic Subglacial Hydrology through Deep Learning: A supervised Convolutional Neural Network classifier for mapping the subglacial hydrology of Antarctica
 
-### Section 2 - A supervised Deep Learning approach to mapping the subglacial hydrology of Antarctica
+Next, the deep learning techniques are applied to tackle the core science problem on locating subglacial water in Antarctica.
+The neural network architecture is conceptually similar to those used by self-driving cars to locate objects of interest in images.
+By combining several geographic layers together, and having an inventory of known subglacial lake positions, we can train a neural network to learn and identify subglacial lakes.
+Given time-series data over longer periods, it may be possible to see how a subglacial hydrological network drains, fills or re-routes itself over time.
 
-Next, the deep learning techniques are revised and applied on a larger scale to map the geography of subglacial water in Antarctica. For the third chapter, we use a neural network architecture similar to those used in self-driving cars that detect objects, and apply it to several geographic layers to find spatial subglacial lake boundaries. In the fourth chapter, we introduce the time dimension and use it to understand how this subglacial hydrological network drains, fills or re-routes itself over the satellite era.
+### Chapter 4 - Ice Flow Modelling with Deep Learning: Using data and physics based neural networks to solve Full Stokes equations
 
-Chapter 3 - Semantic segmentation of subglacial lakes in Antarctica using Convolutional Neural Networks.
+Finally, our focus shifts towards an in depth look at how neural networks can improve ice sheet models.
+This line of research is motivated by how neural network calculations can be an order of magnitude faster on modern Graphical Processing Units compared to CPUs.
+Translating the Full Stokes equations into a neural network format requires not only careful mathematical formulation, but also a lot of data from paleo- and modern day observations to train the network.
+A successful re-implementation of numerical ice sheet models to an efficient neural network model will allow faster runtimes and hopefully lead to more reliable predictions on the future of the Antarctic Ice Sheet.
 
-Chapter 4 - Inferring the changing subglacial hydrology of Antarctica from time series data using a Recurrent Convolutional Neural Network.
-
-### Section 3 - Making sense of our Cryospheric Deep Neural Networks and their applicability to ice sheet models
-
-Finally, our focus shifts towards an in depth interpretation of the results in our previous sections.
-The fifth chapter aims to peer into our black box neural network models and provide insights on what are the most important parameters that matter in our mathematical models.
-The sixth chapter will then gather these insights and use them to update some of the assumptions underlying our ice sheet models, hopefully leading to more accurate predictions on the future of the Antarctic Ice Sheet.
-
-Chapter 5 - Visualizing and interpreting the layers of a deep subglacial lake classifier and its contribution to cryospheric research.
-
-Chapter 6 - Applications of Deep Learning to dynamic ice sheet models.
+### Chapter 5 - Conclusions
 
 ## Timeline
 
