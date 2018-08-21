@@ -19,6 +19,9 @@ export_on_save:
 colorlinks: true
 bibliography: bibliography.bib
 csl: apa.csl
+header-includes: |
+    \usepackage{caption}
+    \usepackage{subcaption}
 ---
 
 # Abstract
@@ -45,8 +48,9 @@ In mountain glaciers, it has been observed how glaciers flow faster during the s
 Similarly in Antarctica, there are ice streams overlying subglacial lakes - large water bodies that drain ocassionally and trigger rapid ice flow events [@BellLargesubglaciallakes2007].
 
 We do have some knowledge on how water underneath a glacier helps ice to flow faster.
-On one hand, water in sufficient amounts can exert an upward pressure that is greater than the downward gravitational pull on the ice.
-This tends to occur in small channel cavities where drainage is poor, causing water to accumulate and build up enough pressure to increase the area of separation between ice and rock, lowering friction and thus allowing ice to slide over its bedrock [@Cuffeyphysicsglaciers2010, p.238].
+On one hand, water at sufficient flux can exert an upward pressure that is locally greater than the downward gravitational pull on the ice.
+This tends to occur where drainage is poor, in small channel cavities on the lee side of bedrock bumps.
+When more water is forced into the cavity than can drain away, pressure will build up and increase the area of separation between ice and rock, thus lowering friction and allowing ice to slide over its bedrock [@Cuffeyphysicsglaciers2010, p.238].
 On the other hand, water can also percolate into porous bedrock and weaken it into a softer material more prone to deformation.
 In fact, most glacier beds are composed of glacial till.
 When these highly porous sediments are saturated with water, they can easily give way and move downhill, carrrying along with it the ice on top [@Cuffeyphysicsglaciers2010, p.255-256].
@@ -64,7 +68,47 @@ An artificial neural network, very loosely based on biological neural networks, 
 Each single neuron comprises of a simple mathematical function that takes an input value 'x' and produces some output 'y'.
 Neural networks are built by combining many of these neurons together, either by stacking them in parallel (width-wise), or by joining them one after another (depth-wise) as multiple hidden layers.
 
-[insert picture of one neuron, a shallow 1-layer network, a deep 2-layer network]
+![Schematic digram of a) 1-neuron, b) a shallow 1-layer network, c) a deep 2-layer network](https://screenshotscdn.firefoxusercontent.com/images/92dc1712-472c-4616-b0bf-aae9e65812d0.png){width=550px}
+
+<!--
+https://mermaidjs.github.io/mermaid-live-editor/#/view/eyJjb2RlIjoiZ3JhcGggVERcbiAgICBzdWJncmFwaCBkZWVwIDItbGF5ZXIgbmV0d29ya1xuICAgICAgICBpbnB1dCgoeCkpXG4gICAgICAgIGlucHV0IC0tPiBuZXVyb24xMSgoYTExKSlcbiAgICAgICAgaW5wdXQgLS0-IG5ldXJvbjEyKChhMTIpKVxuICAgICAgICBpbnB1dCAtLT4gbmV1cm9uMTMoKGExMykpXG5cbiAgICAgICAgbmV1cm9uMTEgLS0-IG5ldXJvbjE0KChhMjEpKVxuICAgICAgICBuZXVyb24xMSAtLT4gbmV1cm9uMTUoKGEyMikpXG4gICAgICAgIG5ldXJvbjExIC0tPiBuZXVyb24xNigoYTIzKSlcbiAgICAgICAgbmV1cm9uMTIgLS0-IG5ldXJvbjE0KChhMjEpKVxuICAgICAgICBuZXVyb24xMiAtLT4gbmV1cm9uMTUoKGEyMikpXG4gICAgICAgIG5ldXJvbjEyIC0tPiBuZXVyb24xNigoYTIzKSlcbiAgICAgICAgbmV1cm9uMTMgLS0-IG5ldXJvbjE0KChhMjEpKVxuICAgICAgICBuZXVyb24xMyAtLT4gbmV1cm9uMTUoKGEyMikpXG4gICAgICAgIG5ldXJvbjEzIC0tPiBuZXVyb24xNigoYTIzKSlcblxuICAgICAgICBuZXVyb24xNCAtLT4gb3V0cHV0KCh5KSlcbiAgICAgICAgbmV1cm9uMTUgLS0-IG91dHB1dCgoeSkpXG4gICAgICAgIG5ldXJvbjE2IC0tPiBvdXRwdXQoKHkpKVxuICAgIGVuZFxuICAgIFxuICAgIHN1YmdyYXBoIHNoYWxsb3cgMS1sYXllciBuZXR3b3JrXG4gICAgICAgIGlucHV0MigoeCkpXG4gICAgICAgIGlucHV0MiAtLT4gbmV1cm9uMjEoKGExKSlcbiAgICAgICAgaW5wdXQyIC0tPiBuZXVyb24yMigoYTIpKVxuICAgICAgICBpbnB1dDIgLS0-IG5ldXJvbjIzKChhMykpXG4gICAgICAgIG5ldXJvbjIxIC0tPiBvdXRwdXQyKCh5KSlcbiAgICAgICAgbmV1cm9uMjIgLS0-IG91dHB1dDIoKHkpKVxuICAgICAgICBuZXVyb24yMyAtLT4gb3V0cHV0MigoeSkpXG4gICAgIGVuZFxuICAgIFxuICAgIHN1YmdyYXBoIDEtbmV1cm9uXG4gICAgICAgIGlucHV0MSgoeCkpXG4gICAgICAgIGlucHV0MSAtLT4gbmV1cm9uMVtcInggPSB3XnQgeCArIGIsIGEgPSBzaWdtYSh6KVwiXVxuICAgICAgICBuZXVyb24xIC0tPiBvdXRwdXQxKCh5KSlcbiAgICBlbmQiLCJtZXJtYWlkIjp7InRoZW1lIjoiZGVmYXVsdCIsImZsb3djaGFydCI6eyJjdXJ2ZSI6ImJhc2lzIn19fQ
+```mermaid
+graph TD
+    subgraph deep 2-layer network
+        input((x))
+        input -.-> neuron11((a11))
+        input -.-> neuron12((a12))
+        input -.-> neuron13((a13))
+        neuron11 -.-> neuron14((a21))
+        neuron11 -.-> neuron15((a22))
+        neuron11 -.-> neuron16((a23))
+        neuron12 -.-> neuron14((a21))
+        neuron12 -.-> neuron15((a22))
+        neuron12 -.-> neuron16((a23))
+        neuron13 -.-> neuron14((a21))
+        neuron13 -.-> neuron15((a22))
+        neuron13 -.-> neuron16((a23))
+        neuron14 -.-> output((y))
+        neuron15 -.-> output((y))
+        neuron16 -.-> output((y))
+    end
+    subgraph shallow 1-layer network
+        input2((x))
+        input2 -.-> neuron21((a1))
+        input2 -.-> neuron22((a2))
+        input2 -.-> neuron23((a3))
+        neuron21 -.-> output2((y))
+        neuron22 -.-> output2((y))
+        neuron23 -.-> output2((y))
+     end
+    subgraph 1-neuron
+        input1((x))
+        input1 -.-> neuron1["x = w^t x + b, a = sigma(z)"]
+        neuron1 -.-> output1((y))
+    end
+```
+-->
+
 
 The term deep neural network is used when there is not a direct function mapping between the input data and final output prediction.
 In other words, we call it deep when there are two or more hidden layers in the neural network.
@@ -102,7 +146,7 @@ One area of initial heavy focus was on the Whillans Ice Stream (formerly Ice Str
 Indeed, further studies in other geographic locations found that soft beds and abundant meltwater are one of the major controls on the locations of ice streams, secondary only to topographic focusing linked to a calving margin [@WinsborrowWhatcontrolslocation2010].
 This reinforces the importance of water as drivers of fast ice flow, and it goes back to the question of why we need to know the location of water beneath the ice sheet.
 
-![Channelized vs Distributed flow in a subglacial drainage system.](http://rspa.royalsocietypublishing.org/content/royprsa/471/2176/20140907/F2.large.jpg){width=300px}
+![Channelized vs Distributed flow in a subglacial drainage system.](http://rspa.royalsocietypublishing.org/content/royprsa/471/2176/20140907/F2.large.jpg){width=350px}
 
 The most exemplary example of fast glacier flow are when glaciers *surge*, characterized by an "abnormally fast flow of a glacier over a period of a few months to years, during which the glacier margin may advance substantially" [@CogleyGlossaryglaciermass2011, p.89].
 Recurring surge events are well documented in several small glaciers, the classical example being Variegated Glacier in Alaska [@EisenVariegatedGlacierAlaska2005].
@@ -144,8 +188,11 @@ Traditionally, zero-order or higher-order models have been used for their comput
 In recent years however, there has been a gradual shift towards the use of Full Stokes models as they provide more consistent results even across dynamic regions like grounding lines [@PattynBenchmarkexperimentshigherorder2008; @ZhangcomparisontwoStokes2017].
 This is especially important as there is a growing movement to couple ice sheet models with ocean models for more realistic stimulations [@deBoerCurrentstatefuture2017; @Asay-DavisExperimentaldesignthree2016].
 
-![](https://ars.els-cdn.com/content/image/1-s2.0-S0277379111002915-gr1.jpg){width=300px}
-![](https://ars.els-cdn.com/content/image/1-s2.0-S0277379111002915-gr4.jpg){width=350px}
+![](https://ars.els-cdn.com/content/image/1-s2.0-S0277379111002915-gr1.jpg){width=275px}
+![](https://ars.els-cdn.com/content/image/1-s2.0-S0277379111002915-gr4.jpg){width=325px}
+\begin{figure}[!h]
+\caption{Shallow Ice Approximation to Shallow Shelf Approximation along the grounding zone}
+\end{figure}
 
 It can be argued that the increasing demand for using complex Full Stokes ice sheet models over simpler higher-order models not only necessitates the use of more computational power, but also a smarter use of technology.
 Ice sheet models have to align with observational data in the old paleo record [e.g. @PollardModellingWestAntarctic2009] and modern settings [@GolledgemultimillennialAntarcticcommitment2015] without statistically overfitting the data and losing predictive capability.
@@ -159,6 +206,7 @@ We therefore envision that bringing together geophysical observations, physics-b
 
 
 
+\newpage
 # Methodology
 
 ## Plan
@@ -197,95 +245,136 @@ Once this is done, we will have a multi-layer raster that will act as an input t
 
 ## Datasets
 
-The deep learning models will require the use of Antarctic datasets with nearly full coverage of the continent.
-Our input data will include both raster- and vector-type datasets mainly collected from satellite platforms.
-Examples of raster data include single-satellite digital terrain models (e.g. ICESAT, CryoSat), compiled products (e.g. BEDMAP2) and model outputs (e.g. Subglacial water flux).
-Vector data will include polygons or points that come from published subglacial lake inventory collections.
+Our input data will include both raster- and vector-type Antarctic datasets collected mainly from satellite platforms.
+Examples of raster data include single-satellite digital terrain models (e.g. ICESAT, CryoSat-2), compiled products (e.g. BEDMAP2) and model outputs (e.g. Subglacial water flux).
+Vector data include polygons or points from published subglacial lake inventories.
 For select regions of interest, we may source finer resolution data directly from airborne geophysical missions (e.g. Operation Icebridge) or ground based surveys.
 
-Our criteria for incorporating a dataset into the shortlist is prioritized based on factors like spatial resolution and whether they have the potential to be useful for our subglacial hydrology research.
-Where data products of similar types are available, we tend to choose the latest version, keeping an older version only if it has some value not found in the newer version.
-For example, we have two Digital Elevation Models (DEM), one from ICESAT data, and one from CryoSat-2 data, as even though the ICESAT DEM is older, it is of higher spatial resolution and also sourced from a laser altimeter compared to CryoSat-2's radar altimeter.
+Our criteria for incorporating a dataset into the shortlist is prioritized based on factors like spatial resolution and their potential in researching subglacial hydrology.
+We will tend to choose the latest version for a particular data product type, keeping an older version only if it has some value not found in the newer version.
+For example, we have two Digital Elevation Models (DEM), as even though the ICESAT DEM is older, it has a higher spatial resolution and is also sourced from a laser altimeter compared to CryoSat-2's radar altimeter.
 
 ### Raster Data
 
-|Type         | Sensor Type     | Name                    | Spatial Resolution | Literature Citation                          | Data Citation                            |
-|:----------- |:----------------|:----------------------- | ------------------:|:-------------------------------------------- |:---------------------------------------- |
-| Imagery     | Radar           | RAMP RADARSAT mosaic    |               100m | [@JezekGlaciologicalpropertiesAntarctic1999] | [@JezekRAMPAMM1SAR2013]                  |
-| Imagery     | Multi-spectral  | MODIS MOA               |               125m | [@ScambosMODISbasedMosaicAntarctica2007]     | [@TerryHaranMODISMosaicAntarctica2014]   |
-| Terrain     | Radar           | RAMP2 DEM               |               200m | [@JezekGlaciologicalpropertiesAntarctic1999] | [@LiuRadarsatAntarcticMapping2001]       |
-| Terrain     | Laser Altimeter | GLAS/ICESat DEM         |               500m | [@ShumanICESatAntarcticelevation2006]        | [@DimarzioGLASICESat5002007]             |
-| Terrain     | Radar Altimeter | CryoSat-2 DEM           |              1000m | [@HelmElevationelevationchange2014]          |                                          |
-| Terrain     | Multiple        | BEDMAP2                 |              1000m | [@FretwellBedmap2improvedice2013]            |                                          |
-| Glacio-logy | Radar           | MEASURES Ice flow speed |               450m | [@RignotIceFlowAntarctic2011;@MouginotMappingIceMotion2012] | [@RignotMEaSUREsInSARBasedAntarctica2017]
-| Glacio-logy | Model           | Subglacial water flux   |              1000m | [@LeBrocqEvidenceiceshelves2013]             |                                          |
-| Geo-physics | Magnetic        | Subglacial heat flux    |             15000m | [@MartosHeatFluxDistribution2017]            | [@MartosAntarcticgeothermalheat2017]     |
-| Geo-physics | Gravity         | AntGG Gravity Anomaly   |             10000m | [@ScheinertNewAntarcticgravity2016]          | [@ScheinertAntarcticfreeaircomplete2016] |
-| Geo-physics | Gravity         | SatGravRET2014          |             10000m | [@Hirtnewdegree2190102016]                   |                                          |
+| Sensor Type     | Name                    | Resolution | Literature Citation                        | Data Citation                           |
+|:----------------|:----------------------- | ----------:|:------------------------------------------:|:---------------------------------------:|
+| Radar           | RAMP RADARSAT mosaic    |       100m | @JezekGlaciologicalpropertiesAntarctic1999 | @JezekRAMPAMM1SAR2013                   |
+| Multi-spectral  | MODIS MOA               |       125m | @ScambosMODISbasedMosaicAntarctica2007     | @HaranMODISMosaicAntarctica2014         |
+| Radar           | RAMP2 DEM               |       200m | @JezekGlaciologicalpropertiesAntarctic1999 | @LiuRadarsatAntarcticMapping2001        |
+| Laser Altimeter | GLAS/ICESat DEM         |       500m | @ShumanICESatAntarcticelevation2006        | @DimarzioGLASICESat5002007              |
+| Radar Altimeter | CryoSat-2 DEM           |      1000m | @HelmElevationelevationchange2014          |                                         |
+| Multiple        | BEDMAP2                 |      1000m | @FretwellBedmap2improvedice2013            |                                         |
+| Radar           | MEASURES Ice flow speed |       450m | @RignotIceFlowAntarctic2011; @MouginotMappingIceMotion2012 | @RignotMEaSUREsInSARBasedAntarctica2017 |
+| Model           | Subglacial water flux   |      1000m | @LeBrocqEvidenceiceshelves2013             |                                         |
+| Magnetic        | Subglacial heat flux    |     15000m | @MartosHeatFluxDistribution2017            | @MartosAntarcticgeothermalheat2017      |
+| Gravity         | AntGG Gravity Anomaly   |     10000m | @ScheinertNewAntarcticgravity2016          | @ScheinertAntarcticfreeaircomplete2016  |
+| Gravity         | SatGravRET2014          |     10000m | @Hirtnewdegree2190102016                   |                                         |
 
 ### Vector Data
 
-#### Subglacial Lake Inventories
-
-| Vector Type | Name                                         | Count | Citation                              |
-|:----------- |:-------------------------------------------- |:-----:|:------------------------------------- |
-| Polygon     | Smith et al.                                 |  124  | [@Smithinventoryactivesubglacial2009] |
-| Point       | Wright & Siegert                             |  379  | [@WrightfourthinventoryAntarctic2012] |
-
-#### Individual Subglacial Lakes
-
-| Vector Type | Name                                         | Count | Citation                              |
-|:----------- |:-------------------------------------------- |:-----:|:------------------------------------- |
-| Polygon     | Vostok Subglacial Lake                       |   1   | [@StudingerIcecoverlandscape2003]     |
-| Polygon     | Recovery Subglacial Lakes                    |   4   | [@BellLargesubglaciallakes2007]       |
-| Polygon     | Kamb Subglacial Lakes                        |   3   | [@KimActivesubglaciallakes2016]       |
-| Polygon     | Thwaites Subglacial Lakes                    |   4   | [@SmithConnectedsubglaciallake2017]   |
+| Type    | Name                                       | Count | Citation                            |
+|:------- |:------------------------------------------ |:-----:|:-----------------------------------:|
+| Polygon | Smith et al. Subglacial Lake Inventory     |  124  | @Smithinventoryactivesubglacial2009 |
+| Point   | Wright & Siegert Subglacial Lake Inventory |  379  | @WrightfourthinventoryAntarctic2012 |
+| Polygon | Vostok Subglacial Lake                     |   1   | @StudingerIcecoverlandscape2003     |
+| Polygon | Recovery Subglacial Lakes                  |   4   | @BellLargesubglaciallakes2007       |
+| Polygon | Kamb Subglacial Lakes                      |   3   | @KimActivesubglaciallakes2016       |
+| Polygon | Thwaites Subglacial Lakes                  |   4   | @SmithConnectedsubglaciallake2017   |
 
 \newpage
 
-![RAMP RADARSAT](http://quantarctica.npolar.no/opencms/export/sites/quantarctica/data-catalog/images/sat_radarsat.png){width=200px}
-![MODIS MOA](http://quantarctica.npolar.no/opencms/export/sites/quantarctica/data-catalog/images/sat_modis.png){width=200px}
-![RAMP2 DEM](http://quantarctica.npolar.no/opencms/export/sites/quantarctica/data-catalog/images/ter_ramp.png){width=200px}
+![RAMP RADARSAT](http://quantarctica.npolar.no/opencms/export/sites/quantarctica/data-catalog/images/sat_radarsat.png){width=27%}
+\hfill
+![MODIS MOA](http://quantarctica.npolar.no/opencms/export/sites/quantarctica/data-catalog/images/sat_modis.png){width=27%}
+\hfill
+![RAMP2 DEM](http://quantarctica.npolar.no/opencms/export/sites/quantarctica/data-catalog/images/ter_ramp.png){width=27%}
 
-![Cryosat2 DEM](http://quantarctica.npolar.no/opencms/export/sites/quantarctica/data-catalog/images/ter_cryosat.png){width=200px}
-![BEDMAP2](http://quantarctica.npolar.no/opencms/export/sites/quantarctica/data-catalog/images/ter_bedmap.png){width=200px}
-![MEASURES Ice flow speed](http://quantarctica.npolar.no/opencms/export/sites/quantarctica/data-catalog/images/glac_flowspeed.png){width=200px}
+\begin{minipage}[h]{0.3\textwidth}
+  \centering
+  RAMP RADARSAT imagery
+\end{minipage}
+\hfill
+\begin{minipage}[h]{0.3\textwidth}
+  MODIS MOA optical imagery
+  \centering
+\end{minipage}
+\hfill
+\begin{minipage}[h]{0.3\textwidth}
+  \centering
+  RAMP2 Radar DEM
+\end{minipage}
 
-![Subglacial Water Flux](http://quantarctica.npolar.no/opencms/export/sites/quantarctica/data-catalog/images/glac_subglflux.png){width=200px}
-![Subglacial Heat Flux NOTE INCORRECT ONE](http://quantarctica.npolar.no/opencms/export/sites/quantarctica/data-catalog/images/phys_anhf.png){width=200px}
-![AntGG Gravity Anomaly](http://quantarctica.npolar.no/opencms/export/sites/quantarctica/data-catalog/images/phys_antgg.png){width=200px}
+![Cryosat2 DEM](http://quantarctica.npolar.no/opencms/export/sites/quantarctica/data-catalog/images/ter_cryosat.png){width=27%}
+\hfill
+![BEDMAP2](http://quantarctica.npolar.no/opencms/export/sites/quantarctica/data-catalog/images/ter_bedmap.png){width=27%}
+\hfill
+![MEASURES Ice flow speed](http://quantarctica.npolar.no/opencms/export/sites/quantarctica/data-catalog/images/glac_flowspeed.png){width=27%}
 
-![EIGEN-6C4 Gravity Model](http://quantarctica.npolar.no/opencms/export/sites/quantarctica/data-catalog/images/phys_eigen.png){width=200px}
-![Subglacial Lakes Smith](http://quantarctica.npolar.no/opencms/export/sites/quantarctica/data-catalog/images/glac_lakess.png){width=200px}
-![Subglacial lakes Wright & Siegert](http://quantarctica.npolar.no/opencms/export/sites/quantarctica/data-catalog/images/glac_lakesws.png){width=200px}
+\begin{minipage}[h]{0.3\textwidth}
+  \centering
+  Cryosat2 Radar Altimeter DEM
+\end{minipage}
+\hfill
+\begin{minipage}[h]{0.3\textwidth}
+  \centering
+  BEDMAP2 DEM
+\end{minipage}
+\hfill
+\begin{minipage}[h]{0.3\textwidth}
+  \centering
+  MEASURES Ice flow speed
+\end{minipage}
 
-## Preliminary Work
+![Subglacial Water Flux](http://quantarctica.npolar.no/opencms/export/sites/quantarctica/data-catalog/images/glac_subglflux.png){width=27%}
+\hfill
+![Subglacial Heat Flux NOTE INCORRECT ONE](http://quantarctica.npolar.no/opencms/export/sites/quantarctica/data-catalog/images/phys_anhf.png){width=27%}
+\hfill
+![AntGG Gravity Anomaly](http://quantarctica.npolar.no/opencms/export/sites/quantarctica/data-catalog/images/phys_antgg.png){width=27%}
 
-Trained a standard feedforward artificial neural network on ICESAT x, y, z, t, zs, zb data but due to imbalanced dataset problem, could not get good test accuracy.
-Namely, high number of false negatives.
+\begin{minipage}[h]{0.3\textwidth}
+  \centering
+  Subglacial Water Flux
+\end{minipage}
+\hfill
+\begin{minipage}[h]{0.3\textwidth}
+  \centering
+  Subglacial Heat Flux
+\end{minipage}
+\hfill
+\begin{minipage}[h]{0.3\textwidth}
+  \centering
+  AntGG Gravity Anomaly
+\end{minipage}
 
-Trained an object localization classifier based on YOLOv2 using a stacked optical imagery, surface elevation and bed elevation raster.
-Hard to quantify whether predicted bounding boxes where random or meaningful to our study.
+![EIGEN-6C4 Gravity Model](http://quantarctica.npolar.no/opencms/export/sites/quantarctica/data-catalog/images/phys_eigen.png){width=27%}
+\hfill
+![Subglacial Lakes Smith](http://quantarctica.npolar.no/opencms/export/sites/quantarctica/data-catalog/images/glac_lakess.png){width=27%}
+\hfill
+![Subglacial lakes Wright & Siegert](http://quantarctica.npolar.no/opencms/export/sites/quantarctica/data-catalog/images/glac_lakesws.png){width=27%}
 
-Adapted a U-net based ConvNet to perform object segmentation of subglacial lakes on same stacked dataset.
-Used SELU non-linearity instead of RELU to self normalize images, and tweaked some model hyperparameters.
-More promising than YOLOv2-based model as can output oval shaped objects.
+\begin{minipage}[h]{0.3\textwidth}
+  \centering
+  EIGEN-6C4 Gravity Model
+\end{minipage}
+\hfill
+\begin{minipage}[h]{0.3\textwidth}
+  \centering
+  Subglacial Lakes, Smith
+\end{minipage}
+\hfill
+\begin{minipage}[h]{0.3\textwidth}
+  \centering
+  Subglacial lakes, Wright \& Siegert
+\end{minipage}
 
-Future steps:
-
-- Stack together even more layers (see Data section)
-- Use depthwise separable convolutions, factorizing a standard convolution to look spatially at individual channels before combining them across channels.
-- Deepen the ConvNet and introduce more Residual-like units.
-
-### Neural Network model
-
-Given an input of a multi-dimensional image of Antarctica, the goal of our subglacial lake identification project would be to determine each location of our lake.
-Our initial proposed model is a Convolutional Neural Network that can perform object segmentation down to the level of a geographic pixel to delineate the exact boundaries of a subglacial water body.
-The model's architecture is as follows:
+\begin{figure}[!h]
+\caption{Sample cryospheric datasets to be used in our study. Images from Quantarctica 3 package.}
+\end{figure}
 
 
 
 
+\newpage
 # Proposed Research Framework
 
 ## Research questions
@@ -304,47 +393,86 @@ What is the potential of using this new and highly efficient paradigm across pal
 
 ## Outline
 
-This dissertation will follow a journal article style format, consisting of an introduction, three main topic chapters, and a conclusion.
-Each of the three main topic chapters will provide significant contributions to the data, science and tools we use in glaciology.
+This will be a journal article style dissertation, consisting of an introduction, three main topic chapters, and a conclusion.
+The three main chapters will make improvements to the data, science and tools used in glaciology.
 
-### Chapter 1 - Introduction
+- **Chapter 1 - Introduction**
 
-### Chapter 2 - Applying Deep Learning to Cryospheric Datasets: Using a super-image resolution convolutional neural network to increase the spatial resolution of cryospheric datasets
+- **Chapter 2 - Applying Deep Learning to Cryospheric Datasets: Using a super-image resolution convolutional neural network to increase the spatial resolution of cryospheric datasets**
 
-Here, we start off by improving the cryospheric datasets that forms the basis of our project.
-This is an idea based on similar work in enhancing the resolution regular everyday photos.
-Over Antarctica, there are low resolution datasets for the whole continent (e.g. BEDMAP2) and high resolution datasets collected from isolated field studies.
-We can match the two images geographically and train a super-image resolution neural network to produce a crisp high resolution image at places where we do not have field observations.
+    Here, we start by improving the cryospheric datasets forming the basis of our project.
+    This idea can be likened to similar work on making regular photographs crisper.
+    Over Antarctica, there are low resolution datasets for the whole continent (e.g. BEDMAP2) and high resolution datasets collected from isolated field studies.
+    We can match the two images geographically and train a super-image resolution neural network to produce a crisp high resolution image at places where we do not have field observations.
 
-### Chapter 3 - Antarctic Subglacial Hydrology through Deep Learning: A supervised Convolutional Neural Network classifier for mapping the subglacial hydrology of Antarctica
+- **Chapter 3 - Antarctic Subglacial Hydrology through Deep Learning: A supervised Convolutional Neural Network classifier for mapping the subglacial hydrology of Antarctica**
 
-Next, the deep learning techniques are applied to tackle the core science problem on locating subglacial water in Antarctica.
-The neural network architecture is conceptually similar to those used by self-driving cars to locate objects of interest in images.
-By combining several geographic layers together, and having an inventory of known subglacial lake positions, we can train a neural network to learn and identify subglacial lakes.
-Given time-series data over longer periods, it may be possible to see how a subglacial hydrological network drains, fills or re-routes itself over time.
+    Next, the deep learning techniques are applied to tackle the core science problem on locating subglacial water in Antarctica.
+    The neural network architecture is conceptually similar to those used by self-driving cars to locate objects of interest in images.
+    By combining several geographic layers together, and having an inventory of known subglacial lake positions, we can train a neural network to learn and identify subglacial lakes.
+    Given time-series data over longer periods, it may be possible to see how a subglacial hydrological network drains, fills or re-routes itself over time.
 
-### Chapter 4 - Ice Flow Modelling with Deep Learning: Using data and physics based neural networks to solve Full Stokes equations
+- **Chapter 4 - Ice Flow Modelling with Deep Learning: Using data and physics based neural networks to speed up Full Stokes ice sheet models**
 
-Finally, our focus shifts towards an in depth look at how neural networks can improve ice sheet models.
-This line of research is motivated by how neural network calculations can be an order of magnitude faster on modern Graphical Processing Units compared to CPUs.
-Translating the Full Stokes equations into a neural network format requires not only careful mathematical formulation, but also a lot of data from paleo- and modern day observations to train the network.
-A successful re-implementation of numerical ice sheet models to an efficient neural network model will allow faster runtimes and hopefully lead to more reliable predictions on the future of the Antarctic Ice Sheet.
+    Finally, our focus shifts towards an in depth look at how neural networks can improve ice sheet models.
+    This line of research is motivated by how neural network calculations can be an order of magnitude faster on modern Graphical Processing Units compared to CPUs.
+    Translating the Full Stokes equations into a neural network format requires not only careful mathematical formulation, but also a lot of data from paleo- and modern day observations to train the network.
+    A successful re-implementation of numerical ice sheet models to an efficient neural network model will allow faster runtimes and hopefully lead to more reliable predictions on the future of the Antarctic Ice Sheet.
 
-### Chapter 5 - Conclusions
+- **Chapter 5 - Conclusions**
 
 ## Timeline
 
-| Month | TODO                                         |
-|:-----:|:-------------------------------------------- |
+![](https://screenshotscdn.firefoxusercontent.com/images/389b4ee8-2b0a-4aff-a1ca-533e01d1b77c.png)
+
+<!--
+https://mermaidjs.github.io/mermaid-live-editor/#/view/eyJjb2RlIjoiZ2FudHRcblxuICAgIGRhdGVGb3JtYXQgWVlZWS1NTS1ERFxuICAgIHRpdGxlIFBoRCBSZXNlYXJjaCBUaW1lbGluZVxuXG4gICAgc2VjdGlvbiBDb3Vyc2VzL1dvcmtzaG9wcy9Db25mZXJlbmNlc1xuICAgICAgICBDb3Vyc2VyYSBEZWVwIExlYXJuaW5nIFNwZWNpYWxpemF0aW9uICAgICAgIDpkb25lLCAgIDIwMTctMDktMDEsMjAxOC0wMy0zMVxuICAgICAgICBNY0NhcnRoeSBHbGFjaW9sb2d5IFN1bW1lciBTY2hvb2wgICAgICAgICAgIDpkb25lLCAgIDIwMTgtMDYtMDUsMjAxOC0wNi0xNVxuICAgICAgICBJQ0VTYXQtMiBDcnlvc3BoZXJpYyBTY2llbmNlIEhhY2t3ZWVrICAgICAgIDogICAgICAgIDIwMTktMDYtMTcsMjAxOS0wNi0yMVxuICAgICAgICBQcmVzZW50IGF0IElVR0cgSUFDUyBDb25mZXJlbmNlIGluIE1vbnRyZWFsIDogICAgICAgIDIwMTktMDctMDgsMjAxOS0wNy0xOFxuICAgICAgICBQcmVzZW50IGF0IFNDQVIgQ29uZmVyZW5jZSBpbiBIb2JhcnQgICAgICAgIDogICAgICAgIDIwMjAtMDgtMDcsMXdcblxuICAgIHNlY3Rpb24gRGF0YSBTY2llbmNlIHdvcmtcbiAgICAgICAgRXhwbG9yYXRvcnkgRGF0YSBBbmFseXNpcyAgICAgICAgICAgICAgICAgICA6ZG9uZSwgICAyMDE3LTA3LTAxLDIwMTgtMDMtMzFcblxuICAgICAgICBHYXRoZXIgQ3J5b3NwaGVyaWMgRGF0YXNldHMgICAgICAgICAgICAgICAgIDogICAgICAgIDIwMTgtMDktMDEsMjAxOC0xMC0zMVxuICAgICAgICBEZXZlbG9wIE5ldXJhbCBOZXR3b3JrIEljZSBGbG93IG1vZGVsICAgICAgIDogICAgICAgIDIwMTktMDEtMDEsMjAxOS0wMy0zMVxuICAgICAgICBEZXNpZ24gU3ViZ2xhY2lhbCBXYXRlciBjbGFzc2lmaWVyICAgICAgICAgIDogICAgICAgIDIwMTktMDgtMDEsMjAxOS0xMC0zMVxuXG4gICAgc2VjdGlvbiBXcml0aW5nXG4gICAgICAgIEluaXRpYWwgUHJvcG9zYWwgV3JpdGV1cCAgICAgICAgICAgICAgICAgICAgOmFjdGl2ZSwgMjAxOC0wMy0wMSwyMDE4LTA4LTMxXG5cbiAgICAgICAgU3VwZXIgUmVzb2x1dGlvbiBDb252TmV0IHBhcGVyICAgICAgICAgICAgICA6ICAgICAgICAyMDE4LTExLTAxLDIwMTgtMTItMzFcbiAgICAgICAgSWNlIFNoZWV0IEZsb3cgTW9kZWwgcGFwZXIgICAgICAgICAgICAgICAgICA6ICAgICAgICAyMDE5LTA0LTAxLDIwMTktMDUtMzFcbiAgICAgICAgU3ViZ2xhY2lhbCBXYXRlciBwYXBlciAgICAgICAgICAgICAgICAgICAgICA6ICAgICAgICAyMDE5LTExLTAxLDIwMjAtMDEtMzFcbiAgICAgICAgRmluYWwgZGlzc2VydGF0aW9uICAgICAgICAgICAgICAgICAgICAgICAgICA6ICAgICAgICAyMDIwLTAyLTAxLDIwMjAtMDctMzFcblxuICAgIHNlY3Rpb24gTWlsZXN0b25lc1xuICAgICAgICBTdWJtaXQgUmVzZWFyY2ggUHJvcG9zYWwgICAgICAgICAgICAgICAgICAgIDpjcml0LCAgMjAxOC0wOC0zMSwxd1xuICAgICAgICBTdWJtaXQgU3VwZXIgUmVzb2x1dGlvbiBDb252TmV0IHBhcGVyICAgICAgIDpjcml0LCAgMjAxOC0xMi0zMSwxd1xuICAgICAgICBTdWJtaXQgSWNlIFNoZWV0IEZsb3cgTW9kZWwgcGFwZXIgICAgICAgICAgIDpjcml0LCAgMjAxOS0wNS0zMSwxd1xuICAgICAgICBTdWJtaXQgU3ViZ2xhY2lhbCBXYXRlciBwYXBlciAgICAgICAgICAgICAgIDpjcml0LCAgMjAyMC0wMS0zMSwxd1xuICAgICAgICBTdWJtaXQgRmluYWwgZGlzc2VydGF0aW9uICAgICAgICAgICAgICAgICAgIDpjcml0LCAgMjAyMC0wNy0zMSwxd1xuICAgICAgICBPcmFsIGRlZmVuc2UgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIDpjcml0LCAgMjAyMC0wOC0zMSwxdyIsIm1lcm1haWQiOnsidGhlbWUiOiJkZWZhdWx0IiwiZmxvd2NoYXJ0Ijp7ImN1cnZlIjoiYmFzaXMifX19
+```mermaid
+gantt
+
+    dateFormat YYYY-MM-DD
+    title PhD Research Timeline
+
+    section Courses/Workshops/Conferences
+        Coursera Deep Learning Specialization       :done,   2017-09-01,2018-03-31
+        McCarthy Glaciology Summer School           :done,   2018-06-05,2018-06-15
+        ICESat-2 Cryospheric Science Hackweek       :        2019-06-17,2019-06-21
+        Present at IUGG IACS Conference in Montreal :        2019-07-08,2019-07-18
+        Present at SCAR Conference in Hobart        :        2020-08-07,1w
+
+    section Data Science work
+        Exploratory Data Analysis                   :done,   2017-07-01,2018-03-31
+
+        Gather Cryospheric Datasets                 :        2018-09-01,2018-10-31
+        Develop Neural Network Ice Flow model       :        2019-01-01,2019-03-31
+        Design Subglacial Water classifier          :        2019-08-01,2019-10-31
+
+    section Writing
+        Initial Proposal Writeup                    :active, 2018-03-01,2018-08-31
+
+        Super Resolution ConvNet paper              :        2018-11-01,2018-12-31
+        Ice Sheet Flow Model paper                  :        2019-04-01,2019-05-31
+        Subglacial Water paper                      :        2019-11-01,2020-01-31
+        Final dissertation                          :        2020-02-01,2020-07-31
+
+    section Milestones
+        Submit Research Proposal                    :crit,  2018-08-31,1w
+        Submit Super Resolution ConvNet paper       :crit,  2018-12-31,1w
+        Submit Ice Sheet Flow Model paper           :crit,  2019-05-31,1w
+        Submit Subglacial Water paper               :crit,  2020-01-31,1w
+        Submit Final dissertation                   :crit,  2020-07-31,1w
+        Oral defense                                :crit,  2020-08-31,1w
+```
+-->
 
 
 
 
 # Acknowledgements
 
-This project would not be possible without the academic and technical support from the Antarctic Research Centre.
-Many thanks to my supervisors Dr. Huw Horgan and Dr. Brian Anderson for providing inspiration and helpful guidance in reviewing earlier drafts of this proposal.
-I would also like to acknowledge some of the short courses and public competitions I have participated in which taught me a lot of things about glaciology and deep learning.
+This project would not be possible without the support from the Antarctic Research Centre.
+Many thanks to my supervisors Dr. Huw Horgan and Dr. Brian Anderson for their inspiration and guidance in reviewing earlier drafts of this proposal.
+I would also like to acknowledge some of the short courses and public competitions that have taught me a lot about glaciology and deep learning.
 A special mention goes to Dr. Regine Hock and others in the International Summer School in Glaciology for really opening my eyes to the world of glaciology.
 
 ## Funding
@@ -357,13 +485,10 @@ A special mention goes to Dr. Regine Hock and others in the International Summer
 - Linux High Performance Computing cluster
 - Graphical Processing Units (e.g. 4 Tesla K80 GPUs)
 
-## Courses
+## Courses and Competitions
 
 - [Deep learning Specialization Coursera by Andrew Ng](https://www.coursera.org/specializations/deep-learning).
 - [Fifth International Summer School in Glaciology at University of Alaska, Fairbanks](https://glaciers.gi.alaska.edu/courses/summer-school/2018).
-
-## Competitions
-
 - [Kaggle Statoil iceberg classification challenge](https://www.kaggle.com/c/statoil-iceberg-classifier-challenge).
 - [Kaggle Data Science Bowl 2018](https://www.kaggle.com/c/data-science-bowl-2018).
 - [New Zealand Space Challenge 2018](https://www.nzspacechallenge.com/).
